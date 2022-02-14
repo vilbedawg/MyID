@@ -3,6 +3,7 @@ import { Block } from "./Block.js";
 export class Blockchain {
     constructor() {
         this.chain = [this.createGenesisBlock];
+        this.difficulty = 4;
     }
 
     createGenesisBlock() {
@@ -15,7 +16,7 @@ export class Blockchain {
 
     addBlock(newBlock) {
         newBlock.previousHash = this.getLatestBlock().hash;
-        newBlock.hash = newBlock.calculateHash();
+        newBlock.mineBlock(this.difficulty);
         this.chain.push(newBlock);
     }
 
@@ -33,9 +34,9 @@ export class Blockchain {
 }
 
 let Test = new Blockchain();
+
+console.log('Mining block 1...');
 Test.addBlock(new Block(1, Date.now(), { message: 'Hello world'}));
+
+console.log('Mining block 2...');
 Test.addBlock(new Block(2, Date.now(), { message: 'Test number 2'}));
-
-console.log('is blockchain valid? ' + Test.isChainValid());
-
-//console.log(JSON.stringify(Test, null, 4));
