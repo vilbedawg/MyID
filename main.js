@@ -1,16 +1,19 @@
 import Blockchain from './src/Blockchain.js';
-import { Block } from './src/Block.js';
+import { Block, Transaction } from './src/Block.js';
 
 let Test = new Blockchain();
 
 
-console.log('Mining block 1...');
-Test.addBlock(new Block(1, Date.now(), { message: 'Hello world'}));
+Test.createTransaction(new Transaction('address1', 'address2', 100));
+Test.createTransaction(new Transaction('address2', 'address1', 50));
+console.log(Test.pendingTransactions);
 
-console.log('Mining block 2...');
-Test.addBlock(new Block(2, Date.now(), { message: 'Test number 2'}));
+console.log('\n Starting the miner.. ');
+Test.minePendingTransactions('vilhos-address');
 
-console.log('Mining block 3...');
-Test.addBlock(new Block(1, Date.now(), { message: 'Hello world'}));
 
-console.log(Test);
+console.log('\n Starting the miner again.. ');
+Test.minePendingTransactions('vilhos-address');
+
+console.log('\n Balance of vilho is ', Test.getBalanceOfAddress('vilhos-address'));
+console.log(Test.chain);

@@ -1,17 +1,16 @@
 import sha256 from 'crypto-js/sha256.js';
 
 export class Block {
-    constructor(index, timestamp, data, previousHash = '') {
-        this.index = index;
-        this.timestamp = timestamp;
-        this.data = data; 
+    constructor(timestamp, transactions, previousHash = '') {
         this.previousHash = previousHash;
+        this.timestamp = timestamp;
+        this.transactions = transactions;
         this.hash = this.calculateHash();
         this.nonce = 0;
     }
 
     calculateHash() {
-        return sha256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
+        return sha256(this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
     }
 
     mineBlock(difficulty) {
@@ -23,4 +22,12 @@ export class Block {
         console.log('Block mined: ' + this.hash);
     }
 
+}
+
+export class Transaction {
+    constructor(fromAddress, toAddress, data) {
+        this.fromAddress = fromAddress;
+        this.toAddress = toAddress;
+        this.data = data;
+    }
 }
