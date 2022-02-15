@@ -1,9 +1,11 @@
 import { Block } from "./Block.js";
 
-export class Blockchain {
+export default class Blockchain {
+
     constructor() {
-        this.chain = [this.createGenesisBlock];
+        this.chain = [this.createGenesisBlock()];
         this.difficulty = 4;
+        this.transactions = [];
     }
 
     createGenesisBlock() {
@@ -20,6 +22,10 @@ export class Blockchain {
         this.chain.push(newBlock);
     }
 
+    getOwnedBlock() {
+        
+    }
+
     isChainValid(){
         for (let i = 1; i < this.chain.length; i++) {
             const currentBlock = this.chain[i];
@@ -33,10 +39,5 @@ export class Blockchain {
     }
 }
 
-let Test = new Blockchain();
 
-console.log('Mining block 1...');
-Test.addBlock(new Block(1, Date.now(), { message: 'Hello world'}));
 
-console.log('Mining block 2...');
-Test.addBlock(new Block(2, Date.now(), { message: 'Test number 2'}));
