@@ -30,4 +30,14 @@ export class Transaction {
         this.toAddress = toAddress;
         this.data = data;
     }
+
+    calculateHash() {
+        return sha256(this.fromAddress, this.toAddress, this.data).toString();
+    }
+
+    signTransaction(signingKey) {
+        const hashTx = this.calculateHash();
+        const sig = signingKey.sign(hashTx, 'base64');
+        this.signature = sig.toDer('hex');
+    }
 }
