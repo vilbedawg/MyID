@@ -1,13 +1,14 @@
 import './App.css';
-import React, { Component, useEffect, useState } from 'react';
-import BackendAPI from './backendAPI';
+import React from 'react';
+import BackendAPI from './components/backendAPI';
+import { runChain } from './components/main';
 
 function App() {
 
   return (
     <div className="App">
     <BackendAPI/>
-    <h1></h1>
+    <button onClick={runChain} className="mine-btn">mine</button>
     </div>
   );
 }
