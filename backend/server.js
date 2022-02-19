@@ -4,7 +4,11 @@ import {fileURLToPath} from 'url';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv  from "dotenv"
-import router from "./routes.js";
+import blocksRouter from "./routes/blocks.js";
+import transRouter from "./routes/transactions.js";
+import transaction from "./models/transaction.model.js";
+
+const transactions = Array.from(transaction.find({}));
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,11 +28,12 @@ const uri = process.env.ATLAS_URI;
 const connection = mongoose.connection;
 mongoose.connect(uri, { useNewUrlParser: true , useUnifiedTopology: true});
 connection.once('open', () => {
-    console.log('MongoDB connection established.');
+    console.log('MongoDB connection established.', transactions);
 });
 
 //router
-app.use('/api', router);
+app.use('/api', blocksRouter);
+app.use('/api', transRouter);
 
 
 app.listen(port, () => {
