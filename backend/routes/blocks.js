@@ -13,14 +13,16 @@ blocksRouter.route('/blocks').get((req, res) => {
      .catch(err => res.status(400).json('Error: ' + err))
 });
 
+
+
 // add a new block
 blocksRouter.route('/blocks/add').post((req, res) => {
+
     const previousHash = req.body.previousHash;
     const timestamp = Date.now();
     const hash = req.body.hash;
     const nonce = req.body.nonce;
-
-    const transactions = Array.from(transaction.find({}));
+    const transactions = req.body.transactions;
 
     const newBlock = new block({
         previousHash,

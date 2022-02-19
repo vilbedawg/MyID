@@ -11,8 +11,9 @@ transRouter.route('/transactions').get((req, res) => {
      .catch(err => res.status(400).json('Error: ' + err))
 });
 
+
 //add new transaction
-transRouter.route('/transactions/post').post((req, res) => {
+transRouter.route('/transactions/add').post((req, res) => {
     const fromAddress = req.body.fromAddress;
     const toAddress = req.body.toAddress;
     const data = req.body.data;

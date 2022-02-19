@@ -1,15 +1,28 @@
 import './App.css';
 import React from 'react';
-import BackendAPI from './components/backendAPI';
-import { runChain } from './components/main';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Navbar from './components/Navbar';
+import CreateBlock from './components/CreateBlock';
+import CreateTransaction from './components/CreateTransaction';
+import BlockchainList from './components/BlockchainList';
+import UserDetails from './components/UserDetails';
+
 
 function App() {
 
   return (
-    <div className="App">
-    <BackendAPI/>
-    <button onClick={runChain} className="mine-btn">mine</button>
-    </div>
+    <Router>
+      <div className="container">
+        <Navbar />
+        <br />
+        <Routes>
+          <Route path="/" element={<UserDetails />} />
+          <Route path="/blocks" element={<BlockchainList />} />
+          <Route path="/transactions/add" element={<CreateTransaction />} />
+          <Route path="/blocks/add" element={<CreateBlock />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

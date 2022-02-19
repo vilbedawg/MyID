@@ -1,5 +1,5 @@
-import { Blockchain } from "../Blockchain/Blockchain";
-import { Transaction } from "../Blockchain/Block";
+import { Blockchain } from "./services/Blockchain";
+import { Transaction } from "./services/Block";
 
 export const runChain = () => {
   let Test = new Blockchain();

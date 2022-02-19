@@ -6,9 +6,8 @@ import mongoose from 'mongoose';
 import dotenv  from "dotenv"
 import blocksRouter from "./routes/blocks.js";
 import transRouter from "./routes/transactions.js";
-import transaction from "./models/transaction.model.js";
 
-const transactions = Array.from(transaction.find({}));
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,7 +27,7 @@ const uri = process.env.ATLAS_URI;
 const connection = mongoose.connection;
 mongoose.connect(uri, { useNewUrlParser: true , useUnifiedTopology: true});
 connection.once('open', () => {
-    console.log('MongoDB connection established.', transactions);
+    console.log('MongoDB connection established.');
 });
 
 //router
