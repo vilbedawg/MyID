@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { testChain } from "../services/test";
 export default class UserDetails extends Component {
   constructor() {
     super();
@@ -18,12 +18,13 @@ export default class UserDetails extends Component {
   render() {
     return (
       <div className="container">
-        <h2>Käyttäjän data</h2>
+        <h3>Tietokanta data</h3>
         <ul>
           {this.state.data.map(block => 
             <li key={block._id}>{block.transactions}</li>
           )}
         </ul>
+        <button onClick={testChain}>Test chain functions</button>
       </div>
     );
   }
