@@ -31,8 +31,8 @@ connection.once('open', () => {
 });
 
 //router
-app.use('/api', blocksRouter);
-app.use('/api', transRouter);
+app.use('/', blocksRouter);
+app.use('/', transRouter);
 
 
 app.listen(port, () => {

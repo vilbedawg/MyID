@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { testChain } from "../services/test";
+
+
+
 export default class UserDetails extends Component {
   constructor() {
     super();
@@ -9,7 +11,7 @@ export default class UserDetails extends Component {
   }
 
   componentDidMount() {
-    fetch("/api/blocks")
+    fetch("/blocks")
       .then((res) => res.json())
       .then((data) => this.setState({ data }, () => console.log("data fetched..", data))
       );
@@ -18,13 +20,18 @@ export default class UserDetails extends Component {
   render() {
     return (
       <div className="container">
-        <h3>Tietokanta data</h3>
-        <ul>
+        <h3>Blocks</h3>
+        <div className="row">
           {this.state.data.map(block => 
-            <li key={block._id}>{block.transactions}</li>
+            <div className="col" key={block._id}>
+              <p>hash: {block.hash}</p>
+              <p>nonce: {block.nonce}</p>
+              <p>previousHash: {block.previousHash}</p>
+              <p>timestamp: {block.timestamp}</p>
+              <p>transaction: {block.transactions}</p>
+            </div>
           )}
-        </ul>
-        <button onClick={testChain}>Test chain functions</button>
+        </div>
       </div>
     );
   }

@@ -17,8 +17,7 @@ const transaction = new Schema({
     },
     timestamp: {
         required: true,
-        type: Schema.Types.Date,
-        default: Date.now()
+        type: Schema.Types.String
     }
 });
 

@@ -3,10 +3,10 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from './components/Navbar';
 import CreateBlock from './components/CreateBlock';
-import CreateTransaction from './components/CreateTransaction';
+import { AddPassport } from './components/AddPassport';
 import BlockchainList from './components/BlockchainList';
 import UserDetails from './components/UserDetails';
-import { Sign } from './services/keygenerator';
+
 
 function App() {
 
@@ -18,7 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<UserDetails />} />
           <Route path="/blocks" element={<BlockchainList />} />
-          <Route path="/transactions/add" element={<CreateTransaction />} />
+          <Route path="/transactions/add" element={<AddPassport />} />
           <Route path="/blocks/add" element={<CreateBlock />} />
         </Routes>
       </div>

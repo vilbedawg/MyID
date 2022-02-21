@@ -1,11 +1,11 @@
 import { Blockchain } from "./Blockchain";
-import { Block, Transaction } from "./Block";
+import { Transaction } from "./Block";
 import { ec as EC } from "elliptic";
 const ec = new EC('secp256k1');
 
 export const testChain = () => {
     
-    const myKey = ec.keyFromPrivate('f93cf2f57d918a6aae1647132a1b069a675660e2629c7681a6d5718cf9b39dce');
+    const myKey = ec.keyFromPrivate('e567b81c2f328c0ec71028965105597ec8d806c5261294411e1097bab0da5441');
     const myWalletAddress = myKey.getPublic('hex');
     
     let testChain = new Blockchain();
@@ -22,4 +22,5 @@ export const testChain = () => {
     
     console.log('Balance of vilho is ', testChain.getBalanceOfAddress(myWalletAddress));
     console.log('is chain valid', testChain.isChainValid())
+    console.log(testChain.getLatestBlock());
 }
