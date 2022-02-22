@@ -19,16 +19,15 @@ export default class UserDetails extends Component {
 
   render() {
     return (
-      <div className="container">
-        <h3>Blocks</h3>
-        <div className="row">
+      <div className="content">
+        <h1>Blocks</h1>
+        <div>
           {this.state.data.map(block => 
             <div className="col" key={block._id}>
               <p>hash: {block.hash}</p>
               <p>nonce: {block.nonce}</p>
               <p>previousHash: {block.previousHash}</p>
               <p>timestamp: {block.timestamp}</p>
-              <p>transaction: {block.transactions}</p>
             </div>
           )}
         </div>

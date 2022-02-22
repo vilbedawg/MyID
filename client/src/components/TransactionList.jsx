@@ -17,7 +17,7 @@ export const TransactionList = () => {
 
 
   return (
-    <div className='container'>
+    <div>
       <ul>
           test
       </ul>

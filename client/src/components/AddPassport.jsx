@@ -53,10 +53,10 @@ export const AddPassport = () => {
   }
 
   return (
-    <div className='container' style={{width: '500px', textAlign: 'left'}}>
+    <div className="content">
       <h2>Lataa passi lohkoon</h2>
       <form onSubmit={handleSubmit}>
-      <div className="mb-3">
+      <div>
         <label className="form-label">Nimi</label>
         <input type="text" 
           className="form-control"
@@ -65,7 +65,7 @@ export const AddPassport = () => {
           onChange={(e) => setName(e.target.value)}
         />
       </div>
-      <div className="mb-3">
+      <div>
         <label>Syntymäaika</label>
         <ReactDatePicker
           selected={bday}
@@ -74,13 +74,13 @@ export const AddPassport = () => {
         />
         
       </div>
-      <div className="mb-3">
+      <div>
         <CountryDropdown
           value={country}
           onChange={(val) => setCountry(val)}
         />
       </div>
-      <button type="submit" className="btn btn-primary">Go</button>
+      <button type="submit">Go</button>
       <div className='mb-3'>
       </div>
     </form>

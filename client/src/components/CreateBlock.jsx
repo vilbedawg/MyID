@@ -9,7 +9,7 @@ export const CreateBlock = () => {
   }
 
   return (
-    <div className='container'>
+    <div className="content">
       <TransactionList/>
       <button onClick={test}>Test</button>
     </div>

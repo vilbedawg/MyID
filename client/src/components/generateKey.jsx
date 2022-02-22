@@ -41,25 +41,19 @@ export const GenerateKey = () => {
   }
 
   return (
-    <div style={{ textAlign: "left" }}>
-      <button className="btn btn-primary" onClick={GenerateKeyClickHandler}>
+    <div className="genKey">
+      <button className="genBtn" onClick={GenerateKeyClickHandler}>
         Generate key
       </button>
       <br />
       <br />
-      <div className="row">
-        <div className="mb-3">
-          <input
-            className='form-control'
+          <input className="genInput"
             placeholder='Public key'
             disabled={true}
             style={{cursor: 'text'}}
             value={publicKey}
           />
-        </div>
-        <div className="mb-3">
-          <input
-          className='form-control'
+          <input className="genInput"
           placeholder='Private key'
           disabled={disabled ? "disabled" : ""}
           style={{cursor: 'pointer'}}
@@ -69,25 +63,20 @@ export const GenerateKey = () => {
           <br/>
 
           {/* TÄHÄN VAIKKA CAPTCHA */}
-          <div className="form-check">
-            <input className='form-check-input' 
+            <input
             type="checkbox"
             value={checked}
             onClick={changeButtonDisabled}
             />
             <label>En ole robotti</label>
-          </div>
           {/* ------------------------ */}
 
           <br/>
-          <button
-           className='btn btn-primary'
+          <button className="genBtn"
            onClick={changeInputDisabled}
            disabled={checked ? "disabled" : ""}>
            {btnText}
            </button>
-        </div>
-      </div>
     </div>
   );
 }

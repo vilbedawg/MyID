@@ -1,29 +1,137 @@
-li {
-  list-style-type: none;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@200;600&family=Roboto:wght@900&display=swap');
+* {
+  box-sizing: border-box;
 }
 
-ul{
-  padding: 0;
+body{
+  margin: 0;
+  background-color: #2B5360;
 }
 
 .container {
+  place-items: center;
   text-align: center;
 }
 
-button {
-  margin: 2px;
+.navBar{
+  position: sticky;
+  width: 100%;
+  display: flex;
+  place-content: center;
+  background-color: #1C2B2D;
+  color: white;
 }
+.logo{
+  display: inline-flex;
+  margin-right: auto;
+  font-family: 'Roboto', sans-serif;
+}
+.logo img{
+  width: 60px;
+}
+
+.navBar h2{
+  display: inline-flex;
+  float: inline-start;
+}
+
+.navBar li {
+  list-style-type: none;
+  display: flex;
+  padding: 0 10px 0 10px;
+  font-size: 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.navBar li :hover{
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+}
+
+.navBar ul{
+  padding: 0;
+  display: inline-flex;
+}
+
+.navBar a {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  border: 3px solid black;
+  border-radius: 50px;
+  padding: 5px;
+  background-color: white;
+}
+.content{
+  width: auto;
+  display: inline-block;
+  place-items: center;
+  place-content: center;
+}
+
+.content h1{
+  color: white;
+  font-size: 40px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.content p{
+  font-size: 22px;
+  font-family: 'Inter', sans-serif;
+}
+
+.genKey{
+  display: block;
+  width: auto;
+  text-align: left;
+  place-content: left;
+  margin-top: 20px;
+}
+
+.genInput{
+  width: 100%;
+  color: black;
+  background-color: white;
+  border: none;
+  border-radius: 3px;
+  margin-bottom: 15px;
+  padding: 5px;
+  font-size: 20px;
+}
+
+.genKey input[type="checkbox"]{
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+.genKey label{
+  color: white;
+  font-size: 22px;
+}
+
+.genBtn{
+  text-decoration: none;
+  background: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 30px;
+  display: inline;
+}
+
+.genBtn:hover{
+  background-color: #1C2B2D;
+  color: white;
+  cursor: pointer;
+}
+
 .col {
   border: 1px solid black;
   padding: 20px;
   background-color: #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: inline-flex;
   flex-direction: column;
-}
-
-p {
-  font-size: 22px;
-  font-family: Arial, Helvetica, sans-serif;
 }
