@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { GenerateKey } from "./GenerateKey";
-
+import { shortenAddress } from "../utils/shortenAddress";
 
 export default class UserDetails extends Component {
   constructor() {
@@ -19,18 +19,19 @@ export default class UserDetails extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
         <h3>Blocks</h3>
-        <div className="row">
-          {this.state.data.map(block => 
-            <div className="col" key={block._id}>
+      <div className="d-flex flex-row bd-highlight mb-3" style={{overflowX: 'scroll', textAlign: 'left'}}>
+        {this.state.data.map((block) => (
+          <div className="p-2 bd-highlight" key={block._id}>
+            <div className="p-2 bd-highlight" style={{border: '1px solid gray'}}>
               <p>hash: {block.hash}</p>
               <p>nonce: {block.nonce}</p>
               <p>previousHash: {block.previousHash}</p>
               <p>timestamp: {block.timestamp}</p>
-              <p>transaction: {block.transactions}</p>
             </div>
-          )}
+          </div>
+        ))}
         </div>
         <GenerateKey />
       </div>

@@ -1,4 +1,5 @@
 import { Block, Transaction } from "./Block.js";
+import axios from "axios";
 
 export class Blockchain {
   constructor() {
@@ -12,7 +13,6 @@ export class Blockchain {
     return new Block(Date.now(), ["Genesis Block"], "0");
   }
 
-  
 
   getLatestBlock() {
     return this.chain[this.chain.length - 1];
@@ -23,16 +23,20 @@ export class Blockchain {
     this.pendingTransactions.push(rewardTx);
 
     let block = new Block(
-      Date.now(),
+      Date.now('dd/MM/yyyy'),
       this.pendingTransactions,
       this.getLatestBlock().hash
       );
       block.mineBlock(this.difficulty);
       // Save the block to the DB
 
-      this.chain.push(block);
+      axios.post('http://localhost:5000/blocks/add', block)
+      .then(res => console.log(res.data));
+      // this.chain.push(block);
       // Save the miner address to the next block
-
+      
+      axios.post('http://localhost:5000/transactions/delete')
+      .then(res => console.log(res.data));
       this.pendingTransactions = [];    
   }
 

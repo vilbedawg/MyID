@@ -1,10 +1,11 @@
 import express from "express";
 import block from "../models/block.model.js";
-import transaction  from '../models/transaction.model.js';
 
 
 
 const blocksRouter = express.Router();
+
+
 
 //get all blocks from chain
 blocksRouter.route('/blocks').get((req, res) => {
@@ -32,12 +33,10 @@ blocksRouter.route('/blocks/add').post((req, res) => {
         nonce,
         timestamp
     });
-
+    
     newBlock.save()
     .then(() => res.json('Block added to the blockchain'))
     .catch(err => res.status(400).json('Error: ' + err));
-
-    // delete all transactions from the table
 });
 
 export default blocksRouter;

@@ -10,6 +10,12 @@ transRouter.route('/transactions').get((req, res) => {
      .catch(err => res.status(400).json('Error: ' + err))
 });
 
+//remove all transactions when mined
+transRouter.route('/transactions/delete').post((req, res) => {
+    transaction.deleteMany({})
+    .then(() => res.json('Block has been mined'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
 //add new transaction
 transRouter.route('/transactions/add').post((req, res) => {
