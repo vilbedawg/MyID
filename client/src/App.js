@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from './components/Navbar';
-import CreateBlock from './components/CreateBlock';
+import { CreateBlock } from './components/CreateBlock';
 import { AddPassport } from './components/AddPassport';
 import BlockchainList from './components/BlockchainList';
 import UserDetails from './components/UserDetails';

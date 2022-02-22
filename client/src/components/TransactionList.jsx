@@ -1,9 +1,26 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
-export default class TransactionList extends Component {
-  render() {
-    return (
-      <div>TransactionList</div>
-    )
-  }
+export const TransactionList = () => {
+  // const [transactions, setTransactions] = useState( { data: [] } );
+
+  // useEffect(() => {
+  //   axios.get('http://localhost:5000/transactions')
+  //   .then(res => {
+  //     console.log(res)
+  //     setTransactions(res.data)
+  //   })
+  //   .catch(err => {
+  //     console.log(err)
+  //   });
+  // });
+
+
+  return (
+    <div className='container'>
+      <ul>
+          test
+      </ul>
+    </div>
+  )
 }

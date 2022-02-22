@@ -11,13 +11,17 @@ const transaction = new Schema({
         required: false,
         type: Schema.Types.String
     },
+    signature: {
+        required: false,
+        type: Schema.Types.String
+    },
     data: {
         required: true,
-        type: Schema.Types.Array
+        type: Schema.Types.Mixed
     },
     timestamp: {
         required: true,
-        type: Schema.Types.String
+        type: Schema.Types.Number
     }
 });
 

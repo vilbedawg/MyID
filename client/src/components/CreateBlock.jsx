@@ -1,9 +1,17 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { blockchain } from './AddPassport'
+import { TransactionList } from './TransactionList';
 
-export default class CreateBlock extends Component {
-  render() {
-    return (
-      <div>CreateBlock</div>
-    )
+export const CreateBlock = () => {
+
+  const test = () => {
+    console.log(blockchain.pendingTransactions);
   }
+
+  return (
+    <div className='container'>
+      <TransactionList/>
+      <button onClick={test}>Test</button>
+    </div>
+  )
 }

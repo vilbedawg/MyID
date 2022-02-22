@@ -22,12 +22,15 @@ blocksRouter.route('/blocks/add').post((req, res) => {
     const hash = req.body.hash;
     const nonce = req.body.nonce;
     const transactions = req.body.transactions;
+    const timestamp = Date.now('dd/MM/yyyy');
+
 
     const newBlock = new block({
         previousHash,
         transactions,
         hash,
         nonce,
+        timestamp
     });
 
     newBlock.save()

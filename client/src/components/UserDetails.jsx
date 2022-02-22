@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { GenerateKey } from "./GenerateKey";
 
 
 export default class UserDetails extends Component {
@@ -32,6 +32,7 @@ export default class UserDetails extends Component {
             </div>
           )}
         </div>
+        <GenerateKey />
       </div>
     );
   }

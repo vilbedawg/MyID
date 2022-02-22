@@ -10,11 +10,11 @@ const block = new Schema({
     },
     timestamp: {
         required: true,
-        type: Schema.Types.String
+        type: Schema.Types.Number
     },
     transactions: {
         required: true,
-        type: Schema.Types.Array
+        type: Schema.Types.Mixed
     },
     hash: {
         required: true,

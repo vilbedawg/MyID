@@ -12,6 +12,8 @@ export class Blockchain {
     return new Block(Date.now(), ["Genesis Block"], "0");
   }
 
+  
+
   getLatestBlock() {
     return this.chain[this.chain.length - 1];
   }
@@ -69,7 +71,6 @@ export class Blockchain {
     return balance;
   }
 
-  getOwnedBlock() {}
 
   isChainValid() {
 

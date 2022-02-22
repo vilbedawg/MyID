@@ -1,5 +1,5 @@
-import { Blockchain } from "./Blockchain";
-import { Transaction } from "./Block";
+import { Blockchain } from "./Blockchain.js";
+import { Transaction } from "./Block.js";
 import { ec as EC } from "elliptic";
 const ec = new EC('secp256k1');
 
