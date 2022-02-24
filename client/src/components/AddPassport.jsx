@@ -3,12 +3,8 @@ import ReactDatePicker from 'react-datepicker';
 import { CountryDropdown } from 'react-country-region-selector';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
-import { ec as EC } from 'elliptic';
-import { Transaction} from '../services/Block.js';
-import { Blockchain } from '../services/Blockchain.js';
 import useLocalStorage from "use-local-storage";
-const ec = new EC('secp256k1');
-export const blockchain = new Blockchain();
+import CryptoJS from 'crypto-js';
 
   
 
@@ -19,39 +15,35 @@ export const AddPassport = () => {
   const [toAddress, setToAddress] = useState('Passi');
   const [fromAddress, setFromAddress] = useLocalStorage("PublicKey", "");
   const [privateKey, setPrivateKey] = useLocalStorage("PrivateKey", "");
-  // const [errorMessage, setErrorMessage] = useState(null);
-  // const [successMessage, setSuccessMessage] = useState(null);
-
- 
-
-
+  
 
   const handleSubmit = (e) => {
     e.preventDefault(); 
-
-    // data
-    const user = {
+    //data
+    const data = {
       name: name,
       bday: bday,
       country: country,
     }
 
-    // signature key
-    const myKey = ec.keyFromPrivate(privateKey);
+    // crypt key 
+    const cryptedKey = CryptoJS.AES.encrypt(privateKey, 'secret key 1').toString();
 
-    //validation
-    const newTX = new Transaction(fromAddress, toAddress, user);
-    newTX.signTransaction(myKey);
+    const newTransaction = {
+      fromAddress, 
+      toAddress, 
+      data,
+      cryptedKey
+    };
+  
 
-    // error handling here ----------------
-    blockchain.addTransaction(newTX);
-    const transaction = blockchain.pendingTransactions[0];
+    // // error handling here ----------------
     
-    
-    axios.post('http://localhost:5000/transactions/add', transaction)
-    .then(res => console.log(res.data));
+    axios.post('http://localhost:5000/transactions/add', newTransaction)
+    .then(res => console.log(res.data))
+    .catch(err => console.log('Error: ' + err));
 
-    window.location = '/blocks/add';
+    // window.location = '/blocks/add';
   }
 
   return (

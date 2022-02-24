@@ -1,8 +1,8 @@
 import express from "express";
 import block from "../models/block.model.js";
-
-
-
+import transaction  from '../models/transaction.model.js';
+import { Blockchain } from "../services/Blockchain.js";
+import { Transaction } from "../services/Block.js";
 const blocksRouter = express.Router();
 
 
@@ -11,32 +11,51 @@ const blocksRouter = express.Router();
 blocksRouter.route('/blocks').get((req, res) => {
     block.find()
      .then(block => res.json(block))
-     .catch(err => res.status(400).json('Error: ' + err))
+     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 
 
 // add a new block
-blocksRouter.route('/blocks/add').post((req, res) => {
+blocksRouter.route('/blocks/add').post( async (req, res) => {
 
-    const previousHash = req.body.previousHash;
-    const hash = req.body.hash;
-    const nonce = req.body.nonce;
-    const transactions = req.body.transactions;
-    const timestamp = Date.now('dd/MM/yyyy');
-
-
-    const newBlock = new block({
-        previousHash,
-        transactions,
-        hash,
-        nonce,
-        timestamp
-    });
     
-    newBlock.save()
-    .then(() => res.json('Block added to the blockchain'))
+    // new blockchain instance
+    const BlockchainInstance = new Blockchain();
+    await BlockchainInstance.getChainLength();
+    const transactionList = req.body;
+
+
+    for await (const transaction of transactionList ) {
+        const TransactionInstance = new Transaction(
+            transaction.fromAddress, 
+            transaction.toAddress, 
+            transaction.data, 
+            transaction.signature
+        );
+
+        BlockchainInstance.addTransaction(TransactionInstance);
+    }
+    console.log('Starting the miner');
+    await BlockchainInstance.minePendingTransactions(); // If response false, do something
+    // await BlockchainInstance.checkChainValidity();
+    
+    
+    const minedBlock = BlockchainInstance.chain[BlockchainInstance.chain.length - 1];
+    const newBlock = new block({
+        previousHash: minedBlock.previousHash,
+        timestamp: minedBlock.timestamp,
+        transactions: minedBlock.transactions,
+        hash: minedBlock.hash,
+        nonce: minedBlock.nonce
+    });
+
+    await newBlock.save()
+    .then(res => console.log('Block added to the chain'))
     .catch(err => res.status(400).json('Error: ' + err));
+
+    await transaction.deleteMany({});
+    
 });
 
 export default blocksRouter;

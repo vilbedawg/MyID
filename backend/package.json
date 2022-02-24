@@ -13,12 +13,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.0",
     "concurrently": "^7.0.0",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.0",
     "elliptic": "^6.5.4",
     "express": "^4.17.2",
-    "mongoose": "^6.2.1"
+    "mongoose": "^6.2.3"
   }
 }

@@ -13,7 +13,7 @@ const block = new Schema({
         type: Schema.Types.Number
     },
     transactions: {
-        required: true,
+        required: false,
         type: Schema.Types.Mixed
     },
     hash: {
