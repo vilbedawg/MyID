@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import pkg from 'elliptic';
+import ApiError from '../middleware/ApiError.js';
 const { ec: EC } = pkg;
 const ec = new EC('secp256k1');
 
@@ -25,19 +26,20 @@ export class Block {
 
     async hasValidTransaction() {
         for (const tx of this.transactions) {
+            console.log(`Checking ${tx.data.name}'s transaction`);
             const newTxInstance = new Transaction(
-                tx.fromAddress, 
-                tx.toAddress, 
-                tx.data, 
-                tx.signature
-            );
-            if(!newTxInstance.isValid()){
+                    tx.fromAddress, 
+                    tx.toAddress, 
+                    tx.data, 
+                    tx.signature
+                );
+
+            if (!newTxInstance.isValid()){
                 return false;
             }
         }
         return true;
     }
-
 }
 
 export class Transaction {
@@ -45,36 +47,36 @@ export class Transaction {
         this.fromAddress = fromAddress;
         this.toAddress = toAddress;
         this.data = data;
-        this.signature = signature || 'none';
+        this.signature = signature || null;
         this.timestamp = new Date().getTime()
     }
 
     calculateHash() {
-        // return sha256(this.fromAddress, this.toAddress, this.data, this.timestamp).toString();
         return crypto.createHash('sha256').update(this.fromAddress + this.toAddress + this.amount + this.timestamp).digest('hex');
     }
 
-    signTransaction(signingKey) {
+    async signTransaction(signingKey) {
         if(signingKey.getPublic('hex') !== this.fromAddress) {
-            throw new Error('You cannot sign transactions from other wallets');
+            return ApiError.badRequest(`You cannot sign transactions from other wallets`);
         }
         
         const hashTx = this.calculateHash();
-        const sig = signingKey.sign(hashTx, 'base64');
-        this.signature = sig.toDER('hex');
+        const sig = await signingKey.sign(hashTx, 'base64');
+        this.signature = await sig.toDER('hex');
+        return true;
     }
 
-    // -----------------Korjaa huomenna-----------------------//
-    async isValid() {
 
+    
+    async isValid() {
         if (this.fromAddress === null) return true;
-        const publicKey = ec.keyFromPublic(this.fromAddress, 'hex');
-        return publicKey.verify(this.calculateHash(), this.signature);
+        
         if(!this.signature || this.signature.length === 0){
-            throw new Error('No signature in this transaction');
+            return ApiError.badRequest(`No signature in this transaction`);
         }
 
-        // const publicKey = ec.keyFromPublic(this.fromAddress, 'hex');
-        // return publicKey.verify(this.calculateHash(), this.signature);
+        const publicKey = ec.keyFromPublic(this.fromAddress, 'hex');
+        return publicKey.verify(this.calculateHash(), this.signature);
+        
     }
 }

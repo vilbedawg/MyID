@@ -41,7 +41,7 @@ export const AddPassport = () => {
     
     axios.post('http://localhost:5000/transactions/add', newTransaction)
     .then(res => console.log(res.data))
-    .catch(err => console.log('Error: ' + err));
+    .catch(err => <p>{err}</p>);
 
     // window.location = '/blocks/add';
   }
