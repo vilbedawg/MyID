@@ -63,12 +63,12 @@ export class Blockchain {
       this.chain.push(currentBlockInfo);
 
       // include the transactions in the block
-      // await transaction.deleteMany({});
+      await transaction.deleteMany({});
 
       // reward transaction for the miner to be included in the next block
       const rewardTx = new Transaction(null, miningRewardAddress, this.miningReward);
       this.pendingTransactions.push(rewardTx);
-      return;
+      return true;
     }
     // if no previous block is found, we initiate the genesis block
     this.createGenesisBlock();
@@ -94,7 +94,11 @@ export class Blockchain {
 
 
   async isChainValid() {
-    // await this.getChainLength();
+
+    if(this.chain.length === 0) {
+      await this.getChainLength();
+    }
+
     for (let i = 1; i < this.chain.length; i++) {
       const currentBlock = this.chain[i];
       const previousBlock = this.chain[i - 1];
@@ -119,7 +123,6 @@ export class Blockchain {
       }
 
     }
-    console.log('is valid');
     return true;
   }
 

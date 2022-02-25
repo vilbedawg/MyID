@@ -25,16 +25,18 @@ export class Block {
     }
 
     async hasValidTransaction() {
-        for (const tx of this.transactions) {
-            console.log(`Checking ${tx.data.name}'s transaction`);
+        let idx = 1;
+        for await (const tx of this.transactions) {
+            console.log(`Checking transaction number ${idx}..`);
             const newTxInstance = new Transaction(
                     tx.fromAddress, 
                     tx.toAddress, 
                     tx.data, 
                     tx.signature
                 );
-
-            if (!newTxInstance.isValid()){
+            const isValid = await newTxInstance.isValid();
+            idx++;
+            if (isValid.code){
                 return false;
             }
         }
@@ -77,6 +79,5 @@ export class Transaction {
 
         const publicKey = ec.keyFromPublic(this.fromAddress, 'hex');
         return publicKey.verify(this.calculateHash(), this.signature);
-        
     }
 }

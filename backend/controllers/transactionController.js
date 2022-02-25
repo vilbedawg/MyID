@@ -51,15 +51,18 @@ export const addTransaction = expressAsyncHandler(async (req, res, next) => {
 });
 
 const getKey = expressAsyncHandler(async (privateKey) => {
-  try {
     // decrypt key
     const bytes = CryptoJS.AES.decrypt(privateKey, "secret key 1");
     const decryptedKey = bytes.toString(CryptoJS.enc.Utf8);
-
+    
     //get keypair
     const key = ec.keyFromPrivate(decryptedKey);
     return key;
-  } catch (error) {
-    throw ApiError.internal(error);
-  }
 });
+
+
+// get all transactions
+export const getTransactions = expressAsyncHandler(async (req, res, next) => {
+    const transactions = await transaction.find({});
+    res.json(transactions);
+})
