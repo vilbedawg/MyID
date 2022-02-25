@@ -7,8 +7,7 @@ import { shortenAddress } from '../utils/shortenAddress';
 export const CreateBlock = () => {
   const [transactions, setTransactions] = useState([]);
   const [fromAddress, setFromAddress] = useState();
-  const [disabled, setDisabled] = useState(false);
-  
+
   const testChain = (transactions) => {
     const reqBody = {
       transactions: transactions,
@@ -35,7 +34,7 @@ export const CreateBlock = () => {
     <div className='container'>
       {transactions && <TransactionList transactions={transactions}/>}
       <br />
-      <p>Address: {fromAddress !== undefined ? shortenAddress(fromAddress) : fromAddress}</p>
+      <p>Address: {fromAddress !== undefined || null ? shortenAddress(fromAddress) : fromAddress}</p>
       <button className='btn btn-primary' onClick={() => testChain(transactions)}>Mine</button>
     </div>
   )
