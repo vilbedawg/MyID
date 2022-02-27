@@ -6,7 +6,7 @@ import ApiError from '../middleware/ApiError.js';
 export class Blockchain {
   constructor() {
     this.chain = [];
-    this.difficulty = 2;
+    this.difficulty = 4;
     this.pendingTransactions = [];
     this.miningReward = 100;
   }
@@ -17,7 +17,7 @@ export class Blockchain {
     console.log('Initializing Genesis block..');
     let genesisBlock = new block({
       previousHash: genesis.previousHash,
-      timestamp: new Date().getTime(),
+      timestamp: genesis.timestamp,
       transactions: genesis.transactions,
       hash: genesis.hash,
       nonce: genesis.nonce
@@ -36,7 +36,7 @@ export class Blockchain {
 
 
   async getGenesisBlock() {
-    return this.chain[this.chain.length - 1];
+    return this.chain[0];
   }
 
 
@@ -48,7 +48,7 @@ export class Blockchain {
 
   async minePendingTransactions(miningRewardAddress) {
     let lastBlockInfo = await this.getLatestBlock();
-
+    
     if(lastBlockInfo) { 
       // new block instance to add make a new block
       let currentBlockInfo = new Block(
@@ -66,12 +66,12 @@ export class Blockchain {
       await transaction.deleteMany({});
 
       // reward transaction for the miner to be included in the next block
-      const rewardTx = new Transaction(null, miningRewardAddress, this.miningReward);
+      const rewardTx = new Transaction(null, miningRewardAddress, this.miningReward, null, new Date().getTime());
       this.pendingTransactions.push(rewardTx);
       return true;
     }
     // if no previous block is found, we initiate the genesis block
-    this.createGenesisBlock();
+    await this.createGenesisBlock();
     return false;
   }
 
@@ -87,6 +87,10 @@ export class Blockchain {
       if (result.code) {
         return ApiError.badRequest(result.message);
       } 
+
+      if(!result) {
+        return ApiError.badRequest('Signature is not valid');
+      }
       
       this.pendingTransactions.push(transaction);
       return true;
@@ -110,10 +114,14 @@ export class Blockchain {
         currentBlock.hash,
         currentBlock.nonce
       );
-
-      await currentBlockInstance.mineBlock(this.difficulty);
-      if(!currentBlockInstance.hasValidTransaction()) return false;
-
+      
+      const hasValidTransactions = await currentBlockInstance.hasValidTransaction();
+      
+      if(!hasValidTransactions)  {
+        console.log(`block ${i} transactions invalid`);
+        return false;
+      }
+      console.log(`block ${i} transactions valid`);
       if (previousBlock.hash !== currentBlock.previousHash) {
         return false;
       }
@@ -128,47 +136,11 @@ export class Blockchain {
 
 
 
-  // async checkChainValidity() {
-  //   this.getChainLength();
-  //       for (let i = 1; i < this.chain.length; i++) {
-  //         const currentBlock = this.chain[i];
-  //         const previousBlock = this.chain[i - 1];
-  //         console.log('\n')
-  //         console.log(`Validating Block(${i}): ${currentBlock.hash}`);
-  //         recreate the block with the info from database
-  //         const currentBlockInstance = new Block(currentBlock.timestamp, null, currentBlock.previousHash);
-          
-  //         if (currentBlock.previousHash !== previousBlock.hash) {
-  //           console.log(`Stored hash(${currentBlock.hash}) and computed hash(${currentBlock.hash}) doesn't match`);
-  //           return false;
-  //         }
-          
-  //         console.log(`Block ${i} Hash validated: ${currentBlock.hash} -> SUCCESS`);
-  //         console.log(currentBlockInstance.calculateHash());
-  //         // check if tampered with
-  //         // if (currentBlock.hash !== currentBlockInstance.calculateHash()) {
-  //         //   console.log(`Hash invalid: ${currentBlockInstance.hash}`)
-  //         //   return false;
-  //         // }
-                
-  //     }
-        
-  //           // else {
-  //           //     console.log(`Genesis Block(${idx}): ${entry.hash}`);
-  //           //     previousBlock = new Block(entry.timestamp, entry.transactions, entry.previousHash, entry.hash, entry.nonce);
-  //           //     previousBlock.mineBlock(this.difficulty);
-  //           //     idx++;
-  //           // }
-
-  //     }
-
-
-
 
   // turha, voi poistaa
   async getBalanceOfAddress(address) {
     let balance = 0;
-    // await this.getChainLength();
+    await this.getChainLength();
     for await (const block of this.chain) {
       for (let i = 0; i < block.transactions.length; i++) {
         const transFrom = block.transactions[i].fromAddress;

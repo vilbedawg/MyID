@@ -2,11 +2,10 @@ import expressAsyncHandler from "express-async-handler"
 import block from "../models/block.model.js";
 import transaction  from '../models/transaction.model.js';
 import { Blockchain } from "../services/Blockchain.js";
-import { Transaction } from "../services/Block.js";
 import ApiError from "../middleware/ApiError.js";
+import { Block } from "../services/Block.js";
 
 export const mineBlock = expressAsyncHandler( async (req, res, next) => {
-    console.log(req.body.fromAddress);
     // new blockchain instance
     const BlockchainInstance = new Blockchain();
     await BlockchainInstance.getChainLength();
@@ -17,7 +16,15 @@ export const mineBlock = expressAsyncHandler( async (req, res, next) => {
     }
 
 
-    await BlockchainInstance.minePendingTransactions(req.body.fromAddress);
+    const mineBlock = await BlockchainInstance.minePendingTransactions(req.body.fromAddress);
+    
+    if(!mineBlock) {
+        throw ApiError.internal('Issue with mining, try again.');
+    }
+
+    const test = await BlockchainInstance.isChainValid();
+    console.log(test);
+
     const minedBlock = BlockchainInstance.chain[BlockchainInstance.chain.length - 1];
 
     const newBlock = new block({
@@ -37,11 +44,10 @@ export const mineBlock = expressAsyncHandler( async (req, res, next) => {
         timestamp: miner.timestamp,
     });
     
-    const saveToDB = await newBlock.save({});
-    if (saveToDB) {
-        await minerReward.save({});
-        res.json(`Block successfully mined.`);
-    }
+    //save to blockchain (database)
+    await newBlock.save({});
+    await minerReward.save({});
+    res.json(`Block successfully mined.`);
 });
 
 
@@ -49,3 +55,13 @@ export const getBlockchain = expressAsyncHandler( async (req, res, next) => {
     const Blockchain = await block.find({});
     res.json(Blockchain);
 });
+
+
+export const checkValidation = expressAsyncHandler( async (req, res, next) => {
+    const BlockchainInstance = new Blockchain();
+    await BlockchainInstance.getChainLength();
+    // BlockchainInstance.chain[1].transactions[1] = 200;
+    const isValid = await BlockchainInstance.isChainValid();
+
+    res.json(isValid);
+})

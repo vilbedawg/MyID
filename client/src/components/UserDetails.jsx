@@ -24,7 +24,7 @@ export default class UserDetails extends Component {
       <div className="d-flex flex-row bd-highlight mb-3" style={{overflowX: 'scroll', textAlign: 'left'}}>
         {this.state.data.map((block, index) => (
           <div className="p-2 bd-highlight" key={block._id}>
-            <div className="p-2 bd-highlight" style={{border: '1px solid gray'}}>
+            <div className="p-2 bd-highlight" style={{border: '1px solid gray',  minHeight: '300px', justifyContent: 'space-between'}}>
               <p>hash: {block.hash}</p>
               <p>nonce: {block.nonce}</p>
               <p>previousHash: {block.previousHash}</p>

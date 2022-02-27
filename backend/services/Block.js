@@ -5,12 +5,12 @@ const { ec: EC } = pkg;
 const ec = new EC('secp256k1');
 
 export class Block {
-    constructor(timestamp, transactions, previousHash = '') {
+    constructor(timestamp, transactions, previousHash = '', hash, nonce) {
         this.previousHash = previousHash;
         this.timestamp = timestamp;
         this.transactions = transactions;
         this.hash = this.calculateHash();
-        this.nonce = 0;
+        this.nonce = nonce || 0;
     }
 
     calculateHash() {
@@ -27,16 +27,17 @@ export class Block {
     async hasValidTransaction() {
         let idx = 1;
         for await (const tx of this.transactions) {
-            console.log(`Checking transaction number ${idx}..`);
-            const newTxInstance = new Transaction(
+            console.log(`Checking transaction ${idx}..`);
+            const TransactionInstance = new Transaction(
                     tx.fromAddress, 
                     tx.toAddress, 
                     tx.data, 
-                    tx.signature
+                    tx.signature,
+                    tx.timestamp,
                 );
-            const isValid = await newTxInstance.isValid();
+            const isValid = await TransactionInstance.isValid();
             idx++;
-            if (isValid.code){
+            if (isValid.code || !isValid){
                 return false;
             }
         }
@@ -45,12 +46,12 @@ export class Block {
 }
 
 export class Transaction {
-    constructor(fromAddress, toAddress, data, signature) {
+    constructor(fromAddress, toAddress, data, signature, timestamp) {
         this.fromAddress = fromAddress;
         this.toAddress = toAddress;
         this.data = data;
         this.signature = signature || null;
-        this.timestamp = new Date().getTime()
+        this.timestamp = timestamp;
     }
 
     calculateHash() {
@@ -58,6 +59,11 @@ export class Transaction {
     }
 
     async signTransaction(signingKey) {
+
+        if(!signingKey) {
+            return ApiError.badRequest('No Private key found');
+        } 
+
         if(signingKey.getPublic('hex') !== this.fromAddress) {
             return ApiError.badRequest(`You cannot sign transactions from other wallets`);
         }
@@ -78,6 +84,7 @@ export class Transaction {
         }
 
         const publicKey = ec.keyFromPublic(this.fromAddress, 'hex');
-        return publicKey.verify(this.calculateHash(), this.signature);
+        const valid = publicKey.verify(this.calculateHash(), this.signature);
+        return valid;
     }
 }
