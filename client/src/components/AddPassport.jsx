@@ -11,24 +11,25 @@ import CryptoJS from 'crypto-js';
 export const AddPassport = () => {
   const [name, setName] = useState('');
   const [bday, setBday] = useState(new Date());
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState();
   const [toAddress, setToAddress] = useState('Passi');
   const [fromAddress, setFromAddress] = useLocalStorage("PublicKey", "");
   const [privateKey, setPrivateKey] = useLocalStorage("PrivateKey", "");
+  const [file, setFile] = useState();
   
-
   const handleSubmit = (e) => {
     e.preventDefault(); 
-    //data
-    const data = {
-      name: name,
-      bday: bday,
-      country: country,
-    }
-
     // crypt key 
     const cryptedKey = CryptoJS.AES.encrypt(privateKey, 'secret key 1').toString();
 
+    //data
+    const data = new FormData();
+    data.append("name", name);
+    data.append("bday", bday);
+    data.append("country", country);
+    data.append("key", cryptedKey);
+    data.append("file", file);
+  
     const newTransaction = {
       fromAddress, 
       toAddress, 
@@ -38,10 +39,9 @@ export const AddPassport = () => {
   
 
     // // error handling here ----------------
-    
-    axios.post('http://localhost:5000/transactions/add', newTransaction)
-    .then(res => console.log(res.data))
-    .catch(err => <p>{err}</p>);
+    axios.post('http://localhost:5000/transactions/add', data)
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
 
     // window.location = '/blocks/add';
   }
@@ -73,6 +73,12 @@ export const AddPassport = () => {
           value={country}
           onChange={(val) => setCountry(val)}
         />
+      </div>
+      <div className="mb-3">
+        <input type="file" id="img" name="img" accept="image/*" onChange={e => {
+          const file = e.target.files[0];
+          setFile(file);
+        }}/>
       </div>
       <button type="submit" className="btn btn-primary">Go</button>
       <div className='mb-3'>

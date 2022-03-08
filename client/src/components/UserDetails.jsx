@@ -1,40 +1,32 @@
-import React, { Component } from "react";
-import { GenerateKey } from "./GenerateKey";
-import { shortenAddress } from "../utils/shortenAddress";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import useLocalStorage from 'use-local-storage';
+import {shortenAddress} from '../utils/shortenAddress'
+export const UserDetails =  () => {
+  const [fromAddress, setFromAddress] = useLocalStorage('PublicKey', '');
+  const [userData, setUserData] = useState('');
 
-export default class UserDetails extends Component {
-  constructor() {
-    super();
-    this.state = {
-      data: [],
-    };
-  }
+  useEffect(() => {
+    axios.get('http://localhost:5000/user/', {
+      params: {
+        type: 'Passi',
+        id: fromAddress
+      }
+    })
+    .then(res => {
+      console.log(res.data)
+      setUserData(res.data);
+    })
+    .catch(err => {
+      console.log(err)
+    });
+  }, []);
 
-  componentDidMount() {
-    fetch("/blocks")
-      .then((res) => res.json())
-      .then((data) => this.setState({ data }, () => console.log("data fetched..", data))
-      );
-  }
-
-  render() {
-    return (
-      <div>
-        <h3>Blocks</h3>
-      <div className="d-flex flex-row bd-highlight mb-3" style={{overflowX: 'scroll', textAlign: 'left'}}>
-        {this.state.data.map((block, index) => (
-          <div className="p-2 bd-highlight" key={block._id}>
-            <div className="p-2 bd-highlight" style={{border: '1px solid gray',  minHeight: '300px', justifyContent: 'space-between'}}>
-              <p>hash: {block.hash}</p>
-              <p>nonce: {block.nonce}</p>
-              <p>previousHash: {block.previousHash}</p>
-              <p>timestamp: {block.timestamp}</p>
-            </div>
-          </div>
-        ))}
-        </div>
-        <GenerateKey />
+  return (
+    <div>
+      <h3>{shortenAddress(fromAddress)}</h3>
+      <div className='container' style={{border: '1px solid black', padding: '2rem'}}>
       </div>
-    );
-  }
+    </div>
+  )
 }

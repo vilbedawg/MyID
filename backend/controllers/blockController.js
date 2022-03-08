@@ -3,7 +3,7 @@ import block from "../models/block.model.js";
 import transaction  from '../models/transaction.model.js';
 import { Blockchain } from "../services/Blockchain.js";
 import ApiError from "../middleware/ApiError.js";
-import { Block } from "../services/Block.js";
+import { json } from "express";
 
 export const mineBlock = expressAsyncHandler( async (req, res, next) => {
     // new blockchain instance
@@ -21,9 +21,6 @@ export const mineBlock = expressAsyncHandler( async (req, res, next) => {
     if(!mineBlock) {
         throw ApiError.internal('Issue with mining, try again.');
     }
-
-    const test = await BlockchainInstance.isChainValid();
-    console.log(test);
 
     const minedBlock = BlockchainInstance.chain[BlockchainInstance.chain.length - 1];
 
@@ -65,3 +62,37 @@ export const checkValidation = expressAsyncHandler( async (req, res, next) => {
 
     res.json(isValid);
 })
+
+
+export const getUserData = expressAsyncHandler(async (req, res, next) => {
+  const UserData = await block
+    .find(
+      {
+        transactions: {
+          $elemMatch: {
+            fromAddress: req.query.id,
+            toAddress: req.query.type,
+          },
+        },
+      },
+      { transactions: 1, _id: 0 }
+    )
+    .sort({ $natural: -1 })
+    .limit(1);
+
+    let data = null;
+    const dataArray = UserData[UserData.length - 1];
+    if(dataArray === undefined) {
+        throw ApiError.badRequest('User not found');
+    }
+
+    // search for last inserted document
+    for await (const tx of dataArray.transactions) {
+        if(tx.fromAddress === req.query.id) {
+            data = tx;
+            break;
+        }
+    }
+
+    res.json(data);
+});

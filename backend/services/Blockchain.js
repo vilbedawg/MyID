@@ -118,10 +118,10 @@ export class Blockchain {
       const hasValidTransactions = await currentBlockInstance.hasValidTransaction();
       
       if(!hasValidTransactions)  {
-        console.log(`block ${i} transactions invalid`);
+        console.log(`block ${i} transactions -----> INVALID`);
         return false;
       }
-      console.log(`block ${i} transactions valid`);
+      console.log(`block ${i} transactions -----> VALID`);
       if (previousBlock.hash !== currentBlock.previousHash) {
         return false;
       }
