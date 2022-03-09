@@ -1,5 +1,6 @@
 import express from "express";
-import { mineBlock, getBlockchain, checkValidation, getUserData  } from '../controllers/blockController.js';
+import { mineBlock, getBlockchain, checkValidation} from '../controllers/blockController.js';
+import { getUserData } from "../controllers/userController.js";
 const blocksRouter = express.Router();
 
 

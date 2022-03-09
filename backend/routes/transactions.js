@@ -1,17 +1,17 @@
 import express from "express";
 import { addTransaction, getTransactions } from '../controllers/transactionController.js';
 import { imageUpload } from "../controllers/imgController.js";
-import multer from "multer";
+import multer from 'multer';
+import path from 'path';
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './uploads')
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-      cb(null, file.fieldname + '-' + uniqueSuffix)
-    }
-  })
-  
+  destination: (req, file, cb) => {
+    cb(null, './build/uploads')
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
 const upload = multer({ storage: storage })
 
 const transRouter = express.Router();
@@ -21,7 +21,8 @@ transRouter.route('/transactions').get(getTransactions);
 
 //add new transaction
 transRouter.route('/transactions/add')
-.post(upload.single("file"), addTransaction);
+.post(upload.array("file"), imageUpload)
+.post(addTransaction);
 
 
 export default transRouter;
