@@ -4,23 +4,19 @@ import { Link } from "react-router-dom";
 export default class Navbar extends Component {
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" >
-          Navbar
-        </a>
-        <div className="collapse navbar-collapse">
-          <ul className="navbar-nav">
-            <li className="nav-item active">
-              <Link to="/" className="nav-link">Home</Link>
-            </li>
-            <li className="nav-item active">
-              <Link to="/blocks" className="nav-link">View Blockchain</Link>
-            </li>
-            <li className="nav-item active">
-              <Link to="/transactions/add" className="nav-link">Create Transaction</Link>
-            </li>
-            <li className="nav-item active">
-              <Link to="/blocks/add" className="nav-link">Pending Transactions</Link>
+      <nav className="navBar">
+        <a className="logo">MyID</a>
+        <div className="vl"></div>
+        <div className="navLinks">
+          <ul>
+            <li>
+              <Link to="/">Home</Link></li>
+            <li>
+              <Link to="/blocks">View Blockchain</Link></li>
+            <li>
+              <Link to="/transactions/add">Create Transaction</Link></li>
+            <li>
+              <Link to="/blocks/add">Pending Transactions</Link>
             </li>
           </ul>
         </div>

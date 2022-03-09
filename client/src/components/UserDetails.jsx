@@ -25,7 +25,7 @@ export const UserDetails =  () => {
   return (
     <div>
       <h3>{shortenAddress(fromAddress)}</h3>
-      <div className='container' style={{border: '1px solid black', padding: '2rem'}}>
+      <div style={{border: '1px solid black', padding: '2rem'}}>
       </div>
     </div>
   )
