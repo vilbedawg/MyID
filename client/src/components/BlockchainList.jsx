@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { GenerateKey } from "./GenerateKey";
 import { shortenAddress } from "../utils/shortenAddress";
 
 export default class BlockchainList extends Component {
@@ -33,7 +32,6 @@ export default class BlockchainList extends Component {
           </div>
         ))}
         </div>
-        <GenerateKey />
       </div>
     );
   }

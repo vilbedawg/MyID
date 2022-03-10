@@ -5,7 +5,7 @@ import { Blockchain } from "../services/Blockchain.js";
 import ApiError from "../middleware/ApiError.js";
 
 
-export const mineBlock = expressAsyncHandler( async (req, res, next) => {
+export const mineBlock = expressAsyncHandler( async (req, res) => {
     // new blockchain instance
     const BlockchainInstance = new Blockchain();
     await BlockchainInstance.getChainLength();
@@ -48,13 +48,13 @@ export const mineBlock = expressAsyncHandler( async (req, res, next) => {
 });
 
 
-export const getBlockchain = expressAsyncHandler( async (req, res, next) => {
+export const getBlockchain = expressAsyncHandler( async (req, res) => {
     const Blockchain = await block.find({});
     res.json(Blockchain);
 });
 
 
-export const checkValidation = expressAsyncHandler( async (req, res, next) => {
+export const checkValidation = expressAsyncHandler( async (req, res) => {
     const BlockchainInstance = new Blockchain();
     await BlockchainInstance.getChainLength();
     // BlockchainInstance.chain[1].transactions[1] = 200;

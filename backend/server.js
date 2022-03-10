@@ -4,8 +4,9 @@ import {fileURLToPath} from 'url';
 import cors from 'cors';
 import {connectDB} from './config/dbconfig.js'
 import dotenv  from "dotenv"
-import blocksRouter from "./routes/blocks.js";
-import transRouter from "./routes/transactions.js";
+import blocksRouter from "./routes/blockRoutes.js";
+import transRouter from "./routes/transactionRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 import ApiError from './middleware/ApiError.js';
 import { apiErrorHandler } from "./middleware/api-error-handler.js";
 
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 //router
 app.use('/', blocksRouter);
 app.use('/', transRouter);
+app.use('/', userRouter);
 
 app.use(apiErrorHandler);
 app.listen(port, () => {

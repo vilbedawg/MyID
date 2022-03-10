@@ -15,7 +15,7 @@ export const AddPassport = () => {
   const [toAddress, setToAddress] = useState('Passi');
   const [fromAddress, setFromAddress] = useLocalStorage("PublicKey", "");
   const [privateKey, setPrivateKey] = useLocalStorage("PrivateKey", "");
-  const [files, setFiles] = useState();
+  const [files, setFiles] = useState([]);
   
   const handleSubmit = (e) => {
     e.preventDefault(); 
@@ -48,7 +48,6 @@ export const AddPassport = () => {
         <label className="form-label">Nimi</label>
         <input type="text" 
           className="form-control"
-          required
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -68,11 +67,18 @@ export const AddPassport = () => {
           onChange={(val) => setCountry(val)}
         />
       </div>
-      <label>Kuvat kortista</label>
+      <label>Kuva edestä</label>
       <div className="mb-3">
-        <input type="file" id="img" name="img" accept="image/*" multiple onChange={e => {
-          const files = e.target.files;
-          setFiles(files);
+        <input type="file" id="img" name="img" accept="image/*" onChange={e => {
+          const file = e.target.files[0];
+          setFiles(oldArray => [...oldArray, file]);
+        }}/>
+      </div>
+      <label>Kuva takaa</label>
+      <div className="mb-3">
+        <input type="file" id="img" name="img" accept="image/*" onChange={e => {
+          const secondFile = e.target.files[0];
+          setFiles(oldArray => [...oldArray, secondFile]);
         }}/>
       </div>
       <button type="submit" className="btn btn-primary">Go</button>

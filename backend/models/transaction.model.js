@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const transaction = new Schema({
-
     fromAddress: {
         required: false,
-        type: Schema.Types.String
+        type: Schema.Types.String,
+        ref: 'user'
     },
     toAddress: {
-        required: false,
+        required: true,
         type: Schema.Types.String
     },
     signature: {

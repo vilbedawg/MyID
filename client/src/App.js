@@ -5,8 +5,9 @@ import Navbar from './components/Navbar';
 import { CreateBlock } from './components/CreateBlock';
 import { AddPassport } from './components/AddPassport';
 import BlockchainList from './components/BlockchainList';
-import {UserDetails} from './components/UserDetails';
-
+import { UserDetails } from './components/UserDetails';
+import { Signin } from './components/Signin';
+import { Register } from './components/Register';
 
 function App() {
 
@@ -17,6 +18,8 @@ function App() {
         <br />
         <Routes>
           <Route path="/" element={<UserDetails />} />
+          <Route path="/login" element={<Signin />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/blocks" element={<BlockchainList />} />
           <Route path="/transactions/add" element={<AddPassport />} />
           <Route path="/blocks/add" element={<CreateBlock />} />

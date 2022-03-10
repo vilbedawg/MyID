@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import useLocalStorage from 'use-local-storage';
 import {shortenAddress} from '../utils/shortenAddress'
+
 export const UserDetails =  () => {
   const [fromAddress, setFromAddress] = useLocalStorage('PublicKey', '');
   const [userData, setUserData] = useState('');
@@ -9,7 +10,7 @@ export const UserDetails =  () => {
   const [files, setFiles] = useState();
   useEffect(() => {
     const fetchData = async () => {
-      const request = await axios.get('http://localhost:5000/user/', {
+      const request = await axios.get('http://localhost:5000/user', {
         params: {
           type: 'Passi',
           id: fromAddress

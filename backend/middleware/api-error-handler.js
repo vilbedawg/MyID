@@ -1,14 +1,15 @@
 import ApiError from "./ApiError.js";
 
 export const apiErrorHandler = (err, req, res, next) => {
-    // dont use in prod becuase console.err is not async
-    console.error(err);
+    // dont use in prod becuase console.trace is not async
+    console.error(err)
 
-    if (err instanceof ApiError) {
-        res.status(err.code).json(err.message);
+    if (err instanceof ApiError) 
+    {
+        res.status(err.code).json({message: err.message});
         return;
-    }
-
+    } 
+    
     res.status(500).json('Something went wrong');
 }
 
