@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { shortenAddress } from "../utils/shortenAddress";
 
 export default class BlockchainList extends Component {
   constructor() {

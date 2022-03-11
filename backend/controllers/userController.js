@@ -93,7 +93,7 @@ export const getUserData = expressAsyncHandler(async (req, res) => {
 
   export const loginUser = expressAsyncHandler(async (req, res) => {
     const {email, password} = req.body;
-
+    
     const User = await user.findOne({email});
 
     if(User && (await bcrypt.compare(password.toString(), User.password))) {

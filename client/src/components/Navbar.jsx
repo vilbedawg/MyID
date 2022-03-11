@@ -1,10 +1,21 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { logout, reset } from '../auth/authSlice';
+import { useNavigate } from 'react-router-dom'
 
-export default class Navbar extends Component {
-  render() {
-    return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+export const Navbar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
+  const onLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate('/');
+  }
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav">
             <li className="nav-item active">
@@ -21,13 +32,25 @@ export default class Navbar extends Component {
             </li>
           </ul>
         </div>
+        <div style={{display : 'flex'}}>
+        {user ? (
+          <>
           <li className="nav-item active">
-              <Link to="/login" className="nav-link">Kirjaudu</Link>
+              <button className="btn btn-primary" onClick={onLogout}>Kirjaudu ulos</button>
+          </li>
+          </>) : (
+            <>
+          <li className="nav-item active">
+              <Link to="/login" className="nav-link">Kirjaudu sisään</Link>
           </li>
           <li className="nav-item active">
               <Link to="/register" className="nav-link">Rekisteröidy</Link>
           </li>
+          </>
+          )}
+        </div>
+          
       </nav>
-    );
-  }
+  )
 }
+
