@@ -37,7 +37,7 @@ export class Block {
                 );
             const isValid = await TransactionInstance.isValid();
             idx++;
-            if (isValid.code || !isValid){
+            if (isValid.error || !isValid){
                 return false;
             }
         }
@@ -59,13 +59,13 @@ export class Transaction {
     }
 
     async signTransaction(signingKey) {
-
+        
         if(!signingKey) {
-            return ApiError.badRequest('No Private key found');
+            throw ApiError.badRequest('No keypair found');
         } 
 
         if(signingKey.getPublic('hex') !== this.fromAddress) {
-            return ApiError.badRequest(`You cannot sign transactions from other wallets`);
+            throw ApiError.badRequest(`You cannot sign transactions from other wallets`);
         }
         
         const hashTx = this.calculateHash();

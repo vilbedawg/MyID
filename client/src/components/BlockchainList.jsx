@@ -20,7 +20,7 @@ export default class BlockchainList extends Component {
     return (
       <div>
         <h3>Blocks</h3>
-      <div className="d-flex flex-row bd-highlight mb-3" style={{overflowX: 'scroll', textAlign: 'left'}}>
+      {/* <div className="d-flex flex-row bd-highlight mb-3" style={{overflowX: 'scroll', textAlign: 'left'}}>
         {this.state.data.map((block, index) => (
           <div className="p-2 bd-highlight" key={block._id}>
             <div className="p-2 bd-highlight" style={{border: '1px solid gray',  minHeight: '300px', justifyContent: 'space-between'}}>
@@ -31,7 +31,7 @@ export default class BlockchainList extends Component {
             </div>
           </div>
         ))}
-        </div>
+        </div> */}
       </div>
     );
   }

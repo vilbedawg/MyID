@@ -8,6 +8,7 @@ import BlockchainList from './components/BlockchainList';
 import { UserDetails } from './components/UserDetails';
 import { Signin } from './components/Signin';
 import { Register } from './components/Register';
+import Dashboard from './components/Dashboard';
 
 function App() {
 
@@ -17,7 +18,7 @@ function App() {
         <Navbar />
         <br />
         <Routes>
-          <Route path="/" element={<UserDetails />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Signin />} />
           <Route path="/register" element={<Register />} />
           <Route path="/blocks" element={<BlockchainList />} />

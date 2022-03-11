@@ -79,13 +79,13 @@ export class Blockchain {
   async addTransaction(transaction) {
   
       if(!transaction.fromAddress || !transaction.toAddress) {
-        return ApiError.badRequest('Transaction must include from and to address');
+        throw ApiError.badRequest('Transaction must include from and to address');
       }
 
       const result = await transaction.isValid();  
       
-      if (result.code) {
-        return ApiError.badRequest(result.message);
+      if (result.error) {
+        throw ApiError.badRequest(result.message);
       } 
 
       if(!result) {

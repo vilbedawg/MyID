@@ -1,6 +1,6 @@
 export default class ApiError {
-    constructor(code, message) {
-        this.code = code;
+    constructor(error, message) {
+        this.error = error;
         this.message = message;
     }
 
@@ -10,5 +10,9 @@ export default class ApiError {
 
     static internal(msg) {
         return new ApiError(500, msg);
+    }
+
+    static unauthorized(msg) {
+        return new ApiError(401, msg)
     }
 }

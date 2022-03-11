@@ -10,12 +10,13 @@ const { ec: EC } = pkg;
 const ec = new EC('secp256k1');
 
 export const getUserData = expressAsyncHandler(async (req, res) => {
+  
   const UserData = await block
     .find(
       {
         transactions: {
           $elemMatch: {
-            fromAddress: req.query.id,
+            fromAddress: req.user.publicKey,
             toAddress: req.query.type,
           },
         },
@@ -24,7 +25,6 @@ export const getUserData = expressAsyncHandler(async (req, res) => {
     )
     .sort({ $natural: -1 })
     .limit(1);
-
     let data = null;
     const dataArray = UserData[UserData.length - 1];
     if(dataArray === undefined) {
@@ -33,13 +33,13 @@ export const getUserData = expressAsyncHandler(async (req, res) => {
 
     // search for last inserted document
     for await (const tx of dataArray.transactions) {
-        if(tx.fromAddress === req.query.id) {
+        if(tx.fromAddress === req.user.publicKey) {
             data = tx;
             break;
         }
     }
-
-    res.json(data);
+    
+    res.json({transaction: data});
   });
 
 
@@ -102,7 +102,7 @@ export const getUserData = expressAsyncHandler(async (req, res) => {
         email: User.email,
         publicKey: User.publicKey,
         privateKey: User.privateKey,
-        token: generateToken(User._id)
+        token: generateToken(User.publicKey)
       })
     } else {
       throw ApiError.badRequest('Invalid credentials')
@@ -111,12 +111,17 @@ export const getUserData = expressAsyncHandler(async (req, res) => {
   
 
   export const getMe = expressAsyncHandler(async (req, res) => {
-    res.json({message: 'Get user data'});
+    const { email, publicKey, privateKey } = await user.findOne({publicKey: req.user.publicKey});
+    res.status(200).json({
+      email,
+      publicKey,
+      privateKey
+    });
   });
 
 
-  export const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
+  export const generateToken = (publicKey) => {
+    return jwt.sign({ publicKey }, process.env.JWT_SECRET, {
       expiresIn: '30d',
     })
   };

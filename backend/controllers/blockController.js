@@ -5,6 +5,7 @@ import { Blockchain } from "../services/Blockchain.js";
 import ApiError from "../middleware/ApiError.js";
 
 
+
 export const mineBlock = expressAsyncHandler( async (req, res) => {
     // new blockchain instance
     const BlockchainInstance = new Blockchain();
@@ -42,9 +43,17 @@ export const mineBlock = expressAsyncHandler( async (req, res) => {
     });
     
     //save to blockchain (database)
-    await newBlock.save({});
-    await minerReward.save({});
-    res.json(`Block successfully mined.`);
+    const saved = await newBlock.save({});
+    if(saved) {
+        await minerReward.save({});
+        res.json({message:`Block successfully mined.`});
+        return;
+    } else {
+        res.status(500).send({message: 'Something went wrong'});
+        return;
+    }
+    
+    
 });
 
 

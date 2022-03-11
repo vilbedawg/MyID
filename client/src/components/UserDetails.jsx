@@ -4,9 +4,8 @@ import useLocalStorage from 'use-local-storage';
 import {shortenAddress} from '../utils/shortenAddress'
 
 export const UserDetails =  () => {
-  const [fromAddress, setFromAddress] = useLocalStorage('PublicKey', '');
+  const [fromAddress, setFromAddress] = useState('0458440656c4cab5c56494b4ab5959f2e1fbed6ed7dde8d075aa9bb3a9e2de15c7c6e1bc75eee9fb6f76f2d7ca6638dc5d87eeacf918ab360c07cb5b21466ef5d9');
   const [userData, setUserData] = useState('');
-  const [transaction, setTransaction] = useState('');
   const [files, setFiles] = useState();
   useEffect(() => {
     const fetchData = async () => {
@@ -16,7 +15,6 @@ export const UserDetails =  () => {
           id: fromAddress
         }
       });
-      setTransaction(request.data)
       setUserData(request.data.data)
       setFiles(request.data.data.files)
       console.log(request.data)

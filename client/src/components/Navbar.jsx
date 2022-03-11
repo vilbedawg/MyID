@@ -5,30 +5,27 @@ export default class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" >
-          Navbar
-        </a>
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav">
             <li className="nav-item active">
-              <Link to="/" className="nav-link">Home</Link>
+              <Link to="/" className="nav-link">Etusivu</Link>
             </li>
             <li className="nav-item active">
-              <Link to="/blocks" className="nav-link">View Blockchain</Link>
+              <Link to="/blocks" className="nav-link">Lohkoketju</Link>
             </li>
             <li className="nav-item active">
-              <Link to="/transactions/add" className="nav-link">Create Transaction</Link>
+              <Link to="/transactions/add" className="nav-link">Lisää uusi</Link>
             </li>
             <li className="nav-item active">
-              <Link to="/blocks/add" className="nav-link">Pending Transactions</Link>
+              <Link to="/blocks/add" className="nav-link">Odottavat</Link>
             </li>
           </ul>
         </div>
           <li className="nav-item active">
-              <Link to="/login" className="nav-link">Login</Link>
+              <Link to="/login" className="nav-link">Kirjaudu</Link>
           </li>
           <li className="nav-item active">
-              <Link to="/register" className="nav-link">Register</Link>
+              <Link to="/register" className="nav-link">Rekisteröidy</Link>
           </li>
       </nav>
     );

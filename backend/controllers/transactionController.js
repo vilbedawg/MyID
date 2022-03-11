@@ -1,4 +1,5 @@
 import transaction from "../models/transaction.model.js";
+import user from "../models/user.model.js";
 import { Transaction } from "../services/Block.js";
 import { Blockchain } from "../services/Blockchain.js";
 import ApiError from "../middleware/ApiError.js";
@@ -9,15 +10,16 @@ const { ec: EC } = pkg;
 const ec = new EC("secp256k1");
 
 
-export const addTransaction = expressAsyncHandler(async (req, res, next) => {
+export const addTransaction = expressAsyncHandler(async (req, res) => {
   
   const cryptedKey = req.body.key;
   const key = getKey(cryptedKey);
-
+  
   //new blockchain instance
   const BlockchainInstance = new Blockchain();
-  const fromAddress = req.body.fromAddress;
+  const fromAddress = req.user.publicKey;
   const toAddress = req.body.toAddress;
+  const timestamp = new Date().getTime();
   const data = {
     name: req.body.name,
     birthday: req.body.bday,
@@ -25,7 +27,11 @@ export const addTransaction = expressAsyncHandler(async (req, res, next) => {
     files: req.files
   }
 
-  const timestamp = new Date().getTime();
+  const User = await user.findOne({publicKey : req.user.publicKey});
+
+  if(!User) {
+    throw ApiError.unauthorized('User not found');
+  }
 
   // form input error handling 
   if(!fromAddress) {
@@ -34,14 +40,11 @@ export const addTransaction = expressAsyncHandler(async (req, res, next) => {
 
   // new transaction instance
   const newTx = new Transaction(fromAddress, toAddress, data, null, timestamp);
-  const signedKey = await newTx.signTransaction(key);
-  if (signedKey.code) {
-    throw ApiError.badRequest(signedKey.message);
-  }
+  await newTx.signTransaction(key);
 
   // transaction validation
   const isTransactionAdded = await BlockchainInstance.addTransaction(newTx);
-  if (isTransactionAdded.code) {
+  if (isTransactionAdded.error) {
     throw ApiError.badRequest(isTransactionAdded.message);
   }
 
@@ -54,8 +57,15 @@ export const addTransaction = expressAsyncHandler(async (req, res, next) => {
     timestamp: newTx.timestamp,
   });
 
-  await newTransaction.save();
-  res.send(`Transaction added to the block. Please wait for it to be mined.`);
+  const saved = await newTransaction.save();
+  if (saved) {
+    res.send({message: `Transaction added to the block. Please wait for it to be mined.`});
+    return;
+  } else {
+    res.status(500).send({message: 'Something went wrong'});
+    return;
+  }
+  
 });
 
 const getKey = (privateKey) => {
@@ -70,7 +80,8 @@ const getKey = (privateKey) => {
 
 
 // get all transactions
-export const getTransactions = expressAsyncHandler(async (req, res, next) => {
+export const getTransactions = expressAsyncHandler(async (req, res) => {
+
     const transactions = await transaction.find({});
     res.json(transactions);
 })

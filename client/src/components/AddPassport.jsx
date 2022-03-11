@@ -3,7 +3,6 @@ import ReactDatePicker from 'react-datepicker';
 import { CountryDropdown } from 'react-country-region-selector';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
-import useLocalStorage from "use-local-storage";
 import CryptoJS from 'crypto-js';
 
   
@@ -13,8 +12,8 @@ export const AddPassport = () => {
   const [bday, setBday] = useState(new Date());
   const [country, setCountry] = useState();
   const [toAddress, setToAddress] = useState('Passi');
-  const [fromAddress, setFromAddress] = useLocalStorage("PublicKey", "");
-  const [privateKey, setPrivateKey] = useLocalStorage("PrivateKey", "");
+  const [fromAddress, setFromAddress] = useState('0458440656c4cab5c56494b4ab5959f2e1fbed6ed7dde8d075aa9bb3a9e2de15c7c6e1bc75eee9fb6f76f2d7ca6638dc5d87eeacf918ab360c07cb5b21466ef5d9');
+  const [privateKey, setPrivateKey] = useState('4d6f73e1679a77b107d6cefea832124c2de665d0e143e7875fa1898e03e8f3a3');
   const [files, setFiles] = useState([]);
   
   const handleSubmit = (e) => {
