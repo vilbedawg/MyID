@@ -12,8 +12,14 @@ const ec = new EC("secp256k1");
 
 export const addTransaction = expressAsyncHandler(async (req, res) => {
   
-  const cryptedKey = req.body.key;
-  const key = getKey(cryptedKey);
+  const User = await user.findOne({publicKey : req.user.publicKey});
+
+  if(!User) {
+    throw ApiError.unauthorized('User not registered');
+  }
+
+  // Get keypair
+  const key = ec.keyFromPrivate(req.user.privateKey);
   
   //new blockchain instance
   const BlockchainInstance = new Blockchain();
@@ -25,17 +31,6 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
     birthday: req.body.bday,
     country: req.body.country,
     files: req.files
-  }
-
-  const User = await user.findOne({publicKey : req.user.publicKey});
-
-  if(!User) {
-    throw ApiError.unauthorized('User not found');
-  }
-
-  // form input error handling 
-  if(!fromAddress) {
-    throw ApiError.badRequest('Address required. Make sure you have a valid address');
   }
 
   // new transaction instance
@@ -67,17 +62,6 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
   }
   
 });
-
-const getKey = (privateKey) => {
-    // decrypt key
-    const bytes = CryptoJS.AES.decrypt(privateKey, "secret key 1");
-    const decryptedKey = bytes.toString(CryptoJS.enc.Utf8);
-    
-    //get keypair
-    const key = ec.keyFromPrivate(decryptedKey);
-    return key;
-};
-
 
 // get all transactions
 export const getTransactions = expressAsyncHandler(async (req, res) => {

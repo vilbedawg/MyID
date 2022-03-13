@@ -15,4 +15,8 @@ export default class ApiError {
     static unauthorized(msg) {
         return new ApiError(401, msg)
     }
+
+    static forbidden(msg) {
+        return new ApiError(403, msg)
+    }
 }
