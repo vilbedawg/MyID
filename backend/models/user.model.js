@@ -23,6 +23,15 @@ const userSchema = new Schema({
     },
     refreshToken: {
         type: String
+    },
+    roles: {
+        User: {
+            type: Number,
+            default: 2001
+        },
+        Admin: {
+            type: Number
+        }
     }
 },
 {

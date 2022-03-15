@@ -1,5 +1,6 @@
 import express from "express";
-import { registerUser, loginUser, logoutUser, getRefresh } from "../controllers/authController.js";
+import { loginUser, logoutUser, getRefresh } from "../controllers/authController.js";
+import { registerUser } from "../controllers/registerController.js";
 const authRouter = express.Router();
 
 authRouter.route('/register').post(registerUser);
