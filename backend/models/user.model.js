@@ -20,6 +20,9 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'Please generate a key'],
         unique: true
+    },
+    refreshToken: {
+        type: String
     }
 },
 {

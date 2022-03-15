@@ -1,4 +1,5 @@
 import block from "../models/block.model.js";
+import user from "../models/user.model.js";
 import expressAsyncHandler from "express-async-handler"
 import ApiError from "../middleware/ApiError.js";
 
@@ -38,7 +39,9 @@ export const getUserData = expressAsyncHandler(async (req, res) => {
 
 
 export const getMe = expressAsyncHandler(async (req, res) => {
-  res.status(200).json(req.user);
+  const data = await user.findOne({publicKey: req.user}).select('-password');
+
+  res.status(200).json(data);
 });
 
 

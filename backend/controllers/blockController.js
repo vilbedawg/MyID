@@ -42,7 +42,6 @@ export const mineBlock = expressAsyncHandler( async (req, res) => {
         timestamp: miner.timestamp,
     });
     
-    //save to blockchain (database)
     const saved = await newBlock.save({});
     if(saved) {
         await minerReward.save({});

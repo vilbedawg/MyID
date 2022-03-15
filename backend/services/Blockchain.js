@@ -58,7 +58,6 @@ export class Blockchain {
       );
 
       await currentBlockInfo.mineBlock(this.difficulty);
-      console.log(`hash ${currentBlockInfo.hash} successfully mined`);
       this.pendingTransactions = []; 
       this.chain.push(currentBlockInfo);
 
