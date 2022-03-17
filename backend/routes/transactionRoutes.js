@@ -8,7 +8,7 @@ import verifyRoles from "../middleware/permissionMiddleware.js";
 const transRouter = express.Router();
 
 //get all transactions from block
-transRouter.route('/transactions').get(verifyRoles(ROLES_LIST.Admin), getTransactions);
+transRouter.route('/transactions').get(verifyRoles(ROLES_LIST.Ajokortti, ROLES_LIST.Passi, ROLES_LIST.Kelakortti), getTransactions);
 
 //add new transaction
 transRouter.route('/transactions/add')

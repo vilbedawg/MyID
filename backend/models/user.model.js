@@ -29,7 +29,13 @@ const userSchema = new Schema({
             type: Number,
             default: 2001
         },
-        Admin: {
+        Ajokortti: {
+            type: Number
+        },
+        Passi: {
+            type: Number
+        },
+        Kelakortti: {
             type: Number
         }
     }

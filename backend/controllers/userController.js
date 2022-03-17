@@ -6,6 +6,11 @@ import ApiError from "../middleware/ApiError.js";
 
 export const getUserData = expressAsyncHandler(async (req, res) => {
   const foundUser = await user.findOne({publicKey: req.user}).select('-password');
+
+  if (!foundUser) {
+    throw ApiError.badRequest('Käyttäjää ei löydy');
+  }
+
   const UserData = await block
     .find(
       {
@@ -20,15 +25,17 @@ export const getUserData = expressAsyncHandler(async (req, res) => {
     )
     .sort({ $natural: -1 })
     .limit(1);
+
+    if(UserData.length < 1) {
+      return res.sendStatus(204);
+    }
+    
     let data = null;
     const dataArray = UserData[UserData.length - 1];
-    if(dataArray === undefined) {
-        throw ApiError.badRequest('Käyttäjää ei löydy');
-    }
 
     // search for last inserted document
     for await (const tx of dataArray.transactions) {
-        if(tx.fromAddress === req.user.publicKey) {
+        if(tx.fromAddress === foundUser.publicKey) {
             data = tx;
             break;
         }

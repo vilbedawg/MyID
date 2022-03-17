@@ -46,7 +46,7 @@ export const registerUser = expressAsyncHandler(async (req, res) => {
   
     if (User) {
     
-      res.status(200)
+      res.status(201)
       .json({
           user: User,
           message: "Rekisteröinti onnistui",

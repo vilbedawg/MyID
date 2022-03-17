@@ -36,9 +36,9 @@ app.use('/', authRouter);
 
 // private routes
 app.use(protect);
+app.use('/', userRouter);
 app.use('/', blocksRouter);
 app.use('/', transRouter);
-app.use('/', userRouter);
 
 app.use(apiErrorHandler);
 app.listen(port, () => {

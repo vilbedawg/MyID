@@ -1,56 +1,53 @@
-import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
-import { logout, reset } from '../auth/authSlice';
-import { useNavigate } from 'react-router-dom'
+import { LoginAndRegisterButton } from "./LoginAndRegisterButton";
+import { LogoutButton } from "./LogoutButton";
+import useAuth from "../hooks/useAuth";
 
 export const Navbar = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-
-  const onLogout = () => {
-    dispatch(logout());
-    dispatch(reset());
-    navigate('/');
-  }
+  const { auth } = useAuth();
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav">
+            {
+              auth?.accessToken ? (
+                <>
+                  <li className="nav-item active">
+                    <Link to="/" className="nav-link">
+                      Etusivu
+                    </Link>
+                  </li>
+                  <li className="nav-item active">
+                    <Link to="/transactions" className="nav-link">
+                      Lisää uusi
+                    </Link>
+                  </li>
+                </>
+              ) : null
+            }
+
+            {/* passi */}
+            {auth?.roles?.includes(5024) ? (
+              <li className="nav-item active">
+                <Link to="/blocks" className="nav-link">
+                  Admin
+                </Link>
+              </li>
+            ) : console.log(auth.roles)}
             <li className="nav-item active">
-              <Link to="/" className="nav-link">Etusivu</Link>
-            </li>
-            <li className="nav-item active">
-              <Link to="/blocks" className="nav-link">Lohkoketju</Link>
-            </li>
-            <li className="nav-item active">
-              <Link to="/transactions/add" className="nav-link">Lisää uusi</Link>
-            </li>
-            <li className="nav-item active">
-              <Link to="/blocks/add" className="nav-link">Odottavat</Link>
+              <Link to="/about" className="nav-link">
+                Miten sovellus toimii
+              </Link>
             </li>
           </ul>
         </div>
-        <div style={{display : 'flex'}}>
-        {user ? (
-          <>
-          <li className="nav-item active">
-              <button className="btn btn-primary" onClick={onLogout}>Kirjaudu ulos</button>
-          </li>
-          </>) : (
-            <>
-          <li className="nav-item active">
-              <Link to="/login" className="nav-link">Kirjaudu sisään</Link>
-          </li>
-          <li className="nav-item active">
-              <Link to="/register" className="nav-link">Rekisteröidy</Link>
-          </li>
-          </>
-          )}
-        </div>
-          
+        {
+          !auth?.accessToken 
+          ? <LoginAndRegisterButton />
+          : <LogoutButton />
+        }
       </nav>
-  )
-}
-
+    </>
+  );
+};

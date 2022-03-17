@@ -46,7 +46,7 @@ export class Blockchain {
   }
 
 
-  async minePendingTransactions(miningRewardAddress) {
+  async minePendingTransactions(toAddress) {
     let lastBlockInfo = await this.getLatestBlock();
     
     if(lastBlockInfo) { 
@@ -62,14 +62,10 @@ export class Blockchain {
       this.chain.push(currentBlockInfo);
 
       // include the transactions in the block
-      await transaction.deleteMany({});
-
-      // reward transaction for the miner to be included in the next block
-      const rewardTx = new Transaction(null, miningRewardAddress, this.miningReward, null, new Date().getTime());
-      this.pendingTransactions.push(rewardTx);
+      await transaction.deleteMany({toAddress});
       return true;
     }
-    // if no previous block is found, we initiate the genesis block
+    // if no previous block is found, initiate the genesis block
     await this.createGenesisBlock();
     return false;
   }
@@ -133,30 +129,5 @@ export class Blockchain {
     return true;
   }
 
-
-
-
-  // turha, voi poistaa
-  async getBalanceOfAddress(address) {
-    let balance = 0;
-    await this.getChainLength();
-    for await (const block of this.chain) {
-      for (let i = 0; i < block.transactions.length; i++) {
-        const transFrom = block.transactions[i].fromAddress;
-        const transTo = block.transactions[i].toAddress;
-        const amount = block.transactions[i].data;
-
-        if (transFrom === address) {
-          balance -= amount;
-        }
-
-        if (transTo === address) {
-          balance += amount;
-        }
-      }
-    }
-    console.log('Balance of this account is:', balance);
-    return balance;
-  }
 
 }

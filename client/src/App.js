@@ -1,37 +1,49 @@
 import './App.css';
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Navbar } from './components/Navbar';
-import { CreateBlock } from './components/CreateBlock';
+import React, { useState } from 'react';
+import { Route, Routes } from "react-router-dom";
 import { AddPassport } from './components/AddPassport';
-import BlockchainList from './components/BlockchainList';
-import { UserDetails } from './components/UserDetails';
-import { Login } from './components/Login';
-import { Register } from './components/Register';
-import Dashboard from './components/Dashboard';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { Admin } from './pages/Admin';
+import { About } from './pages/About';
+import Dashboard from './pages/Dashboard';
+import { Layout } from './components/Layout';
+import { Missing } from './pages/Missing';
+import RequireAuth from './components/RequireAuth';
+import { Unauthorized } from './pages/Unauthorized';
+import PersistLogin from './components/PersistentLogin';
+
 
 function App() {
-
+  const [loggedIn, setLoggedIn] = useState();
   return (
-    <>
-    <Router>
-      <div className="container">
-        <Navbar />
-        <br />
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/blocks" element={<BlockchainList />} />
-          <Route path="/transactions/add" element={<AddPassport />} />
-          <Route path="/blocks/add" element={<CreateBlock />} />
-        </Routes>
-      </div>
-    </Router>
-    <ToastContainer />
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        {/* public routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        
+        {/* protected routes for USERS */}
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth allowedRoles={[2001]} />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/transactions" element={<AddPassport />} />
+          </Route>
+
+          {/* protected routes for ADMINS */}
+          <Route element={<RequireAuth allowedRoles={[5024]} />}>
+            <Route path="/blocks" element={<Admin />} />
+          </Route>
+
+        </Route>
+
+        {/* everything else */}
+        <Route path="*" element={<Missing />} />
+
+      </Route>
+    </Routes>
   );
 }
 

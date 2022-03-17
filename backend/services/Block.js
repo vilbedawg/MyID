@@ -37,7 +37,9 @@ export class Block {
                 );
             const isValid = await TransactionInstance.isValid();
             idx++;
+           
             if (isValid.error || !isValid){
+                TransactionInstance.data.data.valid = false;
                 return false;
             }
         }
@@ -55,7 +57,7 @@ export class Transaction {
     }
 
     calculateHash() {
-        return crypto.createHash('sha256').update(this.fromAddress + this.toAddress + this.amount + this.timestamp).digest('hex');
+        return crypto.createHash('sha256').update(this.fromAddress + this.toAddress + this.data + this.timestamp).digest('hex');
     }
 
     async signTransaction(signingKey) {
@@ -77,12 +79,18 @@ export class Transaction {
 
     
     async isValid() {
+
         if (this.fromAddress === null) return true;
         
+        // If expires, return false
+
         if(!this.signature || this.signature.length === 0){
             return ApiError.badRequest(`No signature in this transaction`);
         }
 
+        if (!this.data?.data?.valid) {
+            return false;
+        }
         const publicKey = ec.keyFromPublic(this.fromAddress, 'hex');
         const valid = publicKey.verify(this.calculateHash(), this.signature);
         return valid;

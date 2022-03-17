@@ -3,8 +3,8 @@ import user from "../models/user.model.js";
 import { Transaction } from "../services/Block.js";
 import { Blockchain } from "../services/Blockchain.js";
 import ApiError from "../middleware/ApiError.js";
-import CryptoJS from "crypto-js";
 import expressAsyncHandler from "express-async-handler";
+import ROLES_LIST from "../config/roles_list.js";
 import pkg from "elliptic";
 const { ec: EC } = pkg;
 const ec = new EC("secp256k1");
@@ -12,25 +12,22 @@ const ec = new EC("secp256k1");
 
 export const addTransaction = expressAsyncHandler(async (req, res) => {
   
-  const User = await user.findOne({publicKey : req.user.publicKey});
+  const User = await user.findOne({publicKey : req.user});
 
-  if(!User) {
-    throw ApiError.unauthorized('User not registered');
-  }
-
-  // Get keypair
-  const key = ec.keyFromPrivate(req.user.privateKey);
+  if(!User) return res.sendStatus(403);
   
+  //Get keypair
+  const key = ec.keyFromPrivate(User.privateKey);
+
   //new blockchain instance
   const BlockchainInstance = new Blockchain();
-  const fromAddress = req.user.publicKey;
+  const fromAddress = User.publicKey;
   const toAddress = req.body.toAddress;
   const timestamp = new Date().getTime();
   const data = {
-    name: req.body.name,
-    birthday: req.body.bday,
-    country: req.body.country,
-    files: req.files
+    data: req.body,
+    fontPicture: req.files[0].filename,
+    backPicture: req.files[1].filename,
   }
 
   // new transaction instance
@@ -54,18 +51,16 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
 
   const saved = await newTransaction.save();
   if (saved) {
-    res.send({message: `Transaction added to the block. Please wait for it to be mined.`});
-    return;
+    return res.send({message: `Kortti lähetetty tarkistettavaksi.`});
   } else {
-    res.status(500).send({message: 'Something went wrong'});
-    return;
+    return res.sendStatus(500);
   }
   
 });
 
 // get all transactions
 export const getTransactions = expressAsyncHandler(async (req, res) => {
-
-    const transactions = await transaction.find({});
+    const toAddress = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] == req.query.type);
+    const transactions = await transaction.find({ toAddress });
     res.json(transactions);
 })
