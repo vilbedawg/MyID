@@ -50,11 +50,19 @@ export const getBlockchain = expressAsyncHandler(async (req, res) => {
 export const checkValidation = expressAsyncHandler(async (req, res) => {
   const BlockchainInstance = new Blockchain();
   await BlockchainInstance.getChain();
-  // BlockchainInstance.chain[1].transactions[1] = 200;
+  // BlockchainInstance.chain[1].transactions[1].timestamp = 1;
   const result = await BlockchainInstance.isChainValid();
-  const invalidData = result.invalidTransactions.filter(e => e.fromAddress === req.user);
+  let valid = true;
+  
+  for (let i = 0; i < result.invalidTransactions.length; i++) {
+    const currentTx = result.invalidTransactions[i];
+    if (currentTx.fromAddress === req.user && currentTx.toAddress === req.query.type) {
+      valid = false;
+      break;
+    }
+  }
 
-  if (invalidData.length < 1) {
+  if (valid) {
     return res.json(true);
   } else {
     return res.json(false);

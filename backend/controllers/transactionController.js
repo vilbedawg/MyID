@@ -26,7 +26,7 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
   const timestamp = new Date().getTime();
   const userdata = {
     body: req.body,
-    fontPicture: req.files[0].filename,
+    frontPicture: req.files[0].filename,
     backPicture: req.files[1].filename,
   }
 
@@ -75,7 +75,7 @@ export const getViewedTransaction = expressAsyncHandler(async (req, res) => {
 export const transactionHandler = expressAsyncHandler(async (req, res) => {
   const { value } = req.body;
   const data = await transaction.findOne({fromAddress: req.params.id}).select('-password');
-  data.valid = value;
+  data.accepted = value;
   const saved = await data.save();
   if(saved) {
     res.status(200).json(data);

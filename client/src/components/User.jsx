@@ -10,9 +10,9 @@ const KELAKORTTI = 'Kelakortti';
 export const User = () => {
     const [user, setUser] = useState();
     const axiosPrivate = useAxiosPrivate();
-    const navigate = useNavigate();
-    const location = useLocation();
-    const logout = useLogout();
+    // const navigate = useNavigate();
+    // const location = useLocation();
+    // const logout = useLogout();
     
     // Get logged in user info
     useEffect(() => {
@@ -31,10 +31,7 @@ export const User = () => {
           // navigate('/login', { state: { from: location }, replace: true })
         }
       }
-      
-      
       getUser();
-
       return () => {
         isMounted = false;
         controller.abort();
@@ -42,11 +39,17 @@ export const User = () => {
     }, []);
   
     
-    const getMe = async (type) => {
-      const response = await axiosPrivate.get('/user', {
-        params: { type }
-      });
-      console.log(response);
+    const getMyCard = async (type) => {
+      try {
+        const [request1, request2] = await Promise.all([
+          axiosPrivate.get('/user', {params: { type }}),
+          axiosPrivate.get('/blocks/check', {params: { type }})
+        ])
+        console.log(request1.data);
+        console.log(request2.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   
     return (
@@ -59,9 +62,9 @@ export const User = () => {
             </p> 
             )
           : <Spinner />}
-            <button className="btn btn-primary" onClick={() => getMe(PASSI)}>Passi</button>
-            <button className="btn btn-primary" onClick={() => getMe(AJOKORTTI)}>Ajokortti</button>
-            <button className="btn btn-primary" onClick={() => getMe(KELAKORTTI)}>Kelakortti</button>
+            <button className="btn btn-primary" onClick={() => getMyCard(PASSI)}>Passi</button>
+            <button className="btn btn-primary" onClick={() => getMyCard(AJOKORTTI)}>Ajokortti</button>
+            <button className="btn btn-primary" onClick={() => getMyCard(KELAKORTTI)}>Kelakortti</button>
       </div>
     )
 }

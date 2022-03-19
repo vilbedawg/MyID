@@ -28,8 +28,7 @@ export class Block {
         let invalidTransactions = [];
         for await (const tx of this.transactions) {
             
-            // Ignore the already handled invalid transactions
-            if(!tx.valid) invalidTransactions.push(tx);;
+            // if(!tx.accepted) invalidTransactions.push(tx);
             
             const TransactionInstance = new Transaction(
                 tx.fromAddress, 
@@ -59,7 +58,7 @@ export class Transaction {
         this.data = data;
         this.signature = signature || null;
         this.timestamp = timestamp;
-        this.valid = false;
+        this.accepted = false;
     }
 
     calculateHash() {

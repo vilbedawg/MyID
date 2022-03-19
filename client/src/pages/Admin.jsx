@@ -56,12 +56,12 @@ export const Admin = () => {
           <>
             {transactions?.map(tx =>
               <div>
-              {console.log(tx.valid)}
+              {console.log(tx.accepted)}
                 <Link to={`/blocks/${tx.fromAddress}`} key={tx.fromAddress}>{shortenAddress(tx.fromAddress)} 
                 {
-                  tx.valid
+                  tx.accepted
                 ? <span style={{color: "green"}}> True</span> 
-                : tx.valid === undefined  
+                : tx.accepted === undefined  
                 ? <span style={{color: "orange"}}> ODOTTAA</span>
                 : <span style={{color: "red"}}> False</span>
                 }

@@ -53,8 +53,8 @@ export const ViewTransaction = () => {
             <p>Tyyppi: {data.toAddress}</p>
             <p>Allekirjoitus: {data.signature}</p>
             <p>Aikaleima: {data.timestamp}</p>
-            <img src={`../uploads/${dataBody.fontPicture}`}/>
-            <img src={`../uploads/${dataBody.backPicture}`}/>
+            <img src={`../uploads/${dataBody.fontPicture}`} alt='front'/>
+            <img src={`../uploads/${dataBody.backPicture}`} alt='back'/>
             <p>nimi: {dataBody?.body?.name}</p>
             <p>syntymäaika: {dataBody?.body?.bday}</p>
             <button 

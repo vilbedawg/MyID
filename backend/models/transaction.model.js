@@ -23,7 +23,7 @@ const transaction = new Schema({
         required: true,
         type: Schema.Types.Number
     },
-    valid: {
+    accepted: {
         required: false,
         type: Schema.Types.Boolean
     }
