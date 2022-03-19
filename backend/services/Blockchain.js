@@ -1,4 +1,4 @@
-import { Block, Transaction } from "./Block.js";
+import { Block } from "./Block.js";
 import block from "../models/block.model.js";
 import transaction from "../models/transaction.model.js";
 import ApiError from '../middleware/ApiError.js';
@@ -27,7 +27,7 @@ export class Blockchain {
   }
 
 
-  async getChainLength() {
+  async getChain() {
     let blockchainInfo = await block.find();
     for(let i = 0; i < blockchainInfo.length; i++) {
       this.chain.push(blockchainInfo[i]);
@@ -74,17 +74,13 @@ export class Blockchain {
   async addTransaction(transaction) {
   
       if(!transaction.fromAddress || !transaction.toAddress) {
-        throw ApiError.badRequest('Transaction must include from and to address');
+        throw ApiError.badRequest('Transaktion täytyy sisältää fromAddress ja toAddress');
       }
 
       const result = await transaction.isValid();  
       
-      if (result.error) {
-        throw ApiError.badRequest(result.message);
-      } 
-
       if(!result) {
-        return ApiError.badRequest('Signature is not valid');
+        return ApiError.badRequest('Allekirjoitus ei ole kunnollinen');
       }
       
       this.pendingTransactions.push(transaction);
@@ -95,8 +91,11 @@ export class Blockchain {
   async isChainValid() {
 
     if(this.chain.length === 0) {
-      await this.getChainLength();
+      await this.getChain();
     }
+
+    let invalidTransactions = [];
+    let invalidBlocks = [];
 
     for (let i = 1; i < this.chain.length; i++) {
       const currentBlock = this.chain[i];
@@ -110,23 +109,26 @@ export class Blockchain {
         currentBlock.nonce
       );
       
-      const hasValidTransactions = await currentBlockInstance.hasValidTransaction();
+     
+
+      const checkTransactions = await currentBlockInstance.hasValidTransaction();
+      invalidTransactions = checkTransactions;
       
-      if(!hasValidTransactions)  {
-        console.log(`block ${i} transactions -----> INVALID`);
-        return false;
-      }
-      console.log(`block ${i} transactions -----> VALID`);
       if (previousBlock.hash !== currentBlock.previousHash) {
-        return false;
+        invalidBlocks.push(currentBlock);
+        continue;
       }
 
       if (currentBlock.hash !== currentBlockInstance.calculateHash()) {
-        return false;
+        invalidBlocks.push(currentBlock);
+        continue;
       }
-
     }
-    return true;
+    const result = {
+      invalidBlocks,
+      invalidTransactions
+    }
+    return result;
   }
 
 

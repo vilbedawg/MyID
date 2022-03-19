@@ -12,10 +12,10 @@ import { Missing } from './pages/Missing';
 import RequireAuth from './components/RequireAuth';
 import { Unauthorized } from './pages/Unauthorized';
 import PersistLogin from './components/PersistentLogin';
+import { ViewTransaction } from './pages/ViewTransaction';
 
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState();
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -35,6 +35,7 @@ function App() {
           {/* protected routes for ADMINS */}
           <Route element={<RequireAuth allowedRoles={[5024]} />}>
             <Route path="/blocks" element={<Admin />} />
+            <Route path="/blocks/:id" element={<ViewTransaction />} />
           </Route>
 
         </Route>

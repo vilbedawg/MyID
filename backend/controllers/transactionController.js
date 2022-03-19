@@ -24,14 +24,14 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
   const fromAddress = User.publicKey;
   const toAddress = req.body.toAddress;
   const timestamp = new Date().getTime();
-  const data = {
-    data: req.body,
+  const userdata = {
+    body: req.body,
     fontPicture: req.files[0].filename,
     backPicture: req.files[1].filename,
   }
 
   // new transaction instance
-  const newTx = new Transaction(fromAddress, toAddress, data, null, timestamp);
+  const newTx = new Transaction(fromAddress, toAddress, userdata, null, timestamp);
   await newTx.signTransaction(key);
 
   // transaction validation
@@ -60,7 +60,27 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
 
 // get all transactions
 export const getTransactions = expressAsyncHandler(async (req, res) => {
-    const toAddress = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] == req.query.type);
-    const transactions = await transaction.find({ toAddress });
-    res.json(transactions);
+  if (!req.roles) return res.sendStatus(403);
+
+  const toAddress = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] == req.roles[1]);
+  const transactions = await transaction.find({ toAddress });
+  res.json(transactions);
 })
+
+export const getViewedTransaction = expressAsyncHandler(async (req, res) => {
+  const data = await transaction.findOne({fromAddress: req.params.id}).select('-password');
+  res.status(200).json(data);
+});
+
+export const transactionHandler = expressAsyncHandler(async (req, res) => {
+  const { value } = req.body;
+  const data = await transaction.findOne({fromAddress: req.params.id}).select('-password');
+  data.valid = value;
+  const saved = await data.save();
+  if(saved) {
+    res.status(200).json(data);
+  } else {
+    res.sendStatus(400);
+  }
+  
+});

@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useLogout from "../hooks/useLogout";
-
+import  Spinner  from "../components/Spinner";
 const PASSI = 'Passi';
 const AJOKORTTI = 'Ajokortti'
 const KELAKORTTI = 'Kelakortti';
@@ -13,7 +13,7 @@ export const User = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const logout = useLogout();
-
+    
     // Get logged in user info
     useEffect(() => {
       let isMounted = true;
@@ -26,13 +26,15 @@ export const User = () => {
           console.log(response.data);
           isMounted && setUser(response.data);
         } catch (error) {
-          await logout();
-          navigate('/login', { state: { from: location }, replace: true })
+          console.log(error);
+          // await logout();
+          // navigate('/login', { state: { from: location }, replace: true })
         }
       }
-  
+      
+      
       getUser();
-  
+
       return () => {
         isMounted = false;
         controller.abort();
@@ -49,13 +51,14 @@ export const User = () => {
   
     return (
       <div className='container'>
-          {user 
+          {
+          user 
           ? (
             <p>
               {user.email}
             </p> 
             )
-          : <p>Ei käyttäjää</p>}
+          : <Spinner />}
             <button className="btn btn-primary" onClick={() => getMe(PASSI)}>Passi</button>
             <button className="btn btn-primary" onClick={() => getMe(AJOKORTTI)}>Ajokortti</button>
             <button className="btn btn-primary" onClick={() => getMe(KELAKORTTI)}>Kelakortti</button>

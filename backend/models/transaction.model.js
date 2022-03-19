@@ -22,6 +22,10 @@ const transaction = new Schema({
     timestamp: {
         required: true,
         type: Schema.Types.Number
+    },
+    valid: {
+        required: false,
+        type: Schema.Types.Boolean
     }
 });
 

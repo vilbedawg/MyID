@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import {shortenAddress} from '../utils/shortenAddress';
 import useAuth from "../hooks/useAuth";
+import { Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 export const Admin = () => {
   const [transactions, setTransactions] = useState([]);
@@ -15,9 +17,10 @@ export const Admin = () => {
     const getTransactions = async () => {
       const response = await axiosPrivate.get('/transactions', {
         signal: controller.signal,
-        params: { type: role}
+        params: { type: role }
       });
       isMounted && setTransactions(response.data);
+      console.log(response.data)
     }
 
     getTransactions();
@@ -42,15 +45,37 @@ export const Admin = () => {
     }
   }
 
+
+
   return (
     <div className="container">
       {
-        transactions?.map(tx =>
-        <div>
-          <p key={tx._id}>{shortenAddress(tx.fromAddress)}</p>
-        </div>
-        )}
-      <button className="btn btn-primary" onClick={startMiner}>Lisää</button>
+        transactions
+        ?
+        (
+          <>
+            {transactions?.map(tx =>
+              <div>
+              {console.log(tx.valid)}
+                <Link to={`/blocks/${tx.fromAddress}`} key={tx.fromAddress}>{shortenAddress(tx.fromAddress)} 
+                {
+                  tx.valid
+                ? <span style={{color: "green"}}> True</span> 
+                : tx.valid === undefined  
+                ? <span style={{color: "orange"}}> ODOTTAA</span>
+                : <span style={{color: "red"}}> False</span>
+                }
+                </Link>
+              </div>
+            )}
+            <button className="btn btn-primary" onClick={startMiner}>Lisää</button>
+          </> 
+        )
+        :
+        (
+          <Spinner />
+        )
+      }
     </div>
   )
 }

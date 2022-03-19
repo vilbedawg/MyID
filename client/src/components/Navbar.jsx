@@ -28,13 +28,15 @@ export const Navbar = () => {
             }
 
             {/* passi */}
-            {auth?.roles?.includes(5024) ? (
+            {
+              auth?.roles?.includes(5024) ? (
               <li className="nav-item active">
                 <Link to="/blocks" className="nav-link">
                   Admin
                 </Link>
               </li>
-            ) : console.log(auth.roles)}
+              ) : null
+            }
             <li className="nav-item active">
               <Link to="/about" className="nav-link">
                 Miten sovellus toimii

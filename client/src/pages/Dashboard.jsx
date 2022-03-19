@@ -1,4 +1,5 @@
-import { User } from "../components/User"
+import { User } from "../components/User";
+import { ValidateBlockchain } from "../components/ValidateBlockchain";
 
 export default function Dashboard() {
   
@@ -8,6 +9,7 @@ export default function Dashboard() {
       <h1>MyID</h1>
       <p>Etusivu</p>
       <User />
+      <ValidateBlockchain />
     </div>
   )
 }

@@ -12,4 +12,5 @@ blocksRouter.route('/blocks/add').post(mineBlock);
 // check validation
 blocksRouter.route('/blocks/check').get(checkValidation);
 
+
 export default blocksRouter;

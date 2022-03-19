@@ -5,6 +5,7 @@ import ApiError from "../middleware/ApiError.js";
 
 
 export const getUserData = expressAsyncHandler(async (req, res) => {
+
   const foundUser = await user.findOne({publicKey: req.user}).select('-password');
 
   if (!foundUser) {
@@ -49,5 +50,6 @@ export const getMe = expressAsyncHandler(async (req, res) => {
   const data = await user.findOne({publicKey: req.user}).select('-password');
   res.status(200).json(data);
 });
+
 
 

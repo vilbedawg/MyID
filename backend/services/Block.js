@@ -25,25 +25,30 @@ export class Block {
     }
 
     async hasValidTransaction() {
-        let idx = 1;
+        let invalidTransactions = [];
         for await (const tx of this.transactions) {
-            console.log(`Checking transaction ${idx}..`);
+            
+            // Ignore the already handled invalid transactions
+            if(!tx.valid) invalidTransactions.push(tx);;
+            
             const TransactionInstance = new Transaction(
-                    tx.fromAddress, 
-                    tx.toAddress, 
-                    tx.data, 
-                    tx.signature,
-                    tx.timestamp,
-                );
-            const isValid = await TransactionInstance.isValid();
-            idx++;
+                tx.fromAddress, 
+                tx.toAddress, 
+                tx.data, 
+                tx.signature,
+                tx.timestamp,
+            );
+
            
-            if (isValid.error || !isValid){
-                TransactionInstance.data.data.valid = false;
-                return false;
+            const isValid = await TransactionInstance.isValid();
+          
+            if (!isValid){
+                invalidTransactions.push(tx);
+                continue;
             }
+            
         }
-        return true;
+        return invalidTransactions;
     }
 }
 
@@ -54,6 +59,7 @@ export class Transaction {
         this.data = data;
         this.signature = signature || null;
         this.timestamp = timestamp;
+        this.valid = false;
     }
 
     calculateHash() {
@@ -79,20 +85,10 @@ export class Transaction {
 
     
     async isValid() {
+        if(!this.signature || this.signature.length === 0) return false;
 
-        if (this.fromAddress === null) return true;
-        
-        // If expires, return false
-
-        if(!this.signature || this.signature.length === 0){
-            return ApiError.badRequest(`No signature in this transaction`);
-        }
-
-        if (!this.data?.data?.valid) {
-            return false;
-        }
-        const publicKey = ec.keyFromPublic(this.fromAddress, 'hex');
-        const valid = publicKey.verify(this.calculateHash(), this.signature);
+        const key = ec.keyFromPublic(this.fromAddress, 'hex');
+        const valid = key.verify(this.calculateHash(), this.signature);
         return valid;
     }
 }

@@ -1,19 +1,18 @@
 import expressAsyncHandler from "express-async-handler";
 import block from "../models/block.model.js";
-import transaction from "../models/transaction.model.js";
 import { Blockchain } from "../services/Blockchain.js";
 import ApiError from "../middleware/ApiError.js";
 import ROLES_LIST from "../config/roles_list.js";
 
 export const mineBlock = expressAsyncHandler(async (req, res) => {
   // new blockchain instance
+  if(!req.roles) return res.sendStatus(403);
 
   const BlockchainInstance = new Blockchain();
   const toAddress = Object.keys(ROLES_LIST).find(
-    (role) => ROLES_LIST[role] == req.body.params.type
+    (role) => ROLES_LIST[role] == req.roles[1]
   );
-  await BlockchainInstance.getChainLength();
-
+  await BlockchainInstance.getChain();
   // push the transactions from db to pending transactions
   for await (const transaction of req.body.params.transactions) {
     BlockchainInstance.pendingTransactions.push(transaction);
@@ -50,9 +49,16 @@ export const getBlockchain = expressAsyncHandler(async (req, res) => {
 
 export const checkValidation = expressAsyncHandler(async (req, res) => {
   const BlockchainInstance = new Blockchain();
-  await BlockchainInstance.getChainLength();
+  await BlockchainInstance.getChain();
   // BlockchainInstance.chain[1].transactions[1] = 200;
-  const isValid = await BlockchainInstance.isChainValid();
+  const result = await BlockchainInstance.isChainValid();
+  const invalidData = result.invalidTransactions.filter(e => e.fromAddress === req.user);
 
-  res.json(isValid);
+  if (invalidData.length < 1) {
+    return res.json(true);
+  } else {
+    return res.json(false);
+  }
+  
 });
+
