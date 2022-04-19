@@ -6,16 +6,17 @@ import { Link } from "react-router-dom";
 export default function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
   const [data, setData] = useState();
+  const [isChanged, setIsChanged] = useState(true);
 
   const getMyCard = async (type) => {
     try {
+
       const [request1, request2] = await Promise.all([
         axiosPrivate.get('/user', {params: { type }}),
         axiosPrivate.get('/blocks/check', {params: { type }})
       ])
       setData(request1.data);
-      console.log(data.transaction.toAddress);
-      console.log(request1.data);
+      setIsChanged(request2.data);
       console.log(request2.data);
     } catch (error) {
       console.log(error);
@@ -25,16 +26,36 @@ export default function Dashboard() {
   return (
     <>
       <div className="navbarPlaceholder"></div>
-      <div className="dashboardRight">
-        <DashboardID
-          accepted={data ? data.transaction.accepted : null}
-          ID={data ? data.transaction.toAddress : null}
-          name={data ? data.transaction.data.body.name : null}
-          country={data ? data.transaction.data.body.country : null}
-          bday={data ? data.transaction.data.body.bday : null}
-          path={`../uploads/${data ? data.transaction.data.frontPicture : null}`}
-        /> 
-      </div>
+      {
+        data && isChanged 
+      ? 
+      (
+        <div className="dashboardRight">
+          <DashboardID
+            accepted={data ? data.transaction.accepted : null}
+            ID={data ? data.transaction.toAddress : null}
+            name={data ? data.transaction.data.body.name : null}
+            country={data ? data.transaction.data.body.country : null}
+            bday={data ? data.transaction.data.body.bday : null}
+            path={`../uploads/${data ? data.transaction.data.picture : 'morbius-rawr.gif'}`}
+          /> 
+        </div>
+      )
+      :
+      (
+        isChanged 
+        ?
+        <div className="dashboardRight">
+          <h1>Placeholder...</h1>
+        </div>
+        :
+        <div className="dashboardRight">
+          <img src="./images/sponge.png" style={{width: '50%', height: '50%'}}/>
+          <h1>Tietoja muutettu</h1>
+        </div>
+      )
+      }
+      
       <div className="dashboardLeft">
           <ul className="IDlist">
             <li>

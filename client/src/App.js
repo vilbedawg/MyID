@@ -31,7 +31,7 @@ function App() {
           </Route>
 
           {/* protected routes for ADMINS */}
-          <Route element={<RequireAuth allowedRoles={[5024]} />}>
+          <Route element={<RequireAuth allowedRoles={[5024, 1922]} />}>
             <Route path="/blocks" element={<Admin />} />
             <Route path="/blocks/:id" element={<ViewTransaction />} />
           </Route>

@@ -9,6 +9,9 @@
 
 * {
   font-family: "GT Walsheim Regular";
+  margin: 0px; 
+  padding: 0px; 
+  box-sizing: border-box;
 }
 *,
 *:before,
@@ -19,7 +22,7 @@
 }
 
 h1{
-  font-family: "GT Walsheim Pro Bold Regular";
+  font-family: "GT Walsheim Regular";
 }
 
 li {
@@ -31,9 +34,17 @@ ul{
 }
 
 body{
-  background: #D4ECF3 url("./images/LoginPic.png") no-repeat left bottom;
+  background: #D4ECF3;
+  width: 100%;
   margin: 0;
-  height: 98vh;
+}
+
+.loginImage {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  max-width: 600px;
+  z-index: -10;
 }
 
 .containerGrid{
@@ -118,6 +129,7 @@ body{
   width: 75%;
   font-size: 30px;
   margin-bottom:40px;
+  outline: none;
 }
 .antiHeroInputs{
   margin-top: 100px;
@@ -385,3 +397,65 @@ p {
     opacity: 0;
   }
 }
+
+/* Icon css */
+.blob {
+  background: black;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+  margin: 10px;
+  height: 50px;
+  width: 50px;
+  transform: scale(1);
+  animation: pulse-black 2s infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.blob.red {
+  background: rgb(243, 10, 10);
+  box-shadow: 0 0 0 0 rgb(243, 10, 10);
+  animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgb(243, 10, 10);
+  }
+  
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(255, 82, 82, 0);
+  }
+  
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
+  }
+}
+
+.blob.green {
+  background: rgba(51, 217, 178, 1);
+  box-shadow: 0 0 0 0 rgba(51, 217, 178, 1);
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(51, 217, 178, 0.7);
+  }
+  
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(51, 217, 178, 0);
+  }
+  
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(51, 217, 178, 0);
+  }
+}
+

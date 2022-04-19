@@ -3,7 +3,7 @@ import ReactDatePicker from 'react-datepicker';
 import { CountryDropdown } from 'react-country-region-selector';
 import 'react-datepicker/dist/react-datepicker.css';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-const type = "Kelakortti";
+
 
 
   
@@ -15,7 +15,7 @@ export default function AddKela() {
   const [bday, setBday] = useState(new Date());
   const [country, setCountry] = useState();
   const [files, setFiles] = useState([]);
-  const type = process.env.REACT_APP_KELAKORTTI;
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -25,7 +25,7 @@ export default function AddKela() {
     data.append("name", name);
     data.append("bday", birthday);
     data.append("country", country);
-    data.append("toAddress", type);
+    data.append("toAddress", process.env.REACT_APP_KELAKORTTI);
     for (let i = 0; i < files.length; i++) {
       data.append("file", files[i]);
     }

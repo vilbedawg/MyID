@@ -57,7 +57,7 @@ export const Register = () => {
           <h1>Rekisteröidy</h1>
           <div>
             <form onSubmit={onSubmit}>
-                <div  className="antiHeroInputs">
+                <div className="antiHeroInputs">
                   <input
                     placeholder="Sähköposti"
                     type="email"
@@ -85,6 +85,9 @@ export const Register = () => {
         </div>
         </div>
       )}
+      <div className="LoginPic">
+              <img src="./images/LoginPic.png" className="loginImage"></img>
+      </div>
     </>
   );
 };

@@ -14,7 +14,6 @@ export default function AddDriverLisence() {
   const [bday, setBday] = useState(new Date());
   const [country, setCountry] = useState();
   const [files, setFiles] = useState([]);
-  const type = process.env.REACT_APP_AJOKORTTI;
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -24,7 +23,7 @@ export default function AddDriverLisence() {
     data.append("name", name);
     data.append("bday", birthday);
     data.append("country", country);
-    data.append("toAddress", type);
+    data.append("toAddress", process.env.REACT_APP_AJOKORTTI);
     for (let i = 0; i < files.length; i++) {
       data.append("file", files[i]);
     }

@@ -28,19 +28,16 @@ export class Block {
         let invalidTransactions = [];
         for await (const tx of this.transactions) {
             
-            // if(!tx.accepted) invalidTransactions.push(tx);
-            
             const TransactionInstance = new Transaction(
                 tx.fromAddress, 
                 tx.toAddress, 
                 tx.data, 
                 tx.signature,
-                tx.timestamp,
+                tx.timestamp
             );
 
            
             const isValid = await TransactionInstance.isValid();
-          
             if (!isValid){
                 invalidTransactions.push(tx);
                 continue;
@@ -58,11 +55,10 @@ export class Transaction {
         this.data = data;
         this.signature = signature || null;
         this.timestamp = timestamp;
-        this.accepted = false;
     }
 
     calculateHash() {
-        return crypto.createHash('sha256').update(this.fromAddress + this.toAddress + this.data + this.timestamp).digest('hex');
+        return crypto.createHash('sha256').update(this.fromAddress + this.toAddress + JSON.stringify(this.data) + this.timestamp).digest('hex');
     }
 
     async signTransaction(signingKey) {
@@ -85,7 +81,6 @@ export class Transaction {
     
     async isValid() {
         if(!this.signature || this.signature.length === 0) return false;
-
         const key = ec.keyFromPublic(this.fromAddress, 'hex');
         const valid = key.verify(this.calculateHash(), this.signature);
         return valid;

@@ -3,29 +3,30 @@ import { useParams } from "react-router"
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import Spinner from "../components/Spinner";
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 export const ViewTransaction = () => {
     const params = useParams();
     const [data, setData] = useState('');
     const [dataBody, setDataBody] = useState('');
-    const PASSI = 'Passi'
     const axiosPrivate = useAxiosPrivate();
+    const {auth} = useAuth();
 
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
         const getTransaction = async () => {
-          const response = await axiosPrivate.get(`/transactions/${params.id}/${PASSI}`, {
+          const response = await axiosPrivate.get(`/transactions/${params.id}/${auth.roles[1]}`, {
             signal: controller.signal
           });
           console.log(response.data)
           isMounted && setData(response.data);
           isMounted && setDataBody(response.data.data);
         }
-    
+
         getTransaction();
-        
-      
+
+
         return () => {
           isMounted = false;
           controller.abort();
@@ -33,7 +34,7 @@ export const ViewTransaction = () => {
       }, []);
 
       const handleTransaction = async (value) => {
-        try {   
+        try {
           const response = await axiosPrivate.put(`/handle/${params.id}`, {value});
           console.log(response.data);
         } catch (error) {
@@ -42,33 +43,32 @@ export const ViewTransaction = () => {
       }
 
   return (
-     
+
     <div className="container" style={{textAlign: "left", wordBreak: "break-word"}}>
       {
         data && dataBody
-        ?  
-        ( 
+        ?
+        (
           <>
             <p>Osoite: {data.fromAddress}</p>
             <p>Tyyppi: {data.toAddress}</p>
             <p>Allekirjoitus: {data.signature}</p>
             <p>Aikaleima: {data.timestamp}</p>
-            <img src={`../uploads/${dataBody.fontPicture}`} alt='front'/>
-            <img src={`../uploads/${dataBody.backPicture}`} alt='back'/>
+            <img src={`../uploads/${dataBody?.picture}`} alt='picture'/>
             <p>nimi: {dataBody?.body?.name}</p>
             <p>syntymäaika: {dataBody?.body?.bday}</p>
-            <button 
-              className="btn btn-success" 
+            <button
+              className="btn btn-success"
               onClick={() => handleTransaction(true)}>Hyväksy</button>
-            <button 
-              className="btn btn-danger" 
+            <button
+              className="btn btn-danger"
               onClick={() => handleTransaction(false)}>Hylkää</button>
             <br />
             <br />
             <Link to={"/blocks"}>Takaisin</Link>
             <br />
             <br />
-          </>    
+          </>
         )
         :
         (

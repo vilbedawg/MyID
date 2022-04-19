@@ -26,8 +26,7 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
   const timestamp = new Date().getTime();
   const userdata = {
     body: req.body,
-    frontPicture: req.files[0].filename,
-    backPicture: req.files[1].filename,
+    picture: req.files[0].filename,
   }
 
   // new transaction instance
@@ -61,10 +60,19 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
 // get all transactions
 export const getTransactions = expressAsyncHandler(async (req, res) => {
   if (!req.roles) return res.sendStatus(403);
-
   const toAddress = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] == req.roles[1]);
-  const transactions = await transaction.find({ toAddress });
-  res.json(transactions);
+  const transactions = await transaction.find({toAddress}).sort({$natural: -1}).select('-password');
+
+  // Check for duplicates... 
+  // We only want the most recently added transaction
+  const seen = new Set();
+  const filteredArr = transactions.filter(el => {
+    const duplicate = seen.has(el.fromAddress);
+    seen.add(el.fromAddress);
+    return !duplicate;
+  });
+
+  res.json(filteredArr);
 })
 
 export const getViewedTransaction = expressAsyncHandler(async (req, res) => {
@@ -72,9 +80,11 @@ export const getViewedTransaction = expressAsyncHandler(async (req, res) => {
   res.status(200).json(data);
 });
 
+
 export const transactionHandler = expressAsyncHandler(async (req, res) => {
   const { value } = req.body;
-  const data = await transaction.findOne({fromAddress: req.params.id}).select('-password');
+  const toAddress = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] == req.roles[1]);
+  const data = await transaction.findOne({fromAddress: req.params.id, toAddress}).sort({$natural:-1}).select('-password');
   data.accepted = value;
   const saved = await data.save();
   if(saved) {
