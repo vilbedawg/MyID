@@ -5,9 +5,9 @@ import { ToastContainer } from 'react-toastify';
 
 export const Layout = () => {
   return (
-    <main className="App">
+    <main className="containerGrid">
       <Navbar />
-        <Outlet />
+      <Outlet />
       <ToastContainer />
     </main>
   )

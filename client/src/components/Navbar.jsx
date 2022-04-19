@@ -7,20 +7,22 @@ export const Navbar = () => {
   const { auth } = useAuth();
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="collapse navbar-collapse">
-          <ul className="navbar-nav">
+      <nav className="navbar">
+          <ul>
+            <li>
+              <h1 className="myidLogo">My<span>ID</span></h1>
+            </li>
             {
               auth?.accessToken ? (
                 <>
-                  <li className="nav-item active">
-                    <Link to="/" className="nav-link">
-                      Etusivu
-                    </Link>
+                  <li>
+                    <a>
+                      {auth.email}
+                    </a>
                   </li>
-                  <li className="nav-item active">
-                    <Link to="/transactions" className="nav-link">
-                      Lisää uusi
+                  <li>
+                    <Link to="/">
+                      Etusivu
                     </Link>
                   </li>
                 </>
@@ -30,25 +32,24 @@ export const Navbar = () => {
             {/* passi */}
             {
               auth?.roles?.includes(5024) ? (
-              <li className="nav-item active">
-                <Link to="/blocks" className="nav-link">
+              <li>
+                <Link to="/blocks">
                   Admin
                 </Link>
               </li>
               ) : null
             }
-            <li className="nav-item active">
-              <Link to="/about" className="nav-link">
-                Miten sovellus toimii
+            <li>
+              <Link to="/about">
+                Sovelluksen käyttö
               </Link>
             </li>
-          </ul>
-        </div>
         {
           !auth?.accessToken 
           ? <LoginAndRegisterButton />
           : <LogoutButton />
         }
+          </ul>
       </nav>
     </>
   );

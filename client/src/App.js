@@ -1,11 +1,9 @@
-import './App.css';
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
-import { AddPassport } from './components/AddPassport';
+import Addnew from './pages/Addnew';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Admin } from './pages/Admin';
-import { About } from './pages/About';
 import Dashboard from './pages/Dashboard';
 import { Layout } from './components/Layout';
 import { Missing } from './pages/Missing';
@@ -13,6 +11,7 @@ import RequireAuth from './components/RequireAuth';
 import { Unauthorized } from './pages/Unauthorized';
 import PersistLogin from './components/PersistentLogin';
 import { ViewTransaction } from './pages/ViewTransaction';
+import About from './pages/About';
 
 
 function App() {
@@ -24,12 +23,11 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
-        
         {/* protected routes for USERS */}
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={[2001]} />}>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/transactions" element={<AddPassport />} />
+            <Route path="/Addnew" element={<Addnew />} />
           </Route>
 
           {/* protected routes for ADMINS */}

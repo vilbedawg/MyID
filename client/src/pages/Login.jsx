@@ -60,49 +60,47 @@ export const Login = () => {
       {isLoading ? (
         <Spinner />
       ) : (
-        <section className="container">
-          <h1>Kirjaudu</h1>
-          <div className="row" style={{ textAlign: "left" }}>
-            <form onSubmit={onSubmit}>
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label">
-                  Email address
-                </label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  autoComplete="off"
-                  required
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="password1"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Kirjaudu
-              </button>
-              <div>
-                <input 
-                type="checkbox"
-                id="persist" 
-                onChange={togglePersist}
-                checked={persist}
-                />
-                <label htmlFor="persist">Pysy kirjautuneena</label>
-              </div>
-            </form>
+        <>
+          
+          <div className="antiHero">
+            <h1>Kirjaudu</h1>
+              <form onSubmit={onSubmit}>
+
+                <div className="antiHeroInputs">
+                  
+                  <input
+                    placeholder="Sähköposti"
+                    type="email"
+                    id="email"
+                    required
+                    onChange={(e) => setEmail(e.target.value)}/>
+
+                  <input
+                    placeholder="Salasana"
+                    type="password"
+                    id="password1"
+                    onChange={(e) => setPassword(e.target.value)}/>
+                  <br/>
+                  <input 
+                    type="checkbox"
+                    id="persist" 
+                    onChange={togglePersist}
+                    checked={persist}/>
+
+                    <label htmlFor="persist">Pysy kirjautuneena</label>
+                    <br/><br/>
+                  <button type="submit">
+                    Kirjaudu
+                  </button>
+                </div>
+
+              </form>
+
           </div>
-        </section>
+          {/* <div className="LoginPic">
+              <img src="./LoginPic.png"></img>
+          </div> */}
+        </>
       )}
     </>
   );

@@ -3,19 +3,19 @@ import ReactDatePicker from 'react-datepicker';
 import { CountryDropdown } from 'react-country-region-selector';
 import 'react-datepicker/dist/react-datepicker.css';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-const type = "Passi";
+const type = "Kelakortti";
 
 
   
 
-export default function AddPassport() {
+export default function AddKela() {
   const axiosPrivate = useAxiosPrivate();
 
   const [name, setName] = useState('');
   const [bday, setBday] = useState(new Date());
   const [country, setCountry] = useState();
   const [files, setFiles] = useState([]);
-  const type = process.env.REACT_APP_PASSI;
+  const type = process.env.REACT_APP_KELAKORTTI;
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -39,7 +39,7 @@ export default function AddPassport() {
 
   return (
       <div className="newPassport">
-        <p>Uusi passi hakemus</p>
+        <p>Uusi Kelakortti hakemus</p>
         <form onSubmit={handleSubmit}>
 
           <label>Nimi: </label>

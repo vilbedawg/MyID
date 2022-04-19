@@ -3,19 +3,18 @@ import ReactDatePicker from 'react-datepicker';
 import { CountryDropdown } from 'react-country-region-selector';
 import 'react-datepicker/dist/react-datepicker.css';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-const type = "Passi";
 
 
   
 
-export default function AddPassport() {
+export default function AddDriverLisence() {
   const axiosPrivate = useAxiosPrivate();
 
   const [name, setName] = useState('');
   const [bday, setBday] = useState(new Date());
   const [country, setCountry] = useState();
   const [files, setFiles] = useState([]);
-  const type = process.env.REACT_APP_PASSI;
+  const type = process.env.REACT_APP_AJOKORTTI;
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -39,7 +38,7 @@ export default function AddPassport() {
 
   return (
       <div className="newPassport">
-        <p>Uusi passi hakemus</p>
+        <p>Uusi ajokortti hakemus</p>
         <form onSubmit={handleSubmit}>
 
           <label>Nimi: </label>
@@ -60,7 +59,7 @@ export default function AddPassport() {
             value={country}
             onChange={(val) => setCountry(val)}
           />
-        <label>Passikuva:
+        <label>Passikuva:  
           <input type="file" id="img" name="img" accept="image/*" onChange={e => {
             const file = e.target.files[0];
             setFiles(oldArray => [...oldArray, file]);

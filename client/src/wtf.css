@@ -6,8 +6,40 @@ ul{
   padding: 0;
 }
 
-.container {
-  text-align: center;
+body{
+  background-color: #D4ECF3;
+  margin: 0;
+  height: 98vh;
+}
+
+.containerGrid{
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 80px 1fr 80px;
+  display: grid;
+  column-gap: 10px;
+  row-gap: 10px;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  margin: 0px;  
+}
+
+.navbar{
+  grid-column: 1 / 3;
+  display: block;
+}
+
+.antiHero{
+  padding: 50px;
+  height: 100%;
+  background: white;
+  border-radius: 50px 0 0 50px;
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.antiHero h1{
+  font-size: 45;
 }
 
 button {

@@ -46,60 +46,44 @@ export const Register = () => {
   return (
     <>
       {success ? (
-        <section>
+        <div>
           <h1>Rekisteröinti onnistui</h1>
           <p>
             <Link to={'/login'}>Kirjaudu sisään </Link>
           </p>
-        </section>
+        </div>
       ) : (
-        <section className="container">
-          <h1>Rekisteröinti</h1>
-          <div className="row" style={{ textAlign: "left" }}>
+        <div className="antiHero">
+          <h1>Rekisteröidy</h1>
+          <div>
             <form onSubmit={onSubmit}>
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label">
-                  Sähköposti
-                </label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  autoComplete="off"
-                  required
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="password1" className="form-label">
-                  Salasana
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="password1"
-                  required
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="password2" className="form-label">
-                  Salasana uudelleen
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="password2"
-                  required
-                  onChange={(e) => setMatchPwd(e.target.value)}
-                />
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Rekisteröidy
-              </button>
+                <div  className="antiHeroInputs">
+                  <input
+                    placeholder="Sähköposti"
+                    type="email"
+                    id="email"
+                    autoComplete="off"
+                    required
+                    onChange={(e) => setEmail(e.target.value)}/>
+                  <input
+                    placeholder="Salasana"
+                    type="password"
+                    id="password1"
+                    required
+                    onChange={(e) => setPassword(e.target.value)}/>
+                  <input
+                    placeholder="Salasana uudelleen"
+                    type="password"
+                    id="password2"
+                    required
+                    onChange={(e) => setMatchPwd(e.target.value)}/>
+                  <button type="submit">
+                    Rekisteröidy
+                  </button>
+                </div>
             </form>
-          </div>
-        </section>
+        </div>
+        </div>
       )}
     </>
   );

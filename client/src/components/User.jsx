@@ -2,41 +2,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useLogout from "../hooks/useLogout";
-import  Spinner  from "../components/Spinner";
-const PASSI = 'Passi';
-const AJOKORTTI = 'Ajokortti'
-const KELAKORTTI = 'Kelakortti';
+import Spinner  from "../components/Spinner";
+import useAuth from "../hooks/useAuth";
  
 export const User = () => {
     const [user, setUser] = useState();
     const axiosPrivate = useAxiosPrivate();
-    // const navigate = useNavigate();
-    // const location = useLocation();
-    // const logout = useLogout();
-    
-    // Get logged in user info
-    useEffect(() => {
-      let isMounted = true;
-      const controller = new AbortController();
-      const getUser = async () => {
-        try {
-          const response = await axiosPrivate.get('/userdata', {
-            signal: controller.signal
-          });
-          console.log(response.data);
-          isMounted && setUser(response.data);
-        } catch (error) {
-          console.log(error);
-          // await logout();
-          // navigate('/login', { state: { from: location }, replace: true })
-        }
-      }
-      getUser();
-      return () => {
-        isMounted = false;
-        controller.abort();
-      }
-    }, []);
+    const {auth} = useAuth();
   
     
     const getMyCard = async (type) => {
@@ -53,18 +25,25 @@ export const User = () => {
     }
   
     return (
-      <div className='container'>
-          {
-          user 
-          ? (
-            <p>
-              {user.email}
-            </p> 
-            )
-          : <Spinner />}
-            <button className="btn btn-primary" onClick={() => getMyCard(PASSI)}>Passi</button>
-            <button className="btn btn-primary" onClick={() => getMyCard(AJOKORTTI)}>Ajokortti</button>
-            <button className="btn btn-primary" onClick={() => getMyCard(KELAKORTTI)}>Kelakortti</button>
-      </div>
+      <div>
+        {
+        auth.accessToken 
+      ? (
+        <span>{auth.email}</span>
+        )
+      : ''
+      }
+          <ul className="IDlist">
+            <li>
+              <button className="logoutBtn" onClick={() => getMyCard(process.env.REACT_APP_AJOKORTTI)}>Ajokortti</button>
+            </li>
+            <li>
+              <button className="logoutBtn" onClick={() => getMyCard(process.env.REACT_APP_PASSI)}>Passi</button>
+            </li>
+            <li>
+              <button className="logoutBtn" onClick={() => getMyCard(process.env.REACT_APP_KELAKORTTI)}>Kelakortti</button>
+            </li>
+          </ul>
+</div>
     )
 }

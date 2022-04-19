@@ -99,6 +99,7 @@ export const getRefresh = expressAsyncHandler(async (req, res) => {
     (err, decoded) => {
       if(err || foundUser.publicKey !== decoded.publicKey) return res.sendStatus(403);
       const roles = Object.values(foundUser.roles).filter(Boolean);
+      const email = foundUser.email;
       const accessToken = jwt.sign(
         { 
           "UserInfo": {
@@ -109,7 +110,7 @@ export const getRefresh = expressAsyncHandler(async (req, res) => {
         process.env.ACCESS_JWT_SECRET, 
         { expiresIn: '1h' }
       );
-      res.json({ roles, accessToken });
+      res.json({ roles, accessToken, email });
     });
 });
 

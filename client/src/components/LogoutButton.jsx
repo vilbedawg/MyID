@@ -11,8 +11,10 @@ export const LogoutButton = () => {
   };
 
   return (
-    <button className="btn btn-primary" onClick={onLogout}>
-      Kirjaudu ulos
-    </button>
-  );
+    <li>
+      <button onClick={onLogout} className="logoutBtn">
+        Kirjaudu ulos
+      </button>
+    </li>
+  )
 };
