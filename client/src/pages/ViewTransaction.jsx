@@ -45,38 +45,21 @@ export const ViewTransaction = () => {
       }
 
   return (
+    <>
+      <div className="navbarPlaceholder"/>
+      <div className="dashboardRight transactions">
+        <div className="transactions-form">
+          <p>asdasd</p>
+        </div>
 
-    <div className="container" style={{textAlign: "left", wordBreak: "break-word"}}>
-      {
-        data && dataBody
-        ?
-        (
-          <>
-            <p>Osoite: {data.fromAddress}</p>
-            <p>Tyyppi: {data.toAddress}</p>
-            <p>Allekirjoitus: {data.signature}</p>
-            <p>Aikaleima: {data.timestamp}</p>
-            <img src={`../uploads/${dataBody?.picture}`} alt='picture'/>
-            <p>nimi: {dataBody?.body?.name}</p>
-            <p>syntymäaika: {dataBody?.body?.bday}</p>
-            <button
-              className="btn btn-success"
-              onClick={() => handleTransaction(true)}>Hyväksy</button>
-            <button
-              className="btn btn-danger"
-              onClick={() => handleTransaction(false)}>Hylkää</button>
-            <br />
-            <br />
-            <Link to={"/blocks"}>Takaisin</Link>
-            <br />
-            <br />
-          </>
-        )
-        :
-        (
-          <Spinner />
-        )
-        }
-     </div>
-  )
+        <div className="buttonGroup">
+          <Link to={"/blocks"}>Takaisin</Link>
+          <button onClick={() => handleTransaction(true)}>Hyväksy</button>
+          <button onClick={() => handleTransaction(false)}>Hylkää</button>
+        </div>
+        
+        
+      </div>
+    </>
+  );
 }
