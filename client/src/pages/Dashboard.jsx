@@ -68,20 +68,21 @@ export default function Dashboard() {
       <div className="dashboardLeft">
           <ul className="IDlist">
             <li>
+              <button className="logoutBtn">
               <Link to="/Addnew">
                 Lisää uusi
-              </Link>
+              </Link></button>
             </li>
             <li>
-              <button className="logoutBtn" onClick={() => getMyCard(process.env.REACT_APP_AJOKORTTI)}>
+              <button className="IDBtn" onClick={() => getMyCard(process.env.REACT_APP_AJOKORTTI)}>
                 Ajokortti</button>
             </li>
             <li>
-              <button className="logoutBtn" onClick={() => getMyCard(process.env.REACT_APP_PASSI)}>
+              <button className="IDBtn" onClick={() => getMyCard(process.env.REACT_APP_PASSI)}>
                 Passi</button>
             </li>
             <li>
-              <button className="logoutBtn" onClick={() => getMyCard(process.env.REACT_APP_KELAKORTTI)}>
+              <button className="IDBtn" onClick={() => getMyCard(process.env.REACT_APP_KELAKORTTI)}>
                 Kelakortti</button>
             </li>
           </ul>

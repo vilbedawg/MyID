@@ -54,6 +54,7 @@ body{
   column-gap: 10px;
   row-gap: 10px;
   margin: 0px;
+  margin-left: 10px;
 }
 
 .navbar{
@@ -74,7 +75,7 @@ body{
 }
 
 .navbar a{
-  font-size: 30px;
+  font-size: 20px;
   text-decoration: none;
   color: black;
 }
@@ -193,15 +194,21 @@ body{
 }
 
 .logoutBtn{
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 25px;
   display: inline-flex;
   border: none;
   background-color: #327BF6;
   color: white;
-  padding: 0 20px 0 20px;
+  padding: 5px 20px 5px 20px;
   cursor: pointer;
 }
+
+.logoutBtn a{
+  color: white;
+  text-decoration: none;
+}
+
 .logoutBtn:hover{
   background-color: #327af6af;
 }
@@ -253,6 +260,25 @@ body{
   height: auto;
   padding: 50px;
   border-radius: 25px;
+}
+
+.dashboardLeft button{
+  width: 100%;
+}
+
+.IDBtn{
+  width: 100%;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 16px;
+  border-bottom: 2px solid black;
+  padding: 5px 5px 5px 10px;
+  cursor: pointer;
+  user-select: none;
+}
+.IDBtn:hover{
+  background-color: rgb(221, 221, 221);
 }
 
 .addNew{
@@ -320,7 +346,13 @@ body{
   color: white;
   font-size: 25px;
   margin-top: 20px;
+  cursor: pointer;
 }
+
+.newPassport form button:hover{
+  background-color: #327af6a4;
+}
+
 .newPassport form input[type="file"]::file-selector-button{
   border: none;
   border-radius: 25px;
