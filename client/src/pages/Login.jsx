@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
 import axios from "../api/axios";
 
-const LOGIN_URL = "/login";
 
 export const Login = () => {
   const { setAuth, persist, setPersist } = useAuth();
@@ -23,14 +22,13 @@ export const Login = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        LOGIN_URL,
+        process.env.REACT_APP_LOGIN,
         JSON.stringify({ email, password }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
-      console.log(response.data);
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
       setAuth({ email, roles, accessToken });
@@ -53,7 +51,7 @@ export const Login = () => {
 
   useEffect(() => {
     localStorage.setItem("persist", persist);
-  }, [persist])
+  }, [persist]);
 
   return (
     <>

@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import axios from "../api/axios";
 
 // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{4,24}$/;
-const REGISTER_URL = '/register';
+
 
 export const Register = () => {
   const [email, setEmail] = useState("");
@@ -21,7 +21,8 @@ export const Register = () => {
     }
   
     try {
-      const response = await axios.post(REGISTER_URL, 
+      const response = await axios.post(
+        process.envREACT_APP_REGISTER, 
         JSON.stringify({ email, password }),
         {
           headers: { 'Content-Type': 'application/json'},

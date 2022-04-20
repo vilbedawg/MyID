@@ -16,7 +16,8 @@ export const ViewTransaction = () => {
         let isMounted = true;
         const controller = new AbortController();
         const getTransaction = async () => {
-          const response = await axiosPrivate.get(`/transactions/${params.id}/${auth.roles[1]}`, {
+          const response = await axiosPrivate.get(
+            `${process.env.REACT_APP_TRANSACTIONS}/${params.id}/${auth.roles[1]}`, {
             signal: controller.signal
           });
           console.log(response.data)
@@ -35,7 +36,8 @@ export const ViewTransaction = () => {
 
       const handleTransaction = async (value) => {
         try {
-          const response = await axiosPrivate.put(`/handle/${params.id}`, {value});
+          const response = await axiosPrivate.put(
+            `${process.env.REACT_APP_HANDLE}/${params.id}`, {value});
           console.log(response.data);
         } catch (error) {
           console.error(error)

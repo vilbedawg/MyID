@@ -2,21 +2,26 @@ import { useState } from "react";
 import DashboardID from "../components/DashboardID";
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 export default function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
   const [data, setData] = useState();
-  const [isChanged, setIsChanged] = useState(true);
+  const [notChanged, setNotChanged] = useState(true); // tsekkaa onko tietoja muutettu ja tallennetaan tähän. FALSE jos on..
+  const [isLoading, setIsLoading] = useState(false);
 
   const getMyCard = async (type) => {
     try {
-
       const [request1, request2] = await Promise.all([
-        axiosPrivate.get('/user', {params: { type }}),
-        axiosPrivate.get('/blocks/check', {params: { type }})
+        axiosPrivate.get(
+          process.env.REACT_APP_USER,
+           {params: { type }}),
+        axiosPrivate.get(
+          process.env.REACT_APP_CHECK,
+           {params: { type }})
       ])
       setData(request1.data);
-      setIsChanged(request2.data);
+      setNotChanged(request2.data);
       console.log(request2.data);
     } catch (error) {
       console.log(error);
@@ -25,9 +30,10 @@ export default function Dashboard() {
 
   return (
     <>
+      {isLoading ? <Spinner /> : null}
       <div className="navbarPlaceholder"></div>
       {
-        data && isChanged 
+        data && notChanged 
       ? 
       (
         <div className="dashboardRight">
@@ -43,7 +49,7 @@ export default function Dashboard() {
       )
       :
       (
-        isChanged 
+        notChanged 
         ?
         <div className="dashboardRight">
           <h1>Placeholder...</h1>

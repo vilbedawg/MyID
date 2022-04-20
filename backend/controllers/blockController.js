@@ -50,7 +50,7 @@ export const getBlockchain = expressAsyncHandler(async (req, res) => {
 export const checkValidation = expressAsyncHandler(async (req, res) => {
   const BlockchainInstance = new Blockchain();
   await BlockchainInstance.getChain();
-  // BlockchainInstance.chain[1].transactions[1].data.body.name = 'Muutettu data';
+  //BlockchainInstance.chain[1].transactions[1].data.body.name = 'Muutettu data';
   const result = await BlockchainInstance.isChainValid();
   let valid = true;
   

@@ -15,7 +15,8 @@ export const Admin = () => {
     let isMounted = true;
     const controller = new AbortController();
     const getTransactions = async () => {
-      const response = await axiosPrivate.get("/transactions", {
+      const response = await axiosPrivate.get(
+        process.env.REACT_APP_TRANSACTIONS, {
         signal: controller.signal,
       });
       isMounted && setTransactions(response.data);
@@ -32,7 +33,8 @@ export const Admin = () => {
 
   const startMiner = async () => {
     try {
-      const response = await axiosPrivate.post("/blocks/add", {
+      const response = await axiosPrivate.post(
+        process.env.REACT_APP_ADDBLOCK, {
         params: {
           transactions,
           type: role,
@@ -57,7 +59,7 @@ export const Admin = () => {
           }}
         >
           {transactions?.map((tx, key) => (
-            <Link to={`/blocks/${tx.fromAddress}`} key={key}>
+            <Link to={`${process.env.REACT_APP_BLOCKS}/${tx.fromAddress}`} key={key}>
               {shortenAddress(tx.fromAddress)}
               {tx.accepted ? (
                 <span style={{ color: "green" }}> True</span>

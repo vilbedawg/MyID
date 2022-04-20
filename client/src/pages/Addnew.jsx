@@ -1,7 +1,7 @@
 import { useState } from "react"
-import AddDriverLisence from "../components/AddDriverlicense"
-import AddPassport from "../components/AddPassport"
-import AddKela from "../components/AddKela"
+import AddDriverLisence from "../components/addNewCards/AddDriverlicense"
+import AddPassport from "../components/addNewCards/AddPassport"
+import AddKela from "../components/addNewCards/AddKela"
 
 export default function Addnew(){
 

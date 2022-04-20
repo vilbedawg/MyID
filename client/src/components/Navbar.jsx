@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { LoginAndRegisterButton } from "./LoginAndRegisterButton";
-import { LogoutButton } from "./LogoutButton";
+import { LoginAndRegisterButton } from "./loginBtns/LoginAndRegisterButton";
+import { LogoutButton } from "./loginBtns/LogoutButton";
 import useAuth from "../hooks/useAuth";
 
 export const Navbar = () => {
