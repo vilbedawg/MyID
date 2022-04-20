@@ -555,3 +555,21 @@ p {
   z-index: 1000;
   background-color: #84ffff;
 }
+
+.dashboardRight.transactions {
+  grid-column: 1;
+  grid-row: 2;
+  background-color: white;
+  margin: 1%;
+  min-height: 800px;
+  width: auto;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonGroup {
+  width: 300px;
+  display: flex;
+  justify-content: space-around;
+}
