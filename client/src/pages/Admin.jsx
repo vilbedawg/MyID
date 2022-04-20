@@ -4,13 +4,20 @@ import { shortenAddress } from "../utils/shortenAddress";
 import useAuth from "../hooks/useAuth";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
+import TableComponent from "../components/TableComponent";
 
 export const Admin = () => {
   const [transactions, setTransactions] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   const { auth } = useAuth();
   const role = auth?.roles[1];
-
+  const columns = [
+    {heading: 'Osoite', value: 'fromAddress'},
+    {heading: 'Tyyppi', value: 'toAddress'},
+    {heading: 'Allekirjoitus', value: 'signature'},
+    {heading: 'Lähetetty', value: 'timestamp'},
+    {heading: 'Status', value: 'accepted'}
+  ]
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -49,35 +56,33 @@ export const Admin = () => {
   return (
     <>
       {transactions ? (
-        <div
-          className="container"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            margin: "auto",
-            marginTop: "20%",
-          }}
-        >
-          {transactions?.map((tx, key) => (
-            <Link to={`${process.env.REACT_APP_BLOCKS}/${tx.fromAddress}`} key={key}>
-              {shortenAddress(tx.fromAddress)}
-              {tx.accepted ? (
-                <span style={{ color: "green" }}> True</span>
-              ) : tx.accepted === undefined ? (
-                <span style={{ color: "orange" }}> ODOTTAA</span>
-              ) : (
-                <span style={{ color: "red" }}> False</span>
-              )}
-            </Link>
-          ))}
-          <button
-            className="btn btn-primary"
-            onClick={startMiner}
-            style={{ width: "50px" }}
-          >
-            Lisää
-          </button>
-        </div>
+        <>
+          <div className="navbarPlaceholder"></div>
+          <div className="dashboardRight">
+            <TableComponent data={transactions} column={columns} />
+
+
+
+            {/* {transactions?.map((tx, key) => (
+              <Link to={`${process.env.REACT_APP_BLOCKS}/${tx.fromAddress}`} key={key}>
+                {shortenAddress(tx.fromAddress)}
+                {tx.accepted ? (
+                  <span style={{ color: "green" }}> True</span>
+                ) : tx.accepted === undefined ? (
+                  <span style={{ color: "orange" }}> ODOTTAA</span>
+                ) : (
+                  <span style={{ color: "red" }}> False</span>
+                )}
+              </Link>
+            ))}
+            <button
+              onClick={startMiner}
+              style={{ width: "50px" }}
+            >
+              Lisää
+            </button> */}
+          </div>
+        </>
       ) : (
         <Spinner />
       )}

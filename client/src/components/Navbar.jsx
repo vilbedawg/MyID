@@ -20,11 +20,16 @@ export const Navbar = () => {
                       {auth.email}
                     </a>
                   </li>
-                  <li>
-                    <Link to="/">
-                      Etusivu
-                    </Link>
-                  </li>
+                  {
+                    auth?.roles?.length <= 1 ? (
+                      <li>
+                        <Link to="/">
+                          Etusivu
+                        </Link>
+                      </li>
+                    )
+                    : null
+                  }
                 </>
               ) : null
             }
@@ -39,11 +44,17 @@ export const Navbar = () => {
               </li>
               ) : null
             }
-            <li>
-              <Link to="/about">
-                Sovelluksen käyttö
-              </Link>
-            </li>
+            {
+              auth?.roles?.length <= 1 ? (
+                
+                <li>
+                  <Link to="/about">
+                    Sovelluksen käyttö
+                  </Link>
+                </li>
+              )
+              : null
+            }
         {
           !auth?.accessToken 
           ? <LoginAndRegisterButton />
