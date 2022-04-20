@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import Addnew from './pages/Addnew';
 import { Login } from './pages/Login';
@@ -14,7 +13,9 @@ import { ViewTransaction } from './pages/ViewTransaction';
 import About from './pages/About';
 
 
+
 function App() {
+  
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -35,7 +36,6 @@ function App() {
             <Route path="/blocks" element={<Admin />} />
             <Route path="/blocks/:id" element={<ViewTransaction />} />
           </Route>
-
         </Route>
 
         {/* everything else */}

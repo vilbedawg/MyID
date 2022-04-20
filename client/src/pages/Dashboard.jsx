@@ -1,14 +1,16 @@
 import { useState } from "react";
 import DashboardID from "../components/DashboardID";
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
+import useAuth from "../hooks/useAuth";
 
 export default function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
   const [data, setData] = useState();
   const [notChanged, setNotChanged] = useState(true); // tsekkaa onko tietoja muutettu ja tallennetaan tähän. FALSE jos on..
   const [isLoading, setIsLoading] = useState(false);
+  const { auth } = useAuth();
 
   const getMyCard = async (type) => {
     try {
@@ -31,6 +33,7 @@ export default function Dashboard() {
   return (
     <>
       {isLoading ? <Spinner /> : null}
+      {auth?.roles.length > 1 ? <Navigate replace to="/blocks" /> : null}
       <div className="navbarPlaceholder"></div>
       {
         data && notChanged 
