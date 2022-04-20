@@ -11,13 +11,20 @@ export const Admin = () => {
   const axiosPrivate = useAxiosPrivate();
   const { auth } = useAuth();
   const role = auth?.roles[1];
+
+
+
+
   const columns = [
     {heading: 'Osoite', value: 'fromAddress'},
     {heading: 'Tyyppi', value: 'toAddress'},
     {heading: 'Allekirjoitus', value: 'signature'},
     {heading: 'Lähetetty', value: 'timestamp'},
-    {heading: 'Status', value: 'accepted'}
+    {heading: 'Status', value: 'accepted'},
+    {heading: 'Tarkista', value: 'tarkista'}
+    
   ]
+  
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
