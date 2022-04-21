@@ -96,7 +96,6 @@ export class Blockchain {
 
     let invalidTransactions = [];
     let invalidBlocks = [];
-
     for (let i = 1; i < this.chain.length; i++) {
       const currentBlock = this.chain[i];
       const previousBlock = this.chain[i - 1];
@@ -111,8 +110,11 @@ export class Blockchain {
      
 
       const checkTransactions = await currentBlockInstance.hasValidTransaction();
-      invalidTransactions = checkTransactions;
-      
+
+      if(checkTransactions.length > 0) {
+        invalidTransactions.push(...checkTransactions);
+      }
+
       if (previousBlock.hash !== currentBlock.previousHash) {
         invalidBlocks.push(currentBlock);
         continue;

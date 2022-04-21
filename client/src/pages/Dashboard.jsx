@@ -2,65 +2,67 @@ import { useState } from "react";
 import DashboardID from "../components/DashboardID";
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { Link, Navigate } from "react-router-dom";
-import Spinner from "../components/Spinner";
+import { Loader } from "../components/Loader";
 import useAuth from "../hooks/useAuth";
+import { useCookies } from 'react-cookie';
 
 export default function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
+  const [cookies, setCookie, removeCookie] = useCookies(['invalid_tx']);
   const [data, setData] = useState();
-  const [notChanged, setNotChanged] = useState(true); // tsekkaa onko tietoja muutettu ja tallennetaan tähän. FALSE jos on..
+  const [notValid, setNotValid] = useState(false); 
   const [isLoading, setIsLoading] = useState(false);
   const { auth } = useAuth();
 
   const getMyCard = async (type) => {
+    setIsLoading(true);
     try {
-      const [request1, request2] = await Promise.all([
-        axiosPrivate.get(
-          process.env.REACT_APP_USER,
-           {params: { type }}),
-        axiosPrivate.get(
-          process.env.REACT_APP_CHECK,
-           {params: { type }})
-      ])
-      setData(request1.data);
-      setNotChanged(request2.data);
-      console.log(request2.data);
+      const request = await axiosPrivate.get(
+        process.env.REACT_APP_USER,
+         {params: { type }}
+        )
+      setData(request.data);
+      const isChanged = cookies.invalid_tx.some(item => item.toAddress === type);
+      setNotValid(isChanged);
+      console.log(isChanged);
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   }
 
   return (
     <>
-      {isLoading ? <Spinner /> : null}
       {auth?.roles.length > 1 ? <Navigate replace to="/blocks" /> : null}
       <div className="navbarPlaceholder"></div>
       {
-        data && notChanged 
+        data && !notValid 
       ? 
       (
         <div className="dashboardRight">
-          <DashboardID
+        {isLoading 
+        ? <Loader /> 
+        : <DashboardID
             accepted={data ? data.transaction.accepted : null}
             ID={data ? data.transaction.toAddress : null}
             name={data ? data.transaction.data.body.name : null}
             country={data ? data.transaction.data.body.country : null}
             bday={data ? data.transaction.data.body.bday : null}
             path={`../uploads/${data ? data.transaction.data.picture : 'morbius-rawr.gif'}`}
-          /> 
+          /> }
         </div>
       )
       :
       (
-        notChanged 
+        notValid  
         ?
-        <div className="dashboardRight">
-          <h1>Placeholder...</h1>
-        </div>
-        :
         <div className="dashboardRight">
           <img src="./images/sponge.png" style={{width: '50%', height: '50%'}}/>
           <h1>Tietoja muutettu</h1>
+        </div>
+        :
+        <div className="dashboardRight">
+          <h1>Placeholder...</h1>
         </div>
       )
       }
@@ -69,20 +71,20 @@ export default function Dashboard() {
           <ul className="IDlist">
             <li>
               <button className="logoutBtn">
-              <Link to="/Addnew">
+              <Link to="/addnew">
                 Lisää uusi
               </Link></button>
             </li>
             <li>
-              <button className="IDBtn" onClick={() => getMyCard(process.env.REACT_APP_AJOKORTTI)}>
+              <button className="IDBtn" disabled={isLoading} onClick={() => getMyCard(process.env.REACT_APP_AJOKORTTI)}>
                 Ajokortti</button>
             </li>
             <li>
-              <button className="IDBtn" onClick={() => getMyCard(process.env.REACT_APP_PASSI)}>
+              <button className="IDBtn" disabled={isLoading} onClick={() => getMyCard(process.env.REACT_APP_PASSI)}>
                 Passi</button>
             </li>
             <li>
-              <button className="IDBtn" onClick={() => getMyCard(process.env.REACT_APP_KELAKORTTI)}>
+              <button className="IDBtn" disabled={isLoading} onClick={() => getMyCard(process.env.REACT_APP_KELAKORTTI)}>
                 Kelakortti</button>
             </li>
           </ul>
