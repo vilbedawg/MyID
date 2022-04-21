@@ -11,6 +11,7 @@ import { Unauthorized } from './pages/Unauthorized';
 import PersistLogin from './components/PersistentLogin';
 import { ViewTransaction } from './pages/ViewTransaction';
 import About from './pages/About';
+import { LoginAuth } from "./pages/LoginAuth";
 
 
 
@@ -22,13 +23,15 @@ function App() {
         {/* public routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/about" element={<About />} />
+        {/* <Route path="/about" element={<About />} /> */}
         <Route path="/unauthorized" element={<Unauthorized />} />
         {/* protected routes for USERS */}
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={[2001]} />}>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/Addnew" element={<Addnew />} />
+            <Route path="/authstep2" element={<LoginAuth />} />
+            <Route path="/addnew" element={<Addnew />} />
+            <Route path="/about" exact element={<About />} />
           </Route>
 
           {/* protected routes for ADMINS */}

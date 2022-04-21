@@ -50,17 +50,24 @@ export const getBlockchain = expressAsyncHandler(async (req, res) => {
 export const checkValidation = expressAsyncHandler(async (req, res) => {
   const BlockchainInstance = new Blockchain();
   await BlockchainInstance.getChain();
-  //BlockchainInstance.chain[1].transactions[1].data.body.name = 'Muutettu data';
+  // BlockchainInstance.chain[2].transactions[3].data.picture = 'asd';
   const result = await BlockchainInstance.isChainValid();
   let valid = true;
-  
+  let invalidResults = [];
   for (let i = 0; i < result.invalidTransactions.length; i++) {
-    const currentTx = result.invalidTransactions[i];
-    if (currentTx.fromAddress === req.user && currentTx.toAddress === req.query.type) {
+    const currentInvalid = result.invalidTransactions[i];
+    if (currentInvalid.fromAddress === req.user) {
       valid = false;
-      break;
+      invalidResults.push({toAddress: currentInvalid.toAddress, valid});
     }
   }
+
+  res.cookie("invalid_tx", invalidResults, {
+    maxAge: 6.048e8, // 1 week
+    secure: false,
+    sameSite: true
+  });
+
 
   if (valid) {
     return res.json(true);

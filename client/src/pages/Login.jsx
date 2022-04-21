@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
 import axios from "../api/axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 
 export const Login = () => {
@@ -12,11 +13,12 @@ export const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  
+  const test = '/authstep2';
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const axiosPrivate = useAxiosPrivate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +37,7 @@ export const Login = () => {
       setAuth({ email, roles, accessToken });
       setEmail("");
       setPassword("");
-      navigate(from, { replace: true });
+      navigate(test, { replace: true });
     } catch (error) {
       if (!error?.response) {
         toast.error("Ei vastausta palvelimelta");

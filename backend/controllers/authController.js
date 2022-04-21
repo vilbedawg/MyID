@@ -9,11 +9,12 @@ import jwt from "jsonwebtoken";
 export const loginUser = expressAsyncHandler(async (req, res) => {
 
   const { email, password } = req.body;
-  const User = await user.findOne({ email });
-
+  
   if(!email || !password) {
     throw ApiError.badRequest('Sähköposti tai salasana puuttuu')
   }
+
+  const User = await user.findOne({ email });
 
   if (User && (await bcrypt.compare(password.toString(), User.password))) {
     const roles = Object.values(User.roles).filter(Boolean);
@@ -77,6 +78,11 @@ export const logoutUser = expressAsyncHandler(async (req, res) => {
   res.clearCookie("refresh_token", {
     httpOnly: true,
     secure: false
+  });
+
+  res.clearCookie("invalid_tx", {
+    secure: false,
+    sameSite: true
   });
 
   res.sendStatus(204);
