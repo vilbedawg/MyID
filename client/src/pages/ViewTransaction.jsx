@@ -52,6 +52,7 @@ export const ViewTransaction = () => {
       <div className="dashboardRight transactions">
         <div className="transactions-form">
           <TransactionForm 
+          data={data}
           />
         </div>
 

@@ -12,11 +12,12 @@ import PersistLogin from './components/PersistentLogin';
 import { ViewTransaction } from './pages/ViewTransaction';
 import About from './pages/About';
 import { LoginAuth } from "./pages/LoginAuth";
+import useAuth from "./hooks/useAuth";
 
 
 
 function App() {
-  
+  const {auth} = useAuth();
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
