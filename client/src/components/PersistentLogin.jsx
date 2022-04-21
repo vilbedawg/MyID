@@ -17,7 +17,9 @@ const PersistLogin = () => {
             } catch (error) {
                 console.error(error);
             } finally {
-                isMounted && setIsLoading(false);
+                setTimeout(() => {
+                    isMounted && setIsLoading(false);
+                }, 1000);
             }
         }
 

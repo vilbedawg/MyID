@@ -8,7 +8,7 @@ export const Layout = () => {
     <main className="containerGrid">
       <Navbar />
       <Outlet />
-      <ToastContainer />
+      <ToastContainer style={{position: 'absolute'}}/>
     </main>
   )
 }

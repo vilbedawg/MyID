@@ -4,6 +4,8 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import Spinner from "../components/Spinner";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { toast } from "react-toastify";
+import TransactionForm from "../components/TransactionForm";
 
 export const ViewTransaction = () => {
     const params = useParams();
@@ -40,7 +42,7 @@ export const ViewTransaction = () => {
             `${process.env.REACT_APP_HANDLE}/${params.id}`, {value});
           console.log(response.data);
         } catch (error) {
-          console.error(error)
+          toast.error(error);
         }
       }
 
@@ -49,7 +51,8 @@ export const ViewTransaction = () => {
       <div className="navbarPlaceholder"/>
       <div className="dashboardRight transactions">
         <div className="transactions-form">
-          <p>asdasd</p>
+          <TransactionForm 
+          />
         </div>
 
         <div className="buttonGroup">

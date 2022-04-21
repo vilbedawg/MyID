@@ -25,6 +25,7 @@ export default function Dashboard() {
       const isChanged = cookies.invalid_tx.some(item => item.toAddress === type);
       setNotValid(isChanged);
       console.log(isChanged);
+      console.log(cookies)
     } catch (error) {
       console.log(error);
     }
