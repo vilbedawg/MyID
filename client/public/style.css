@@ -53,8 +53,47 @@ body{
   display: grid;
   column-gap: 30px;
   row-gap: 10px;
-  margin: 30px 30px 30px 30px
+  margin: 30px 30px 30px 30px;
+  animation: fadeInUpBig;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-delay: 0.5s;
+  -moz-animation-delay: 0.5s;
+  animation-delay: 0.5s;
 }
+
+/*=== FADE IN UP Big ===*/
+.fadeInUpBig {
+  -webkit-animation-name: fadeInUpBig;
+  animation-name: fadeInUpBig;
+}
+@-webkit-keyframes fadeInUpBig {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 2000px, 0);
+    transform: translate3d(0, 2000px, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes fadeInUpBig {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 2000px, 0);
+    transform: translate3d(0, 2000px, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
 
 .navbar{
   grid-row: 1;
@@ -62,40 +101,41 @@ body{
   width: 100%;
   align-items: center;
   user-select: none;
-  animation: fadeInDown 2s;
-  -webkit-animation: fadeInDown 2s;
-  -moz-animation: fadeInDown 2s;
-  -o-animation: fadeInDown 2s;
-  -ms-animation: fadeInDown 2s;
-
+  animation: fadeInDown;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-delay: 0.5s;
+  -moz-animation-delay: 0.5s;
+  animation-delay: 0.5s;
 }
 
 @-webkit-keyframes fadeInDown {
   0% {
-     opacity: 0;
-     -webkit-transform: translateY(-20px);
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
   }
   100% {
-     opacity: 1;
-     -webkit-transform: translateY(0);
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
   }
 }
-
 @keyframes fadeInDown {
   0% {
-     opacity: 0;
-     transform: translateY(-20px);
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
   }
   100% {
-     opacity: 1;
-     transform: translateY(0);
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
   }
 }
 
-.fadeInDown {
-  -webkit-animation-name: fadeInDown;
-  animation-name: fadeInDown;
-}
 
 .navbar a{
   font-size: 20px;
@@ -256,6 +296,7 @@ body{
   display: inline-flex;
   justify-content: center;
 }
+
 
 .dashboardRight img{
   width: 75px;
@@ -715,4 +756,29 @@ p {
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+.transactions-form {
+  width: 100%;
+  flex: auto;
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid;
+  padding: 5px 0px;
+}
+
+.form-input {
+  text-align: right;
+}
+.transaction-header {
 }

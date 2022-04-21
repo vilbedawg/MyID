@@ -1,16 +1,24 @@
 
-export default function TransactionForm({data}) {
+export default function TransactionForm({data, type}) {
+
+  const ObjectKeys = ({item, i}) => {
+    return (
+      <div className="form-row" key={i}>
+        <p>{item[0]}</p>
+        <input value={item[1]} readOnly className="form-input"/>
+      </div>
+    )
+  }
+
   return (
-    <div>
-      <form>
-        <div className="form-group">
-          {Object.keys(data).map((item, i) => (
-            <div key={i}>
-              <h1>{item}</h1>
-            </div>
-          ))}
-        </div>
-      </form>
-    </div>
+    <>
+      <div className="form-group">
+        {Object.entries(data.body).map((item, i) => <ObjectKeys item={item} key={i}/>)}
+        {type === 'Ajokortti' ? console.log(type) : console.log('Not')}
+      </div>
+
+    </>
   )
 }
+
+
