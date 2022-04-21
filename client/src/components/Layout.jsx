@@ -5,9 +5,11 @@ import { ToastContainer } from 'react-toastify';
 
 export const Layout = () => {
   return (
-    <main className="containerGrid">
+    <main>
       <Navbar />
-      <Outlet />
+        <div className="containerGrid">
+          <Outlet />
+        </div>
       <ToastContainer style={{position: 'absolute'}}/>
     </main>
   )

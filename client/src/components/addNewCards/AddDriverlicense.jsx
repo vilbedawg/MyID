@@ -63,7 +63,7 @@ export default function AddDriverLisence() {
             const file = e.target.files[0];
             setFiles(oldArray => [...oldArray, file]);
           }}/></label>
-        <button type="submit">Lähetä</button>
+        <button type="submit" className='formBtn'>Lähetä</button>
       </form>
         
       </div>
