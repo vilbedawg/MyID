@@ -703,3 +703,16 @@ p {
   display: flex;
   justify-content: space-around;
 }
+
+.newIDSent{
+  grid-column: 2/3;
+  grid-row: 2/3;
+  background-color: white;
+  border-radius: 25px;
+  height: auto;
+  width: 75vw;
+  padding: 50px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

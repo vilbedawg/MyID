@@ -18,7 +18,7 @@ export default function AddDriverLisence() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     const birthday = bday.toLocaleDateString();
     //data
     const data = new FormData();
@@ -30,11 +30,9 @@ export default function AddDriverLisence() {
       data.append("file", files[i]);
     }
     try {
-      const response = await axiosPrivate.post('/transactions/add', data); 
-      console.log(response)
-      if(response.status === 200){
-        navigate({ to: "/NewIDSent", replace: true });
-      }
+      const response = await axiosPrivate.post('/transactions/add', data);
+      console.log(response);
+        navigate("/NewIDSent", {replace: true });
 
 
     } catch (error) {
