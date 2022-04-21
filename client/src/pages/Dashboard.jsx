@@ -68,7 +68,7 @@ export default function Dashboard() {
         </div>
         :
         <div className="dashboardRight">
-          <img src="./images/placeholder.png" style={{height: '246px', width: '373px'}}></img>
+          <img className="placeholder" src="./images/placeholder.png" style={{height: '246px', width: '373px'}}></img>
         </div>
       )
       }
@@ -77,7 +77,7 @@ export default function Dashboard() {
           <ul className="IDlist">
             <li>
               <button className="logoutBtn" onClick={GoTo}>
-                Lisää uusi</button>
+                + Lisää uusi</button>
             </li>
             <li>
               <button className="IDBtn" disabled={isLoading} onClick={() => getMyCard(process.env.REACT_APP_AJOKORTTI)}>

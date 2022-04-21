@@ -5,7 +5,7 @@ import AddKela from "../components/addNewCards/AddKela"
 
 export default function Addnew(){
 
-    const [state, setState] = useState('Passi');
+    const [state, setState] = useState();
 
     const changeState = (newState) => {
         setState(newState)

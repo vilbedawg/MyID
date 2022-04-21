@@ -1,4 +1,5 @@
 import react from "react";
+import { Link } from "react-router-dom";
 
 export default function TextBlockLeft(props) {
     return (
@@ -12,6 +13,9 @@ export default function TextBlockLeft(props) {
                 </p>
             </div>
             <img src={props.path} />
+            {props.link ? 
+            <Link to={props.link}>{props.linktext}</Link>
+            : null}
         </div>
     )
 };

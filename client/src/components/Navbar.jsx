@@ -10,7 +10,9 @@ export const Navbar = () => {
       <nav className="navbar">
           <ul>
             <li>
-              <h1 className="myidLogo">My<span>ID</span></h1>
+              <Link to="/">
+                <h1 className="myidLogo">My<span>ID</span></h1>
+              </Link>
             </li>
             {
               auth?.accessToken ? (
