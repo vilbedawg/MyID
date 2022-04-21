@@ -3,6 +3,7 @@ import ReactDatePicker from 'react-datepicker';
 import { CountryDropdown } from 'react-country-region-selector';
 import 'react-datepicker/dist/react-datepicker.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { useNavigate } from "react-router-dom";
 
 
   
@@ -14,6 +15,7 @@ export default function AddDriverLisence() {
   const [bday, setBday] = useState(new Date());
   const [country, setCountry] = useState();
   const [files, setFiles] = useState([]);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -29,7 +31,12 @@ export default function AddDriverLisence() {
     }
     try {
       const response = await axiosPrivate.post('/transactions/add', data); 
-      console.log(response.data)
+      console.log(response)
+      if(response.status === 200){
+        navigate({ to: "/NewIDSent", replace: true });
+      }
+
+
     } catch (error) {
       console.error(error)
     }
