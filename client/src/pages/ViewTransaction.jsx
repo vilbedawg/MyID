@@ -22,7 +22,6 @@ export const ViewTransaction = () => {
             `${process.env.REACT_APP_TRANSACTIONS}/${params.id}/${auth.roles[1]}`, {
             signal: controller.signal
           });
-          console.log(response.data)
           isMounted && setData(response.data);
           isMounted && setDataBody(response.data.data);
         }
@@ -46,15 +45,19 @@ export const ViewTransaction = () => {
         }
       }
 
+      const onSubmitHandler = () => {
+        console.log('asd');
+      }
+
   return (
     <>
       <div className="navbarPlaceholder"/>
       <div className="dashboardRight transactions">
-        <div className="transactions-form">
-          <TransactionForm 
-          data={data}
-          />
-        </div>
+        <form className="transactions-form" onChange={onSubmitHandler}>
+          {
+            data ? <TransactionForm data={data.data} type={data.data.body.toAddress}/> : null
+          }
+        </form>
 
         <div className="buttonGroup">
           <Link to={"/blocks"}>Takaisin</Link>

@@ -76,7 +76,7 @@ export const getTransactions = expressAsyncHandler(async (req, res) => {
 })
 
 export const getViewedTransaction = expressAsyncHandler(async (req, res) => {
-  const data = await transaction.findOne({fromAddress: req.params.id}).select('-password');
+  const data = await transaction.findOne({fromAddress: req.params.id},{ '_id': false, '__v': false, 'password': false});
   res.status(200).json(data);
 });
 
