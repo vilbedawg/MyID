@@ -5,6 +5,7 @@ import { Link, Navigate } from "react-router-dom";
 import { Loader } from "../components/Loader";
 import useAuth from "../hooks/useAuth";
 import { useCookies } from 'react-cookie';
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
@@ -13,6 +14,7 @@ export default function Dashboard() {
   const [notValid, setNotValid] = useState(false); 
   const [isLoading, setIsLoading] = useState(false);
   const { auth } = useAuth();
+  const navigate = useNavigate();
 
   const getMyCard = async (type) => {
     setIsLoading(true);
@@ -29,6 +31,10 @@ export default function Dashboard() {
       console.log(error);
     }
     setIsLoading(false);
+  }
+
+  const GoTo = () => {
+    navigate('/addnew');
   }
 
   return (
@@ -69,10 +75,8 @@ export default function Dashboard() {
       <div className="dashboardLeft">
           <ul className="IDlist">
             <li>
-              <button className="logoutBtn">
-              <Link to="/addnew">
-                Lisää uusi
-              </Link></button>
+              <button className="logoutBtn" onClick={GoTo}>
+                Lisää uusi</button>
             </li>
             <li>
               <button className="IDBtn" disabled={isLoading} onClick={() => getMyCard(process.env.REACT_APP_AJOKORTTI)}>
