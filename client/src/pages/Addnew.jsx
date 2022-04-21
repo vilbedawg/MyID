@@ -13,8 +13,6 @@ export default function Addnew(){
     }
 
     return (
-        <>
-        <div className="navbarPlaceholder"></div>
         <div className="addNew">
             <select className="addNewSelect" onChange={(event) => changeState(event.target.value)}>
                 <option default hidden>Valitse uusi ID</option>
@@ -27,6 +25,5 @@ export default function Addnew(){
             {state === "Ajokortti" && <AddDriverLisence />}
             {state === "Kelakortti" && <AddKela />}
         </div>
-        </>
     )
 }

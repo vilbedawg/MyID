@@ -63,8 +63,6 @@ export const Admin = () => {
   return (
     <>
       {transactions ? (
-        <>
-          <div className="navbarPlaceholder"></div>
           <div className="dashboardRight">
             <TableComponent data={transactions} column={columns} />
 
@@ -88,8 +86,14 @@ export const Admin = () => {
             >
               Lisää
             </button> */}
+
+            <button
+              onClick={startMiner}
+              style={{ width: "50px" }}
+            >
+              Lisää
+            </button>
           </div>
-        </>
       ) : (
         <Spinner />
       )}

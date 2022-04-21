@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export const Missing = () => {
   return (
-    <div className="container">
+    <div className="missing">
     <br />
     <br />
         <h1>404</h1>

@@ -3,8 +3,6 @@ import TextBlockRight from "../components/TextBlockRight";
 
 export default function About(){
     return (
-        <>
-        <div className="navbarPlaceholder"></div>
         <div className="about">
             <TextBlockLeft
                 header="Luo ensin käyttäjä "
@@ -40,6 +38,5 @@ export default function About(){
             />
                 
         </div>
-        </>
     )
 }

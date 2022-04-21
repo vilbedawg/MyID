@@ -24,6 +24,7 @@ export default function Dashboard() {
       ])
       setData(request1.data);
       setNotChanged(request2.data);
+      console.log(request1.data);
       console.log(request2.data);
     } catch (error) {
       console.log(error);
@@ -34,7 +35,6 @@ export default function Dashboard() {
     <>
       {isLoading ? <Spinner /> : null}
       {auth?.roles.length > 1 ? <Navigate replace to="/blocks" /> : null}
-      <div className="navbarPlaceholder"></div>
       {
         data && notChanged 
       ? 
