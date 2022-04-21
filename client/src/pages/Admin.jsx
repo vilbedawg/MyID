@@ -63,7 +63,7 @@ export const Admin = () => {
   return (
     <>
       {transactions ? (
-          <div className="dashboardRight">
+          <div className="addNew">
             <TableComponent data={transactions} column={columns} />
 
 
