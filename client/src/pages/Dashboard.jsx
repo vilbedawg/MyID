@@ -68,7 +68,7 @@ export default function Dashboard() {
         </div>
         :
         <div className="dashboardRight">
-          <h1>Placeholder...</h1>
+          <img src="./images/placeholder.png" style={{height: '246px', width: '373px'}}></img>
         </div>
       )
       }

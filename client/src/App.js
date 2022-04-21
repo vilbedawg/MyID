@@ -13,6 +13,7 @@ import { ViewTransaction } from './pages/ViewTransaction';
 import About from './pages/About';
 import { LoginAuth } from "./pages/LoginAuth";
 import useAuth from "./hooks/useAuth";
+import NewIDSent from "./pages/NewIDSent";
 
 
 
@@ -32,6 +33,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/authstep2" element={<LoginAuth />} />
             <Route path="/addnew" element={<Addnew />} />
+            <Route path="/NewIDSent" element={<NewIDSent />} />
             <Route path="/about" exact element={<About />} />
           </Route>
 

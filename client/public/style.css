@@ -41,9 +41,9 @@ body{
 
 .loginImage {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  max-width: 600px;
+  bottom: 50px;
+  left: 50px;
+  max-width: 800px;
   z-index: -10;
 }
 
@@ -169,12 +169,11 @@ body{
 }
 
 .antiHero{
-  padding-left: 50px;
-  height: 100vh;
+  height: auto;
   background: white;
-  border-radius: 50px 0 0 50px;
+  border-radius: 50px;
   grid-column: 3;
-  grid-row: 1 / 3;
+  grid-row: 1;
 }
 
 .antiHero h1{
@@ -199,9 +198,14 @@ body{
   margin-top: 100px;
   width: auto;
   text-align: center;
-  transform: translateY(50%);
   justify-content: space-between;
+  padding-bottom: 100px;
 }
+#persist{
+  margin-right: 25px;
+}
+
+
 .about{
   grid-column: 1/4;
   grid-row: 2/3;
