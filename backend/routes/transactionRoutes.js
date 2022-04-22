@@ -10,9 +10,12 @@ const transRouter = express.Router();
 //get all transactions from block
 transRouter.route('/transactions').get(verifyRoles(ROLES_LIST.Ajokortti, ROLES_LIST.Passi, ROLES_LIST.Kelakortti), getTransactions);
 
-transRouter.route('/transactions/:id/:type').get(verifyRoles(ROLES_LIST.Ajokortti, ROLES_LIST.Passi, ROLES_LIST.Kelakortti), getViewedTransaction);
+transRouter.route('/transactions/:id').get(verifyRoles(ROLES_LIST.Ajokortti, ROLES_LIST.Passi, ROLES_LIST.Kelakortti), getViewedTransaction);
 
-transRouter.route('/handle/:id').put(verifyRoles(ROLES_LIST.Ajokortti, ROLES_LIST.Passi, ROLES_LIST.Kelakortti), transactionHandler);
+
+transRouter.route('/handle/:id/:bool')
+.post(upload.none())
+.post(verifyRoles(ROLES_LIST.Ajokortti, ROLES_LIST.Passi, ROLES_LIST.Kelakortti), transactionHandler);
 
 //add new transaction
 transRouter.route('/transactions/add')

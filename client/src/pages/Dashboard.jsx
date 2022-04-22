@@ -26,8 +26,6 @@ export default function Dashboard() {
       setData(request.data);
       const isChanged = cookies.invalid_tx.some(item => item.toAddress === type);
       setNotValid(isChanged);
-      console.log(isChanged);
-      console.log(cookies)
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +38,6 @@ export default function Dashboard() {
 
   return (
     <>
-      {auth?.roles.length > 1 ? <Navigate replace to="/blocks" /> : null}
       {
         data && !notValid 
       ? 

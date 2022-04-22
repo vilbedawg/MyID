@@ -11,7 +11,7 @@ const ec = new EC("secp256k1");
 
 
 export const addTransaction = expressAsyncHandler(async (req, res) => {
-  
+  console.log(req.body)
   const User = await user.findOne({publicKey : req.user});
 
   if(!User) return res.sendStatus(403);
@@ -22,7 +22,7 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
   //new blockchain instance
   const BlockchainInstance = new Blockchain();
   const fromAddress = User.publicKey;
-  const toAddress = req.body.toAddress;
+  const toAddress = req.body.Tyyppi;
   const timestamp = new Date().getTime();
   const userdata = {
     body: req.body,
@@ -50,7 +50,7 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
 
   const saved = await newTransaction.save();
   if (saved) {
-    return res.send({message: `Kortti lähetetty tarkistettavaksi.`});
+    return res.sendStatus(201);
   } else {
     return res.sendStatus(500);
   }
@@ -76,21 +76,39 @@ export const getTransactions = expressAsyncHandler(async (req, res) => {
 })
 
 export const getViewedTransaction = expressAsyncHandler(async (req, res) => {
-  const data = await transaction.findOne({fromAddress: req.params.id},{ '_id': false, '__v': false, 'password': false});
+  const role = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] === req.roles[1]);
+  const data = await transaction.findOne({fromAddress: req.params.id, toAddress: role},{ '_id': false, '__v': false, 'password': false}).sort({$natural: -1});
   res.status(200).json(data);
 });
 
 
 export const transactionHandler = expressAsyncHandler(async (req, res) => {
-  const { value } = req.body;
-  const toAddress = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] == req.roles[1]);
-  const data = await transaction.findOne({fromAddress: req.params.id, toAddress}).sort({$natural:-1}).select('-password');
-  data.accepted = value;
-  const saved = await data.save();
+  const toAddress = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] === req.roles[1]);
+  const data = await transaction.findOne({fromAddress: req.params.id, toAddress}).sort({$natural:-1});
+
+  if(!data) {
+    return res.sendStatus(404);
+  }
+
+  let newData = {
+    ...data.data.body,
+    ...req.body
+  }
+  const saved = await transaction.updateOne(
+    {
+      _id: data._id, fromAddress: data.fromAddress
+    }, 
+    { 
+      $set: 
+      {
+        "data.body" : newData, 
+        accepted : req.params.bool
+      }
+    });
+
   if(saved) {
     res.status(200).json(data);
   } else {
-    res.sendStatus(400);
+    res.send('Something went wrong when saving').status(500);
   }
-  
 });

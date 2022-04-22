@@ -10,7 +10,6 @@ import TransactionForm from "../components/TransactionForm";
 export const ViewTransaction = () => {
     const params = useParams();
     const [data, setData] = useState('');
-    const [dataBody, setDataBody] = useState('');
     const axiosPrivate = useAxiosPrivate();
     const {auth} = useAuth();
 
@@ -19,53 +18,27 @@ export const ViewTransaction = () => {
         const controller = new AbortController();
         const getTransaction = async () => {
           const response = await axiosPrivate.get(
-            `${process.env.REACT_APP_TRANSACTIONS}/${params.id}/${auth.roles[1]}`, {
+            `${process.env.REACT_APP_TRANSACTIONS}/${params.id}`, {
             signal: controller.signal
           });
           isMounted && setData(response.data);
-          isMounted && setDataBody(response.data.data);
         }
-
         getTransaction();
-
-
         return () => {
           isMounted = false;
           controller.abort();
         }
       }, []);
 
-      const handleTransaction = async (value) => {
-        try {
-          const response = await axiosPrivate.put(
-            `${process.env.REACT_APP_HANDLE}/${params.id}`, {value});
-          console.log(response.data);
-        } catch (error) {
-          toast.error(error);
-        }
-      }
-
-      const onSubmitHandler = () => {
-        console.log('asd');
-      }
 
   return (
     <>
-      <div className="navbarPlaceholder"/>
       <div className="dashboardRight transactions">
-        <form className="transactions-form" onChange={onSubmitHandler}>
+      <Link to={"/blocks"} className="back-text">Takaisin</Link>
+      <span className="publicKey">Osoite: {data.fromAddress}</span>
           {
-            data ? <TransactionForm data={data.data} type={data.data.body.toAddress}/> : null
-          }
-        </form>
-
-        <div className="buttonGroup">
-          <Link to={"/blocks"}>Takaisin</Link>
-          <button onClick={() => handleTransaction(true)}>Hyväksy</button>
-          <button onClick={() => handleTransaction(false)}>Hylkää</button>
-        </div>
-        
-        
+            data ? <TransactionForm data={data.data} type={data.toAddress}/> : <Spinner />
+          }        
       </div>
     </>
   );

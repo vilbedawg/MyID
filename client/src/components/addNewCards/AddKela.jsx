@@ -3,15 +3,16 @@ import ReactDatePicker from 'react-datepicker';
 import { CountryDropdown } from 'react-country-region-selector';
 import 'react-datepicker/dist/react-datepicker.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-
+import { useNavigate } from 'react-router';
 
 
   
 
 export default function AddKela() {
   const axiosPrivate = useAxiosPrivate();
-
+  const navigate = useNavigate();
   const [name, setName] = useState('');
+  const [hetu, setHetu] = useState('');
   const [bday, setBday] = useState(new Date());
   const [country, setCountry] = useState();
   const [files, setFiles] = useState([]);
@@ -22,16 +23,17 @@ export default function AddKela() {
     const birthday = bday.toLocaleDateString();
     //data
     const data = new FormData();
-    data.append("name", name);
-    data.append("bday", birthday);
-    data.append("country", country);
-    data.append("toAddress", process.env.REACT_APP_KELAKORTTI);
+    data.append("Nimi", name);
+    data.append("Syntymäaika", birthday);
+    data.append("Henkilötunnus", hetu);
+    data.append("Maa", country);
+    data.append("Tyyppi", process.env.REACT_APP_KELA);
     for (let i = 0; i < files.length; i++) {
       data.append("file", files[i]);
     }
     try {
-      const response = await axiosPrivate.post('/transactions/add', data); 
-      console.log(response.data)
+      const response = await axiosPrivate.post(process.env.REACT_APP_ADDTX, data); 
+      navigate("/NewIDSent", {replace: true });
     } catch (error) {
       console.error(error)
     }
@@ -55,6 +57,12 @@ export default function AddKela() {
             onChange={date => setBday(date)}
           /> 
           
+          <label>Henkilötunnus: </label>
+          <input type="text" placeholder="Henkilötunnus"
+            value={hetu}
+            onChange={(e) => setHetu(e.target.value)}
+          />
+
           <label>Maa:</label>
           <CountryDropdown
             value={country}

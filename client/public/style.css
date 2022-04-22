@@ -54,44 +54,47 @@ body{
   column-gap: 30px;
   row-gap: 10px;
   margin: 30px 30px 30px 30px;
-  animation: fadeInUpBig;
+  animation: fadeInUp;
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
-  -webkit-animation-delay: 0.5s;
-  -moz-animation-delay: 0.5s;
-  animation-delay: 0.5s;
+  -webkit-animation-delay: 1s;
+  -moz-animation-delay: 1s;
+  animation-delay: 1s;
 }
 
-/*=== FADE IN UP Big ===*/
-.fadeInUpBig {
-  -webkit-animation-name: fadeInUpBig;
-  animation-name: fadeInUpBig;
-}
-@-webkit-keyframes fadeInUpBig {
-  0% {
+/*==== FADE IN UP ===*/
+@-webkit-keyframes fadeInUp {
+  from {
     opacity: 0;
-    -webkit-transform: translate3d(0, 2000px, 0);
-    transform: translate3d(0, 2000px, 0);
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
   }
-  100% {
+
+  to {
     opacity: 1;
     -webkit-transform: none;
     transform: none;
   }
 }
-@keyframes fadeInUpBig {
-  0% {
+@keyframes fadeInUp {
+  from {
     opacity: 0;
-    -webkit-transform: translate3d(0, 2000px, 0);
-    transform: translate3d(0, 2000px, 0);
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
   }
-  100% {
+
+  to {
     opacity: 1;
     -webkit-transform: none;
     transform: none;
   }
+}
+
+.fadeInUp {
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
 }
 
 
@@ -362,7 +365,7 @@ body{
   padding: 40px;
   text-align: center;
   align-items: center;
-  width: 50vw;
+  max-width: 800px;
 }
 
 .addNew p {
@@ -726,17 +729,15 @@ p {
   }
 }
 
-
 .dashboardRight.transactions {
-  grid-column: 1;
+  grid-column: 2/3;
   grid-row: 2;
   background-color: white;
-  margin: 1%;
-  min-height: 800px;
-  width: auto;
   justify-content: space-around;
   flex-direction: column;
   align-items: center;
+  max-width: 800px;
+  position: relative;
 }
 
 .buttonGroup {
@@ -757,6 +758,7 @@ p {
   align-items: center;
   text-align: center;
 }
+
 .transactions-form {
   width: 100%;
   flex: auto;
@@ -768,17 +770,42 @@ p {
   flex-direction: column;
 }
 
-
 .form-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   border-bottom: 1px solid;
-  padding: 5px 0px;
+  padding: 10px 0px;
+}
+
+.form-row.licenses {
+  border: 0;
 }
 
 .form-input {
   text-align: right;
 }
-.transaction-header {
+
+.tx-image {
+  padding: 40px;
+}
+#tx {
+  width: 100%;
+  height: auto;
+  margin: auto;
+  transform: scale(.7);
+  border: 1px solid black;
+}
+
+.publicKey {
+  width: 100%;
+  word-break: break-word;
+  opacity: .6;
+}
+
+.back-text {
+  position: absolute;
+  left: 3%;
+  top: 0;
+  padding: 20px;
 }

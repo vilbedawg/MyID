@@ -13,7 +13,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  const test = '/authstep2';
+  const loginAuth = '/authstep2';
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState("");
@@ -36,7 +36,7 @@ export const Login = () => {
       setAuth({ email, roles, accessToken });
       setEmail("");
       setPassword("");
-      navigate(test, { replace: true });
+      navigate(loginAuth, { replace: true });
     } catch (error) {
       if (!error?.response) {
         toast.error("Ei vastausta palvelimelta");

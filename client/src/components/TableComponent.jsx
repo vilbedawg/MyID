@@ -23,7 +23,6 @@ const TableHeadItem = ({ item }) => <th>{item.heading}</th>
 const TableRow = ({ item, column }) => (
     <tr>
       {column.map((columnItem, index) => {
-  
         if(columnItem.value == "accepted"){
             console.log(item[`${columnItem.value}`])
             return <td key={index}>{JSON.stringify(item[`${columnItem.value}`])}</td>

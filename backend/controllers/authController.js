@@ -18,7 +18,6 @@ export const loginUser = expressAsyncHandler(async (req, res) => {
 
   if (User && (await bcrypt.compare(password.toString(), User.password))) {
     const roles = Object.values(User.roles).filter(Boolean);
-    console.log(roles)
     const access_token = jwt.sign(
       { 
         "UserInfo": {
@@ -48,8 +47,7 @@ export const loginUser = expressAsyncHandler(async (req, res) => {
       .json({
         user: currentUser,
         roles: roles,
-        accessToken: access_token,
-        message: "Kirjautuminen onnistui",
+        accessToken: access_token
       });
 
   } else {

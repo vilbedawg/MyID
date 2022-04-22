@@ -69,11 +69,7 @@ export const checkValidation = expressAsyncHandler(async (req, res) => {
   });
 
 
-  if (valid) {
-    return res.json(true);
-  } else {
-    return res.json(false);
-  }
+  res.sendStatus(200);
   
 });
 

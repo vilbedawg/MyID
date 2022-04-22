@@ -12,29 +12,27 @@ export default function AddDriverLisence() {
   const axiosPrivate = useAxiosPrivate();
 
   const [name, setName] = useState('');
+  const [hetu, setHetu] = useState('');
   const [bday, setBday] = useState(new Date());
   const [country, setCountry] = useState();
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     const birthday = bday.toLocaleDateString();
-    //data
     const data = new FormData();
-    data.append("name", name);
-    data.append("bday", birthday);
-    data.append("country", country);
-    data.append("toAddress", process.env.REACT_APP_AJOKORTTI);
+    data.append("Nimi", name);
+    data.append("Syntymäaika", birthday);
+    data.append("Henkilötunnus", hetu);
+    data.append("Maa", country);
+    data.append("Tyyppi", process.env.REACT_APP_AJOKORTTI);
     for (let i = 0; i < files.length; i++) {
       data.append("file", files[i]);
     }
     try {
-      const response = await axiosPrivate.post('/transactions/add', data);
-      console.log(response);
-        navigate("/NewIDSent", {replace: true });
-
-
+      const response = await axiosPrivate.post(process.env.REACT_APP_ADDTX, data); 
+      navigate("/NewIDSent", {replace: true });
     } catch (error) {
       console.error(error)
     }
@@ -58,6 +56,12 @@ export default function AddDriverLisence() {
             onChange={date => setBday(date)}
           /> 
           
+          <label>Henkilötunnus: </label>
+          <input type="text" placeholder="Henkilötunnus"
+            value={hetu}
+            onChange={(e) => setHetu(e.target.value)}
+          />
+
           <label>Maa:</label>
           <CountryDropdown
             value={country}
