@@ -14,6 +14,7 @@ import About from './pages/About';
 import { LoginAuth } from "./pages/LoginAuth";
 import useAuth from "./hooks/useAuth";
 import NewIDSent from "./pages/NewIDSent";
+import AboutApp from "./pages/AboutApp";
 
 
 
@@ -35,6 +36,7 @@ function App() {
             <Route path="/addnew" element={<Addnew />} />
             <Route path="/NewIDSent" element={<NewIDSent />} />
             <Route path="/about" exact element={<About />} />
+            <Route path="/about/how" exact element={<AboutApp />} />
           </Route>
 
           {/* protected routes for ADMINS */}
