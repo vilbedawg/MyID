@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { shortenAddress } from "../utils/shortenAddress";
 import useAuth from "../hooks/useAuth";
-import { Link } from "react-router-dom";
-import Spinner from "../components/Spinner";
+import { Loader } from "../components/Loader";
 import TableComponent from "../components/TableComponent";
 
 export const Admin = () => {
   const [transactions, setTransactions] = useState([]);
+  const [isEmpty, setIsEmpty] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   const { auth } = useAuth();
   const role = auth?.roles[1];
@@ -33,8 +32,12 @@ export const Admin = () => {
         process.env.REACT_APP_TRANSACTIONS, {
         signal: controller.signal,
       });
+
+      if(response.data.length <= 0) {
+        isMounted && setIsEmpty(true);
+      }
+      
       isMounted && setTransactions(response.data);
-      console.log(response.data);
     };
 
     getTransactions();
@@ -47,13 +50,14 @@ export const Admin = () => {
 
   const startMiner = async () => {
     try {
-      const response = await axiosPrivate.post(
-        process.env.REACT_APP_ADDBLOCK, {
-        params: {
-          transactions,
-          type: role,
-        },
-      });
+      // const response = await axiosPrivate.post(
+      //   process.env.REACT_APP_ADDBLOCK, {
+      //   params: {
+      //     transactions,
+      //     type: role,
+      //   },
+      // });
+      const response = await axiosPrivate.get(process.env.REACT_APP_CHECK)
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -61,42 +65,17 @@ export const Admin = () => {
   };
 
   return (
-    <>
-      {transactions ? (
           <div className="addNew">
-            <TableComponent data={transactions} column={columns} />
-
-
-
-            {/* {transactions?.map((tx, key) => (
-              <Link to={`${process.env.REACT_APP_BLOCKS}/${tx.fromAddress}`} key={key}>
-                {shortenAddress(tx.fromAddress)}
-                {tx.accepted ? (
-                  <span style={{ color: "green" }}> True</span>
-                ) : tx.accepted === undefined ? (
-                  <span style={{ color: "orange" }}> ODOTTAA</span>
-                ) : (
-                  <span style={{ color: "red" }}> False</span>
-                )}
-              </Link>
-            ))}
-            <button
-              onClick={startMiner}
-              style={{ width: "50px" }}
-            >
-              Lisää
-            </button> */}
-
-            <button
-              onClick={startMiner}
-              style={{ width: "50px" }}
-            >
-              Lisää
-            </button>
+           {
+             transactions.length > 0 ? (
+              <>
+                <TableComponent data={transactions} column={columns} />
+                <button onClick={startMiner} className="logoutBtn danger">Lisää</button>
+              </>
+           ) : isEmpty
+              ? <h1>No data</h1>
+              : <Loader />
+           }
           </div>
-      ) : (
-        <Spinner />
-      )}
-    </>
   );
 };

@@ -1,10 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { LoginAndRegisterButton } from "./loginBtns/LoginAndRegisterButton";
 import { LogoutButton } from "./loginBtns/LogoutButton";
 import useAuth from "../hooks/useAuth";
 
 export const Navbar = () => {
   const { auth } = useAuth();
+  const location = useLocation();
+  const from = location.pathname;
+
   return (
     <>
       <nav className="navbar">
@@ -18,8 +21,8 @@ export const Navbar = () => {
               auth?.accessToken ? (
                 <>
                   <li>
-                    <a>
-                      {auth.email}
+                    <a> 
+                    <span style={{fontWeight: 'bold'}}>Hei</span> {`${auth.email}`}
                     </a>
                   </li>
                   {
@@ -57,12 +60,13 @@ export const Navbar = () => {
               )
               : null
             }
-        {
+        
+          </ul>
+          {
           !auth?.accessToken 
-          ? <LoginAndRegisterButton />
+          ? <LoginAndRegisterButton path={from}/>
           : <LogoutButton />
         }
-          </ul>
       </nav>
     </>
   );

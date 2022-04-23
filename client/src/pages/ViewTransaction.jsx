@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router"
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import Spinner from "../components/Spinner";
+import { Loader } from "../components/Loader";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { toast } from "react-toastify";
 import TransactionForm from "../components/TransactionForm";
 
 export const ViewTransaction = () => {
@@ -37,7 +36,7 @@ export const ViewTransaction = () => {
       <Link to={"/blocks"} className="back-text">Takaisin</Link>
       <span className="publicKey">Osoite: {data.fromAddress}</span>
           {
-            data ? <TransactionForm data={data.data} type={data.toAddress}/> : <Spinner />
+            data ? <TransactionForm data={data.data} type={data.toAddress}/> : <Loader />
           }        
       </div>
     </>

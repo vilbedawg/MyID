@@ -1,11 +1,10 @@
 import { useState } from "react";
 import DashboardID from "../components/DashboardID";
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import { Link, Navigate } from "react-router-dom";
 import { Loader } from "../components/Loader";
 import useAuth from "../hooks/useAuth";
 import { useCookies } from 'react-cookie';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 export default function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
@@ -24,6 +23,7 @@ export default function Dashboard() {
          {params: { type }}
         )
       setData(request.data);
+      console.log(request.data.transaction)
       const isChanged = cookies.invalid_tx.some(item => item.toAddress === type);
       setNotValid(isChanged);
     } catch (error) {
@@ -38,6 +38,7 @@ export default function Dashboard() {
 
   return (
     <>
+      {auth.roles.length > 1 && <Navigate to={'/blocks'}/>}
       {
         data && !notValid 
       ? 
@@ -48,7 +49,7 @@ export default function Dashboard() {
         : <DashboardID
             accepted={data ? data.transaction.accepted : null}
             ID={data ? data.transaction.toAddress : null}
-            name={data ? data.transaction.data.body.name : null}
+            name={data ? data.transaction.data.body.Nimi : null}
             country={data ? data.transaction.data.body.country : null}
             bday={data ? data.transaction.data.body.bday : null}
             path={`../uploads/${data ? data.transaction.data.picture : 'morbius-rawr.gif'}`}
@@ -65,7 +66,7 @@ export default function Dashboard() {
         </div>
         :
         <div className="dashboardRight">
-          <img className="placeholder" src="./images/placeholder.png" style={{height: '246px', width: '373px'}}></img>
+          <img className="placeholder" src="./images/placeholder.png" style={{height: 'auto', width: '100%', maxWidth: '400px'}}></img>
         </div>
       )
       }

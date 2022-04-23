@@ -1,8 +1,19 @@
 import TextBlockLeft from "../components/TextBlockLeft";
 import TextBlockRight from "../components/TextBlockRight";
-import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
 export default function AboutApp(){
+    const navigate = useNavigate();
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
+
+     
+
+    const clickHandler = () => {
+        navigate("/about", {replace: true});
+    }
+
     return (
         <div className="aboutHow">
             <TextBlockLeft
@@ -39,9 +50,10 @@ export default function AboutApp(){
                 Sovelluksen bugit voi ilmoittaa osoitteeseen 
                 vilho.luoma@gmail.com"
                 path="../images/women.png"
+                last={true}
             />
+            <button className="logoutBtn stickyBtn" onClick={clickHandler}>Takaisin</button>
             <div>
-                <Link to="/">Takaisin</Link>
             </div>
             
         </div>

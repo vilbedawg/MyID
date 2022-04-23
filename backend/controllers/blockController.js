@@ -12,6 +12,8 @@ export const mineBlock = expressAsyncHandler(async (req, res) => {
   const toAddress = Object.keys(ROLES_LIST).find(
     (role) => ROLES_LIST[role] == req.roles[1]
   );
+ 
+  
   await BlockchainInstance.getChain();
   // push the transactions from db to pending transactions
   for await (const transaction of req.body.params.transactions) {
@@ -21,7 +23,7 @@ export const mineBlock = expressAsyncHandler(async (req, res) => {
   const mineBlock = await BlockchainInstance.minePendingTransactions(toAddress);
 
   if (!mineBlock) {
-    throw ApiError.internal("Jokin meni pieleen lisäyksen aikana");
+    return res.sendStatus(500);
   }
 
   const minedBlock = BlockchainInstance.chain[BlockchainInstance.chain.length - 1];
@@ -52,22 +54,40 @@ export const checkValidation = expressAsyncHandler(async (req, res) => {
   await BlockchainInstance.getChain();
   // BlockchainInstance.chain[2].transactions[3].data.picture = 'asd';
   const result = await BlockchainInstance.isChainValid();
+  const latest = await block.findOne({"transactions": {$elemMatch: { fromAddress: req.user }}}).sort({$natural: -1}).select('-password');
   let valid = true;
   let invalidResults = [];
-  for (let i = 0; i < result.invalidTransactions.length; i++) {
-    const currentInvalid = result.invalidTransactions[i];
-    if (currentInvalid.fromAddress === req.user) {
-      valid = false;
-      invalidResults.push({toAddress: currentInvalid.toAddress, valid});
+  // for (let i = 0; i < result.invalidTransactions.length; i++) {
+  //   const currentInvalid = result.invalidTransactions[i];
+  //   console.log(latest)
+  //   if (currentInvalid.fromAddress === req.user) {
+  //     valid = false;
+  
+  //   }
+  // }
+
+  
+  const map = result.invalidTransactions.map((obj, i) => {
+    console.log(obj)
+    const res = latest.transactions.filter(x => {
+      x.fromAddress === obj.fromAddress && x.timestamp === obj.timestamp && x.toAddress === obj.toAddress;
+    })
+    
+    if(res.length > 0) { 
+      invalidResults.push({toAddress: obj.toAddress, valid: false});
     }
-  }
+
+    return;
+  });
+
+  console.log(map)
+  
 
   res.cookie("invalid_tx", invalidResults, {
     maxAge: 6.048e8, // 1 week
     secure: false,
     sameSite: true
   });
-
 
   res.sendStatus(200);
   

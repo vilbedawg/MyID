@@ -1,8 +1,15 @@
 import TextBlockLeft from "../components/TextBlockLeft";
 import TextBlockRight from "../components/TextBlockRight";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export default function About(){
+    const navigate = useNavigate();
+
+    const clickHandler = () => {
+        navigate("/about/how", {replace: true});
+    }
+
     return (
         <div className="about">
             <TextBlockLeft
@@ -36,11 +43,9 @@ export default function About(){
                         joudut tallentamaan uuden kortin. 
                         Voit halutessasi lukea lisää miksi tästä."
                 path="./images/fourth.png"
-                link="/about/how"
-                linktext="Lisätietoja"
+                last={true}
             />
-
-                
+                <button className="logoutBtn stickyBtn" onClick={clickHandler}>Lisätietoja</button>
         </div>
     )
 }

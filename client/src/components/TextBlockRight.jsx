@@ -2,8 +2,8 @@ import { Link } from "react-router-dom"
 
 export default function TextBlockRight(props) {
     return (
-        <div className="textBlockRight">
-            <img src={props.path} />
+        <div className="textBlockRight" style={{borderBottom: props.last ? 'none' : '1px solid black'}}>
+            <img src={props.path} style={{width: props.last ? 'auto' : '500px'}}/>
             <div className="textBlockBody">
                 <h1>
                     {props.header}
@@ -12,9 +12,6 @@ export default function TextBlockRight(props) {
                     {props.body}
                 </p>
             </div>
-            {props.link ? 
-            <Link to={props.link}>{props.linktext}</Link>
-            : null}
         </div>
     )
 };

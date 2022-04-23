@@ -24,6 +24,7 @@ export class Blockchain {
     });
     console.log('Genesis block created');
     await genesisBlock.save();
+    
   }
 
 
@@ -90,10 +91,6 @@ export class Blockchain {
 
   async isChainValid() {
 
-    if(this.chain.length === 0) {
-      await this.getChain();
-    }
-
     let invalidTransactions = [];
     let invalidBlocks = [];
     for (let i = 1; i < this.chain.length; i++) {
@@ -107,8 +104,6 @@ export class Blockchain {
         currentBlock.nonce
       );
       
-     
-
       const checkTransactions = await currentBlockInstance.hasValidTransaction();
 
       if(checkTransactions.length > 0) {

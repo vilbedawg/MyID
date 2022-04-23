@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
 import axios from "../api/axios";
@@ -11,8 +11,6 @@ export const Login = () => {
   const { setAuth, persist, setPersist } = useAuth();
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
   const loginAuth = '/authstep2';
 
   const [email, setEmail] = useState('')

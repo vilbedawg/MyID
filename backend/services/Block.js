@@ -36,7 +36,6 @@ export class Block {
                 tx.timestamp
             );
 
-           
             const isValid = await TransactionInstance.isValid();
             if (!isValid){
                 invalidTransactions.push(tx);
@@ -70,11 +69,10 @@ export class Transaction {
         if(signingKey.getPublic('hex') !== this.fromAddress) {
             throw ApiError.badRequest(`You cannot sign transactions from other wallets`);
         }
-        
         const hashTx = this.calculateHash();
         const sig = await signingKey.sign(hashTx, 'base64');
         this.signature = await sig.toDER('hex');
-        return true;
+        return;
     }
 
 

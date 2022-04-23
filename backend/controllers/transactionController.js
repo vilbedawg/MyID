@@ -11,7 +11,6 @@ const ec = new EC("secp256k1");
 
 
 export const addTransaction = expressAsyncHandler(async (req, res) => {
-  console.log(req.body)
   const User = await user.findOne({publicKey : req.user});
 
   if(!User) return res.sendStatus(403);
@@ -24,13 +23,10 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
   const fromAddress = User.publicKey;
   const toAddress = req.body.Tyyppi;
   const timestamp = new Date().getTime();
-  const userdata = {
-    body: req.body,
-    picture: req.files[0].filename,
-  }
-
+  const body = req.body;
+  body.picture = req.files[0].filename;
   // new transaction instance
-  const newTx = new Transaction(fromAddress, toAddress, userdata, null, timestamp);
+  const newTx = new Transaction(fromAddress, toAddress, body, null, timestamp);
   await newTx.signTransaction(key);
 
   // transaction validation
@@ -83,31 +79,38 @@ export const getViewedTransaction = expressAsyncHandler(async (req, res) => {
 
 
 export const transactionHandler = expressAsyncHandler(async (req, res) => {
-  const toAddress = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] === req.roles[1]);
-  const data = await transaction.findOne({fromAddress: req.params.id, toAddress}).sort({$natural:-1});
+  const type = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] === req.roles[1]);
+  const oldTx = await transaction.findOne({fromAddress: req.params.id, toAddress: type}).sort({$natural:-1});
+  const User = await user.findOne({publicKey: req.params.id});
 
-  if(!data) {
-    return res.sendStatus(404);
-  }
+  if(!User || !oldTx) return res.sendStatus(404);
 
-  let newData = {
-    ...data.data.body,
+  const {fromAddress, toAddress, timestamp } = oldTx;
+  const newData = {
+    ...oldTx.data,
     ...req.body
   }
+  
+  const newTx = new Transaction(fromAddress, toAddress, newData, null, timestamp);
+
+  const key = ec.keyFromPrivate(User.privateKey);
+  await newTx.signTransaction(key);
+
   const saved = await transaction.updateOne(
     {
-      _id: data._id, fromAddress: data.fromAddress
+      _id: oldTx._id, fromAddress: oldTx.fromAddress
     }, 
     { 
       $set: 
       {
-        "data.body" : newData, 
+        signature: newTx.signature,
+        data : newTx.data, 
         accepted : req.params.bool
       }
     });
 
   if(saved) {
-    res.status(200).json(data);
+    res.sendStatus(200);
   } else {
     res.send('Something went wrong when saving').status(500);
   }

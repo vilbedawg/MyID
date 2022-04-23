@@ -1,18 +1,35 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router";
 
-export const LoginAndRegisterButton = () => {
+export const LoginAndRegisterButton = ({path}) => {
+  const navigate = useNavigate();
+  const clickHandler = (e) => {
+    const location = e.target.getAttribute("name");
+    
+    if(location === 'login') {
+      navigate('/login', {replace: true});
+    } else {
+      navigate('register', {replace: true});
+    }
+  }
+
   return (
     <>
-        <li>
-          <Link to="/login">
+        <div>
+          <button 
+            onClick={clickHandler} 
+            name="login"  
+            className={path !== '/login' ? 'logoutBtn' : 'logoutBtn  active'} 
+            style={{margin: '10px'}}>
             Kirjaudu sisään
-          </Link>
-        </li>
-        <li>
-          <Link to="/register">
+          </button>
+          <button 
+            onClick={clickHandler} 
+            name="register" 
+            className={path !== '/register' ? 'logoutBtn' : 'logoutBtn active'}
+            style={{margin: '10px'}}>
             Rekisteröidy
-          </Link>
-        </li>
+          </button>
+        </div>
     </>
   )
 }
