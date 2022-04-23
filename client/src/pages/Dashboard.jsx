@@ -22,9 +22,8 @@ export default function Dashboard() {
         process.env.REACT_APP_USER,
          {params: { type }}
         )
-      setData(request.data);
-      console.log(request.data.transaction)
-      const isChanged = cookies.invalid_tx.some(item => item.toAddress === type);
+      setData(request.data.transaction);
+      const isChanged = cookies.invalid_tx.some(item => item.toAddress === type && request.data.transaction.timestamp === item.timestamp);
       setNotValid(isChanged);
     } catch (error) {
       console.log(error);
@@ -47,12 +46,12 @@ export default function Dashboard() {
         {isLoading 
         ? <Loader /> 
         : <DashboardID
-            accepted={data ? data.transaction.accepted : null}
-            ID={data ? data.transaction.toAddress : null}
-            name={data ? data.transaction.data.body.Nimi : null}
-            country={data ? data.transaction.data.body.country : null}
-            bday={data ? data.transaction.data.body.bday : null}
-            path={`../uploads/${data ? data.transaction.data.picture : 'morbius-rawr.gif'}`}
+            accepted={data ? data.accepted : null}
+            ID={data ? data.Tyyppi : null}
+            name={data ? data.data.Nimi : null}
+            country={data ? data.data.Maa : null}
+            bday={data ? data.data.Henkilötunnus : null}
+            path={`../uploads/${data ? data.data.picture : 'morbius-rawr.gif'}`}
           /> }
         </div>
       )

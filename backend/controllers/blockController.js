@@ -55,33 +55,24 @@ export const checkValidation = expressAsyncHandler(async (req, res) => {
   // BlockchainInstance.chain[2].transactions[3].data.picture = 'asd';
   const result = await BlockchainInstance.isChainValid();
   const latest = await block.findOne({"transactions": {$elemMatch: { fromAddress: req.user }}}).sort({$natural: -1}).select('-password');
-  let valid = true;
-  let invalidResults = [];
-  // for (let i = 0; i < result.invalidTransactions.length; i++) {
-  //   const currentInvalid = result.invalidTransactions[i];
-  //   console.log(latest)
-  //   if (currentInvalid.fromAddress === req.user) {
-  //     valid = false;
-  
-  //   }
-  // }
 
-  
-  const map = result.invalidTransactions.map((obj, i) => {
-    console.log(obj)
-    const res = latest.transactions.filter(x => {
-      x.fromAddress === obj.fromAddress && x.timestamp === obj.timestamp && x.toAddress === obj.toAddress;
-    })
+  // Run to check if checked invalid transactions include users latest transaction.
+  // For example, if he has 2 transactions with the first one being invalid and the newer one not
+  // so that he can still use his newer id
+  const invalidResults = result.invalidTransactions.filter((obj, i) => {
+    if (!latest) return
     
-    if(res.length > 0) { 
-      invalidResults.push({toAddress: obj.toAddress, valid: false});
+    const res = latest.transactions.find((x) => {
+      return JSON.stringify(obj) === JSON.stringify(x)
+    })
+
+    if (res) {
+      return obj;
+    } else {
+      return
     }
 
-    return;
   });
-
-  console.log(map)
-  
 
   res.cookie("invalid_tx", invalidResults, {
     maxAge: 6.048e8, // 1 week

@@ -50,14 +50,13 @@ export const Admin = () => {
 
   const startMiner = async () => {
     try {
-      // const response = await axiosPrivate.post(
-      //   process.env.REACT_APP_ADDBLOCK, {
-      //   params: {
-      //     transactions,
-      //     type: role,
-      //   },
-      // });
-      const response = await axiosPrivate.get(process.env.REACT_APP_CHECK)
+      const response = await axiosPrivate.post(
+        process.env.REACT_APP_ADDBLOCK, {
+        params: {
+          transactions,
+          type: role,
+        },
+      });
       console.log(response);
     } catch (error) {
       console.error(error);
