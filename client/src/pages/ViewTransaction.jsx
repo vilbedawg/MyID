@@ -3,14 +3,12 @@ import { useParams } from "react-router"
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { Loader } from "../components/Loader";
 import { Link } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
 import TransactionForm from "../components/TransactionForm";
 
 export const ViewTransaction = () => {
     const params = useParams();
     const [data, setData] = useState('');
     const axiosPrivate = useAxiosPrivate();
-    const {auth} = useAuth();
 
     useEffect(() => {
         let isMounted = true;
@@ -33,11 +31,15 @@ export const ViewTransaction = () => {
   return (
     <>
       <div className="dashboardRight transactions">
-      <Link to={"/blocks"} className="back-text">Takaisin</Link>
-      <span className="publicKey">Osoite: {data.fromAddress}</span>
-          {
-            data ? <TransactionForm data={data.data} type={data.toAddress}/> : <Loader />
-          }        
+      <Link to={"/transactions"} className="back-text">Takaisin</Link>
+        {
+            data ? (
+              <>
+                <span className="publicKey">Osoite: {data.fromAddress}</span>    
+                <TransactionForm data={data.data} type={data.toAddress}/>
+              </>
+            ) : <Loader />
+          }  
       </div>
     </>
   );

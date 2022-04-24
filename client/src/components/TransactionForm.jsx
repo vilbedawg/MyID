@@ -1,38 +1,56 @@
 import { KelaForm } from "./transactionForms/KelaForm"
 import { DriverForm } from "./transactionForms/DriverForm"
 import { PassportForm } from "./transactionForms/PassportForm"
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useParams } from "react-router";
+import { toast } from "react-toastify";
+
 
 export default function TransactionForm({data, type}) {
+  const axiosPrivate = useAxiosPrivate();
+  const params = useParams();
+
+  const displayOnly = ['Tyyppi', 'Nimi', 'Syntymäaika', 'Henkilötunnus', 'Maa', 'Postitoimipaikka', 'Osoite'];
 
   const ObjectKeys = ({item, i}) => {
-    return item[0] !== 'picture' ? (
-      <div className="form-row" key={i}>
+    if (item[0] === 'picture') return null
+
+    const wantToDisplay = displayOnly.some(x => x === item[0]);
+
+    if(!wantToDisplay) return null;
+    
+    return  (
+      <div className="form-row" style={{opacity: '.5'}} key={i}>
         <p>{item[0]}</p>
         <input value={item[1]} readOnly className="form-input"/>
       </div>
     )
-    :
-    null
-  }
-
-  const onSubmitHandler = async (e) => {
-    e.preventDefault();
-    await updateData
   }
 
   const updateData = async (data) => {
-    console.log(data)
+    const valid = data.valid;
+    const body = data.data;
+     try {
+      const response = await axiosPrivate.post(`${process.env.REACT_APP_HANDLE}/${params.id}/${valid}`, body);
+      console.log(response.data);
+      toast.success(response.data)
+    } catch (error) {
+      toast.error(error.response.data?.message);
+      toast.error(error.response.data);
+    }
   }
   
   return (
-    <form className="transactions-form" onSubmit={onSubmitHandler}>
+    <div className="transactions-form" >
       <div className="form-group">
+      
         {Object.entries(data).map((item, i) => <ObjectKeys item={item} key={i}/>)}
-        {type === 'Ajokortti' && <DriverForm imagePath={data.picture} submit={updateData}/>}
-        {type === 'Kelakortti' && <KelaForm imagePath={data.picture}/>}
-        {type === 'Passi' && <PassportForm imagePath={data.picture}/>}
+
+        {type === process.env.REACT_APP_AJOKORTTI && <DriverForm imagePath={data.picture} submit={updateData}/>}
+        {type === process.env.REACT_APP_KELAKORTTI && <KelaForm imagePath={data.picture} submit={updateData}/>}
+        {type === process.env.REACT_APP_PASSI && <PassportForm imagePath={data.picture} submit={updateData}/>}
       </div>
-    </form>
+    </div>
   )
 }
 

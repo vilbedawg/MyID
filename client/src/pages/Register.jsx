@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "../api/axios";
-
+import { useNavigate } from "react-router";
 // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{4,24}$/;
 
 
@@ -11,6 +10,12 @@ export const Register = () => {
   const [password, setPassword] = useState("");
   const [matchPwd, setMatchPwd] = useState("");
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
+
+
+  const onLogin = () => {
+    navigate('/login', {replace: true})
+  }
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -21,16 +26,14 @@ export const Register = () => {
     }
   
     try {
-      const response = await axios.post(
-        process.envREACT_APP_REGISTER, 
+        await axios.post(
+        process.env.REACT_APP_REGISTER, 
         JSON.stringify({ email, password }),
         {
           headers: { 'Content-Type': 'application/json'},
           withCredentials: true
         }
       );
-      console.log(response.data);
-      console.log(JSON.stringify(response));
       setSuccess(true);
       setEmail('');
       setPassword('');
@@ -47,11 +50,13 @@ export const Register = () => {
   return (
     <>
       {success ? (
-        <div>
+        <div className="antiHero">
           <h1>Rekisteröinti onnistui</h1>
-          <p>
-            <Link to={'/login'}>Kirjaudu sisään </Link>
-          </p>
+          <div className="antiHeroInputs">
+            <button type="submit" onClick={onLogin}>
+              Kirjaudu sisään
+            </button>
+          </div>
         </div>
       ) : (
         <div className="antiHero">
@@ -87,7 +92,7 @@ export const Register = () => {
         </div>
       )}
       <div className="LoginPic">
-              <img src="./images/LoginPic.png" className="loginImage"></img>
+              <img src="./images/LoginPic.png" alt="register_img" className="loginImage"></img>
       </div>
     </>
   );

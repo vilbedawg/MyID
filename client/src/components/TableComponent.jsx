@@ -23,13 +23,13 @@ const TableHeadItem = ({ item }) => <th>{item.heading}</th>
 const TableRow = ({ item, column }) => (
     <tr>
       {column.map((columnItem, index) => {
-        if(columnItem.value == "accepted"){
-            console.log(item[`${columnItem.value}`])
-            return <td key={index}>{JSON.stringify(item[`${columnItem.value}`])}</td>
+        if(columnItem.value === "accepted"){
+            console.log(item[columnItem.value])
+            return <td style={{color: item[columnItem.value] === true ? 'green' : 'red'}} key={index}>{JSON.stringify(item[columnItem.value])}</td>
         }
 
-        if(columnItem.value == "tarkista"){
-            return <td key={index}><Link to={`${process.env.REACT_APP_BLOCKS}/${item["fromAddress"]}`}>Katso</Link></td>
+        if(columnItem.value === "tarkista"){
+            return <td key={index}><Link to={`${process.env.REACT_APP_VIEWTX}/${item["fromAddress"]}`}>Katso</Link></td>
         }
 
         if(columnItem.value.includes('.')) {
@@ -37,7 +37,7 @@ const TableRow = ({ item, column }) => (
           return <td key={index}>{item[itemSplit[0]][itemSplit[1]]}</td>
         }
 
-        return <td key={index}>{columnItem.value == "signature" || columnItem.value == "fromAddress" ?
+        return <td key={index}>{columnItem.value === "signature" || columnItem.value === "fromAddress" ?
                     shortenAddress(item[`${columnItem.value}`]) : item[`${columnItem.value}`]}</td>
       })}
     </tr>

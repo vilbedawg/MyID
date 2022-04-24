@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 
 
 export const loginUser = expressAsyncHandler(async (req, res) => {
-
+  
   const { email, password } = req.body;
   
   if(!email || !password) {

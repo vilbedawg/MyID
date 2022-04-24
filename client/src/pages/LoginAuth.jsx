@@ -8,18 +8,15 @@ export const LoginAuth = () => {
     const axiosPrivate = useAxiosPrivate();
     const { auth } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
         const checkCards = async () => {
-            const [request1] = await Promise.all([
-            axiosPrivate.get(
-                process.env.REACT_APP_CHECK,
-                {signal: controller.signal})
-            ]);
-            setIsLoading(false);
+            await axiosPrivate.get(process.env.REACT_APP_CHECK, {signal: controller.signal});
+            isMounted && setIsLoading(false);
         }
-
+        
         checkCards();
         return () => {
           isMounted = false;
@@ -33,7 +30,7 @@ export const LoginAuth = () => {
           isLoading 
           ? <Spinner />
           : auth?.roles.length > 1
-            ? <Navigate replace to="/blocks" />
+            ? <Navigate replace to="/transactions" />
             : <Navigate replace to="/" />
         }
     </>

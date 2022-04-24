@@ -11,7 +11,6 @@ export const Login = () => {
   const { setAuth, persist, setPersist } = useAuth();
 
   const navigate = useNavigate();
-  const loginAuth = '/authstep2';
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState("");
@@ -34,12 +33,13 @@ export const Login = () => {
       setAuth({ email, roles, accessToken });
       setEmail("");
       setPassword("");
-      navigate(loginAuth, { replace: true });
+      navigate('/check', { replace: true });
     } catch (error) {
       if (!error?.response) {
         toast.error("Ei vastausta palvelimelta");
       } else {
-        toast.error(error.response.data.message);
+        toast.error(error.response.data?.message);
+        toast.error(error.response.data);
       }
       setIsLoading(false);
     }
@@ -52,6 +52,8 @@ export const Login = () => {
   useEffect(() => {
     localStorage.setItem("persist", persist);
   }, [persist]);
+
+
 
   return (
     <>
@@ -95,9 +97,9 @@ export const Login = () => {
               </form>
 
           </div>
-          <div>
-              <img src="./images/LoginPic.png" className="loginImage"></img>
-          </div>
+         
+              <img src="./images/LoginPic.png" alt="login_pic" className="loginImage"></img>
+        
         </>
       )}
     </>

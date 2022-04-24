@@ -43,7 +43,7 @@ export const Navbar = () => {
             {
               auth?.roles?.includes(5024) || auth?.roles?.includes(1922) ? (
               <li>
-                <Link to="/blocks">
+                <Link to="/transactions">
                   Admin
                 </Link>
               </li>

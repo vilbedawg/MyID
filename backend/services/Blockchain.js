@@ -52,18 +52,22 @@ export class Blockchain {
     
     if(lastBlockInfo) { 
       // new block instance to add make a new block
-      let currentBlockInfo = new Block(
+      let newBlockInfo = new Block(
         new Date().getTime(),
         this.pendingTransactions,
         lastBlockInfo.hash
       );
 
-      await currentBlockInfo.mineBlock(this.difficulty);
-      this.pendingTransactions = []; 
-      this.chain.push(currentBlockInfo);
+      await newBlockInfo.mineBlock(this.difficulty);
+    
+      this.chain.push(newBlockInfo);
 
       // include the transactions in the block
-      await transaction.deleteMany({toAddress});
+      // by deleting all the handled transactions from the 'transactions' table
+      for await (const tx of this.pendingTransactions) {
+        await transaction.deleteMany({fromAddress: tx.fromAddress, toAddress: tx.toAddress});
+      } 
+      this.pendingTransactions = []; 
       return true;
     }
     // if no previous block is found, initiate the genesis block
@@ -81,11 +85,11 @@ export class Blockchain {
       const result = await transaction.isValid();  
       
       if(!result) {
-        return ApiError.badRequest('Allekirjoitus ei ole kunnollinen');
+        throw ApiError.badRequest('Allekirjoitus ei ole kunnollinen');
       }
       
       this.pendingTransactions.push(transaction);
-      return true;
+      return;
   }
 
 

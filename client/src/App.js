@@ -12,14 +12,12 @@ import PersistLogin from './components/PersistentLogin';
 import { ViewTransaction } from './pages/ViewTransaction';
 import About from './pages/About';
 import { LoginAuth } from "./pages/LoginAuth";
-import useAuth from "./hooks/useAuth";
 import NewIDSent from "./pages/NewIDSent";
 import AboutApp from "./pages/AboutApp";
 
 
 
 function App() {
-  const {auth} = useAuth();
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -32,7 +30,7 @@ function App() {
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={[2001]} />}>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/authstep2" element={<LoginAuth />} />
+            <Route path="/check" element={<LoginAuth />} />
             <Route path="/addnew" element={<Addnew />} />
             <Route path="/NewIDSent" element={<NewIDSent />} />
             <Route path="/about" exact element={<About />} />
@@ -40,9 +38,9 @@ function App() {
           </Route>
 
           {/* protected routes for ADMINS */}
-          <Route element={<RequireAuth allowedRoles={[5024, 1922]} />}>
-            <Route path="/blocks" element={<Admin />} />
-            <Route path="/blocks/:id" element={<ViewTransaction />} />
+          <Route element={<RequireAuth allowedRoles={[5024, 1922, 3033]} />}>
+            <Route path="/transactions" element={<Admin />} />
+            <Route path="/transactions/:id" element={<ViewTransaction />} />
           </Route>
         </Route>
 

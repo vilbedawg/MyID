@@ -4,7 +4,7 @@ import { CountryDropdown } from 'react-country-region-selector';
 import 'react-datepicker/dist/react-datepicker.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useNavigate } from 'react-router';
-
+import { toast } from 'react-toastify';
 
   
 
@@ -15,6 +15,8 @@ export default function AddPassport() {
   const [hetu, setHetu] = useState('');
   const [bday, setBday] = useState(new Date());
   const [country, setCountry] = useState();
+  const [postLocation, setPostLocation] = useState();
+  const [address, setAddress] = useState();
   const [files, setFiles] = useState([]);
 
   const handleSubmit = async (e) => {
@@ -22,19 +24,22 @@ export default function AddPassport() {
     const birthday = bday.toLocaleDateString();
     //data
     const data = new FormData();
-    data.append("Nimi", name);
-    data.append("Syntymäaika", birthday);
-    data.append("Henkilötunnus", hetu);
-    data.append("Maa", country);
     data.append("Tyyppi", process.env.REACT_APP_PASSI);
+    data.append("Nimi", name);
+    data.append("Henkilötunnus", hetu);
+    data.append("Syntymäaika", birthday);
+    data.append("Maa", country);
+    data.append("Osoite", address);
+    data.append("Postitoimipaikka", postLocation);
     for (let i = 0; i < files.length; i++) {
       data.append("file", files[i]);
     }
     try {
-      const response = await axiosPrivate.post(process.env.REACT_APP_ADDTX, data); 
+      await axiosPrivate.post(process.env.REACT_APP_ADDTX, data); 
       navigate("/NewIDSent", {replace: true });
     } catch (error) {
-      console.error(error)
+      toast.error(error.response.data?.message);
+      toast.error(error.response.data);
     }
   }
 
@@ -61,13 +66,28 @@ export default function AddPassport() {
             value={hetu}
             onChange={(e) => setHetu(e.target.value)}
           />
-          
+
           <label>Maa:</label>
           <CountryDropdown
+            defaultOptionLabel='Valitse maa'
             value={country}
             onChange={(val) => setCountry(val)}
           />
-        <label>Passikuva:
+
+          <label>Osoite: </label>
+          <input type="text" placeholder="Osoite"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />    
+
+          <label>Postitoimipaikka: </label>
+          <input type="text" placeholder="Postitoimipaikka"
+            value={postLocation}
+            onChange={(e) => setPostLocation(e.target.value)}
+          />
+        
+
+          <label>Passikuva:
           <input type="file" id="img" name="img" accept="image/*" onChange={e => {
             const file = e.target.files[0];
             setFiles(oldArray => [...oldArray, file]);

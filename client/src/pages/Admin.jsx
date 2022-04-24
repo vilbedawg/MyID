@@ -3,10 +3,12 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useAuth from "../hooks/useAuth";
 import { Loader } from "../components/Loader";
 import TableComponent from "../components/TableComponent";
+import { toast } from "react-toastify";
 
 export const Admin = () => {
   const [transactions, setTransactions] = useState([]);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [toggleMiner, setToggleMiner] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   const { auth } = useAuth();
   const role = auth?.roles[1];
@@ -21,24 +23,27 @@ export const Admin = () => {
     {heading: 'Lähetetty', value: 'timestamp'},
     {heading: 'Status', value: 'accepted'},
     {heading: 'Tarkista', value: 'tarkista'}
-    
   ]
   
+
+  
+
   useEffect(() => {
+    
     let isMounted = true;
     const controller = new AbortController();
-    const getTransactions = async () => {
-      const response = await axiosPrivate.get(
-        process.env.REACT_APP_TRANSACTIONS, {
-        signal: controller.signal,
-      });
-
-      if(response.data.length <= 0) {
-        isMounted && setIsEmpty(true);
-      }
-      
-      isMounted && setTransactions(response.data);
-    };
+      const getTransactions = async () => {
+        const response = await axiosPrivate.get(
+          process.env.REACT_APP_TRANSACTIONS, {
+          signal: controller.signal,
+        });
+  
+        if(response.data.length <= 0) {
+          isMounted && setIsEmpty(true);
+        }
+  
+        isMounted && setTransactions(response.data);
+    }
 
     getTransactions();
 
@@ -47,8 +52,10 @@ export const Admin = () => {
       controller.abort();
     };
   }, []);
+  
 
   const startMiner = async () => {
+    setToggleMiner(true);
     try {
       const response = await axiosPrivate.post(
         process.env.REACT_APP_ADDBLOCK, {
@@ -57,24 +64,30 @@ export const Admin = () => {
           type: role,
         },
       });
-      console.log(response);
+      toast.success(response.data.message);
+      setTransactions([]);
+      setIsEmpty(true);
     } catch (error) {
-      console.error(error);
+      toast.error(error.response.data);
+      toast.error(error.response.data?.message);
     }
+    setToggleMiner(false);
   };
 
   return (
-          <div className="addNew">
+    <>
+      <div className="addNew transactions">
            {
-             transactions.length > 0 ? (
+           transactions.length > 0 && !toggleMiner ? (
               <>
                 <TableComponent data={transactions} column={columns} />
-                <button onClick={startMiner} className="logoutBtn danger">Lisää</button>
               </>
-           ) : isEmpty
+           ) : isEmpty 
               ? <h1>No data</h1>
               : <Loader />
            }
           </div>
+      <button onClick={startMiner} disabled={toggleMiner} className="logoutBtn danger">Lisää</button>
+    </>
   );
 };

@@ -5,8 +5,7 @@ export const Missing = () => {
     <div className="missing">
     <br />
     <br />
-        <h1>404</h1>
-        <h3>Sivua ei löytynyt</h3>
+        <h1>404 Sivua ei löytynyt</h1>
         <Link to='/'>Takaisin</Link>
     </div>
   )

@@ -5,10 +5,11 @@ import { Loader } from "../components/Loader";
 import useAuth from "../hooks/useAuth";
 import { useCookies } from 'react-cookie';
 import { useNavigate, Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
-  const [cookies, setCookie, removeCookie] = useCookies(['invalid_tx']);
+  const [cookies] = useCookies(['invalid_tx']);
   const [data, setData] = useState();
   const [notValid, setNotValid] = useState(false); 
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +27,8 @@ export default function Dashboard() {
       const isChanged = cookies.invalid_tx.some(item => item.toAddress === type && request.data.transaction.timestamp === item.timestamp);
       setNotValid(isChanged);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data?.message);
+      toast.error(error.response.data);
     }
     setIsLoading(false);
   }
@@ -37,7 +39,7 @@ export default function Dashboard() {
 
   return (
     <>
-      {auth.roles.length > 1 && <Navigate to={'/blocks'}/>}
+      {auth.roles.length > 1 && <Navigate to={'/transactions'}/>}
       {
         data && !notValid 
       ? 
@@ -60,12 +62,12 @@ export default function Dashboard() {
         notValid  
         ?
         <div className="dashboardRight">
-          <img src="./images/sponge.png" style={{width: '50%', height: '50%'}}/>
+          <img src="./images/sponge.png" alt="sponge" style={{width: '50%', height: '50%'}}/>
           <h1>Tietoja muutettu</h1>
         </div>
         :
         <div className="dashboardRight">
-          <img className="placeholder" src="./images/placeholder.png" style={{height: 'auto', width: '100%', maxWidth: '400px'}}></img>
+          <img className="placeholder" src="./images/placeholder.png" alt="dashboard_placeholder" style={{height: 'auto', width: '100%', maxWidth: '400px'}}></img>
         </div>
       )
       }

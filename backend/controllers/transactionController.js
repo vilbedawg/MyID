@@ -14,7 +14,8 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
   const User = await user.findOne({publicKey : req.user});
 
   if(!User) return res.sendStatus(403);
-  
+
+
   //Get keypair
   const key = ec.keyFromPrivate(User.privateKey);
 
@@ -30,11 +31,8 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
   await newTx.signTransaction(key);
 
   // transaction validation
-  const isTransactionAdded = await BlockchainInstance.addTransaction(newTx);
-  if (isTransactionAdded.error) {
-    throw ApiError.badRequest(isTransactionAdded.message);
-  }
-
+  await BlockchainInstance.addTransaction(newTx);
+ 
   // new model instance
   const newTransaction = new transaction({
     fromAddress: newTx.fromAddress,
@@ -43,6 +41,15 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
     data: newTx.data,
     timestamp: newTx.timestamp,
   });
+
+  // check if the user has already submitted transaction that is waiting 
+  // to be handled, then delete the old one
+  const hasTransaction = await transaction.find({fromAddress: User.publicKey, toAddress});
+
+  if(hasTransaction) {
+    await transaction.deleteMany({fromAddress: User.publicKey, toAddress});
+  }
+
 
   const saved = await newTransaction.save();
   if (saved) {
@@ -55,21 +62,11 @@ export const addTransaction = expressAsyncHandler(async (req, res) => {
 
 // get all transactions
 export const getTransactions = expressAsyncHandler(async (req, res) => {
-  if (!req.roles) return res.sendStatus(403);
+  if (!req.roles[1]) return res.sendStatus(403);
   const toAddress = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] == req.roles[1]);
-  const transactions = await transaction.find({toAddress}).sort({$natural: -1}).select('-password');
-
-  // Check for duplicates... 
-  // We only want the most recently added transaction
-  const seen = new Set();
-  const filteredArr = transactions.filter(el => {
-    const duplicate = seen.has(el.fromAddress);
-    seen.add(el.fromAddress);
-    return !duplicate;
-  });
-
-  res.json(filteredArr);
-})
+  const transactions = await transaction.find({toAddress}).limit(10).select('-password');
+  res.json(transactions)
+});
 
 export const getViewedTransaction = expressAsyncHandler(async (req, res) => {
   const role = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] === req.roles[1]);
@@ -82,9 +79,9 @@ export const transactionHandler = expressAsyncHandler(async (req, res) => {
   const type = Object.keys(ROLES_LIST).find(role => ROLES_LIST[role] === req.roles[1]);
   const oldTx = await transaction.findOne({fromAddress: req.params.id, toAddress: type}).sort({$natural:-1});
   const User = await user.findOne({publicKey: req.params.id});
-
+ 
   if(!User || !oldTx) return res.sendStatus(404);
-
+  
   const {fromAddress, toAddress, timestamp } = oldTx;
   const newData = {
     ...oldTx.data,
@@ -112,6 +109,6 @@ export const transactionHandler = expressAsyncHandler(async (req, res) => {
   if(saved) {
     res.sendStatus(200);
   } else {
-    res.send('Something went wrong when saving').status(500);
+    res.sendStatus(500);
   }
 });
