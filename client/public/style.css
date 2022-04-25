@@ -165,6 +165,10 @@ body{
 .navbar a:hover{
   color: white;
 }
+.navbar .logoutBtn{
+  
+  margin: 10px;
+}
 
 .myidLogo{
   margin: 0;
@@ -189,6 +193,7 @@ body{
   align-items: center;
   text-align: center;
   justify-content: center;
+  min-height: 500px;
 }
 
 .antiHero h1{
@@ -387,6 +392,9 @@ body{
   align-items: center;
   align-self: center;
   user-select: none;
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
 }
 
 .dashboardID{
@@ -1031,6 +1039,10 @@ Note: Beware of modifying this element as it can break the animations - you shou
   color: #b8b7ad;
   padding: 0.8em;
 }
+.bm-item-list button{
+  margin: 0;
+  margin-top: 20px;
+}
 
 /* Individual item */
 .bm-item {
@@ -1054,6 +1066,9 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .mobileNavbar{
   display: none;
 }
+.addBtn{
+  display: none;
+}
 
 @media only screen and (max-width: 1080px){
   .navbar{
@@ -1064,7 +1079,18 @@ Note: Beware of modifying this element as it can break the animations - you shou
   }
   .hamburger{
     display: block;
+    font-size: 16px;
   }
+  .hamburger a{
+    font-size: 26px;
+    text-decoration: none;
+    margin-top: 10px;
+    color: black;
+  }
+  .hamburger h1{
+    margin-bottom: 10px;
+  }
+
   .newIDSent img{
     max-width: 125px;
   }
@@ -1075,6 +1101,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
     grid-column: 1/5;
     grid-row: 3/6;
     padding: 15px;
+    padding-bottom: 50px;
   }
   .dashboardLeft{
     display: none;
@@ -1112,7 +1139,27 @@ Note: Beware of modifying this element as it can break the animations - you shou
   .about{
     grid-column: 1/5;
   }
-  
+  .addNew{
+    grid-column: 1/5;
+    grid-row: 2/6;
+  }
+  .addNew p{
+    font-size: 20px;
+  }
+  .addBtn{
+    font-size: 16px;
+    border-radius: 25px;
+    display: inline-flex;
+    border: none;
+    background-color: #327BF6;
+    color: white;
+    padding: 5px 20px 5px 20px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    position: fixed;
+    bottom: 120px;
+    right: 40px;
+  }
 }
 
 @media only screen and (max-width: 768px){

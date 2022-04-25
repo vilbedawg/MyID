@@ -11,7 +11,7 @@ export const Layout = () => {
   const { auth } = useAuth();
   return (
     <>
-    <Hamburger data={auth}/>
+    <Hamburger data={auth} />
     <main style={{height: '100%'}} className="containerGrid">
       <MobileNavbar />
       <Navbar />

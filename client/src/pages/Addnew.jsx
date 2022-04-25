@@ -18,10 +18,6 @@ export default function Addnew(){
 
     }
 
-    const GoTo = () => {
-
-    }
-
     return (
            <div className="addNew">
                 <select className="addNewSelect" onChange={(event) => changeState(event.target.value)}>

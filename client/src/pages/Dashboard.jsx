@@ -91,17 +91,14 @@ export default function Dashboard() {
           </ul>
       </div>
 
+      <button className="addBtn" onClick={GoTo}>+ Lisää</button>
       <div className="mobileIDList">
-      <select onChange={  (event) => getMyCard(event.target.value)}>
-        <option hidden >Valitse tunnistautuminen</option>
-        <option value={process.env.REACT_APP_AJOKORTTI}>Ajokortti</option>
-        <option value={process.env.REACT_APP_PASSI}>Passi</option>
-        <option value={process.env.REACT_APP_KELAKORTTI}>Kelakortti</option>
-      </select>
-
-      {state === "Placeholder" && <Placehodler />}
-      {state === "Ajokortti" && <Placehodler />}
-      {}
+        <select onChange={  (event) => getMyCard(event.target.value)}>
+          <option hidden >Valitse tunnistautuminen</option>
+          <option value={process.env.REACT_APP_AJOKORTTI}>Ajokortti</option>
+          <option value={process.env.REACT_APP_PASSI}>Passi</option>
+          <option value={process.env.REACT_APP_KELAKORTTI}>Kelakortti</option>
+        </select>
       </div>
     </>
   )
