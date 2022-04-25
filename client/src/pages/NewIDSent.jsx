@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Navigate } from "react-router";
+import { useNavigate } from "react-router";
 
 export default function NewIDSent () {
     const [seconds, setSeconds] = useState(5);
@@ -23,7 +23,7 @@ export default function NewIDSent () {
                 <br/>
                 <br/>
                 <br/>
-                <p>Uudelleen ohjataan takaisin {`${seconds}`} dashboardille</p>
+                <p>Uudelleen ohjataan takaisin {`${seconds}`} etusivulle</p>
         </div>
     )
 }

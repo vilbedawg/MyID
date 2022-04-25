@@ -2,7 +2,6 @@ import transaction from "../models/transaction.model.js";
 import user from "../models/user.model.js";
 import { Transaction } from "../services/Block.js";
 import { Blockchain } from "../services/Blockchain.js";
-import ApiError from "../middleware/ApiError.js";
 import expressAsyncHandler from "express-async-handler";
 import ROLES_LIST from "../config/roles_list.js";
 import pkg from "elliptic";

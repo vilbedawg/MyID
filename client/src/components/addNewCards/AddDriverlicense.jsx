@@ -21,8 +21,16 @@ export default function AddDriverLisence() {
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
 
+  
+  
   const handleSubmit = async (e) => {
     e.preventDefault(); 
+
+    if(!name || !hetu || !bday || !country || !postLocation || !address || !files) {
+      toast.error('Täytä kaikki kohdat')
+      return
+    }
+    
     const birthday = bday.toLocaleDateString();
     const data = new FormData();
     data.append("Tyyppi", process.env.REACT_APP_AJOKORTTI);

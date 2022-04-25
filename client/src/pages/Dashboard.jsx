@@ -18,7 +18,7 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const { auth } = useAuth();
   const navigate = useNavigate();
-  const [state, setState] = useState("Default");
+  
 
   const getMyCard = async (type) => {
     setIsLoading(true);
@@ -40,9 +40,6 @@ export default function Dashboard() {
   const GoTo = () => {
     navigate('/addnew');
   }
-  const changeState = (newState) => {
-    setState(newState)
-}
 
   return (
     <>
@@ -56,7 +53,7 @@ export default function Dashboard() {
         ? <Loader /> 
         : <DashboardID
             data={data.data}
-            path={`../uploads/${data ? data.data.picture : 'morbius-rawr.gif'}`}
+            path={`../uploads/${data ? data.data.picture : 'sponge.png'}`}
           /> }
         </div>
       )
@@ -98,10 +95,6 @@ export default function Dashboard() {
         <option value={process.env.REACT_APP_PASSI}>Passi</option>
         <option value={process.env.REACT_APP_KELAKORTTI}>Kelakortti</option>
       </select>
-
-      {state === "Placeholder" && <Placehodler />}
-      {state === "Ajokortti" && <Placehodler />}
-      {}
       </div>
     </>
   )
