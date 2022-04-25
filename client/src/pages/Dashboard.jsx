@@ -8,7 +8,7 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Placehodler from "../components/DashboardComponents/DashPlaceholder";
 import DataError from "../components/DashboardComponents/DataError";
-
+import useLogout from "../hooks/useLogout";
 
 export default function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
@@ -18,7 +18,7 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const { auth } = useAuth();
   const navigate = useNavigate();
-  
+  const logout = useLogout();
 
   const getMyCard = async (type) => {
     setIsLoading(true);
@@ -33,6 +33,10 @@ export default function Dashboard() {
     } catch (error) {
       toast.error(error.response.data?.message);
       toast.error(error.response.data);
+      if(error.response.status === 403) {
+        await logout();
+        navigate("/login");
+      }
     }
     setIsLoading(false);
   }
@@ -52,6 +56,7 @@ export default function Dashboard() {
         {isLoading 
         ? <Loader /> 
         : <DashboardID
+            valid={data.accepted}
             data={data.data}
             path={`../uploads/${data ? data.data.picture : 'sponge.png'}`}
           /> }

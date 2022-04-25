@@ -33,7 +33,7 @@ export default function DashboardID(props) {
 
     return (
         <>
-            {props.data.accepted ? <AcceptedIcon /> : <DeclinedIcon />}
+            {props.valid ? <AcceptedIcon /> : <DeclinedIcon />}
             <div className="dashboardID">
                 <div className="container-items">
                     <img src={props.path}/>
