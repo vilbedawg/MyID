@@ -8,15 +8,11 @@ import Placehodler from "../components/addNewCards/Placeholder";
 export default function Addnew(){
 
     const [state, setState] = useState("Default");
-    const [isLoading, setIsLoading] = useState(false);
 
     const changeState = (newState) => {
         setState(newState)
     }
 
-    const getMyCard = (value) => {
-
-    }
 
     return (
            <div className="addNew">

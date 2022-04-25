@@ -212,6 +212,8 @@ body{
   outline: none;
   padding: 15px 0 15px 0;
 }
+
+
 .antiHeroInputs{
   width: 90%;
   justify-content: space-between;
@@ -399,7 +401,10 @@ body{
 
 .dashboardID{
   width: 100%;
-  padding-top: 20px;
+}
+
+.container-items {
+  padding: 1rem;
 }
 
 .dashboardID p{
@@ -416,9 +421,9 @@ body{
   display: flex;
   justify-content: space-between;
   background-color: rgb(245, 245, 245);
+  border-radius: 10px;
   margin-bottom: 20px;
-  padding: 5px;
-  border-bottom: 1px solid black;
+  padding: 10px;
 }
 
 .IDlist{

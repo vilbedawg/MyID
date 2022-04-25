@@ -1,7 +1,6 @@
 
 
 export const DeclinedIcon = ({inValid}) => {
-  console.log(inValid)
   if (inValid) {
     return (
       <div className="blob-container larger">

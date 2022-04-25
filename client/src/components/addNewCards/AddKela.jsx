@@ -22,6 +22,12 @@ export default function AddKela() {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
+
+    if(!name || !hetu || !bday || !country || !postLocation || !address || !files) {
+      toast.error('Täytä kaikki kohdat')
+      return
+    }
+    
     const birthday = bday.toLocaleDateString();
     //data
     const data = new FormData();
@@ -35,6 +41,7 @@ export default function AddKela() {
     for (let i = 0; i < files.length; i++) {
       data.append("file", files[i]);
     }
+
     try {
       await axiosPrivate.post(process.env.REACT_APP_ADDTX, data); 
       navigate("/NewIDSent", {replace: true });

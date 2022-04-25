@@ -21,6 +21,12 @@ export default function AddPassport() {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
+    
+    if(!name || !hetu || !bday || !country || !postLocation || !address || !files) {
+      toast.error('Täytä kaikki kohdat');
+      return
+    }
+    
     const birthday = bday.toLocaleDateString();
     //data
     const data = new FormData();
