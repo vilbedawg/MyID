@@ -51,8 +51,8 @@ export const Register = () => {
     <>
       {success ? (
         <div className="antiHero">
-          <h1>Rekisteröinti onnistui</h1>
           <div className="antiHeroInputs">
+          <h1>Rekisteröinti onnistui</h1>
             <button type="submit" onClick={onLogin}>
               Kirjaudu sisään
             </button>
@@ -60,10 +60,10 @@ export const Register = () => {
         </div>
       ) : (
         <div className="antiHero">
-          <h1>Rekisteröidy</h1>
           <div>
             <form onSubmit={onSubmit}>
                 <div className="antiHeroInputs">
+          <h1>Rekisteröidy</h1>
                   <input
                     placeholder="Sähköposti"
                     type="email"

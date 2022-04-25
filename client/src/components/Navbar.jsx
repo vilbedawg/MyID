@@ -32,7 +32,7 @@ export const Navbar = () => {
       <nav className="navbar">
           <ul className="navList">
             <li>
-              <Link to="/"><h1 className="myidLogo">My<span>{windowSize.width}</span></h1></Link>
+              <Link to="/"><h1 className="myidLogo">My<span>ID</span></h1></Link>
             </li>
             {
               auth?.accessToken ? (
@@ -54,7 +54,7 @@ export const Navbar = () => {
 
             {/* passi */}
             {
-              auth?.roles?.includes(5024) || auth?.roles?.includes(1922) ? (
+              auth?.roles?.includes(5024) || auth?.roles?.includes(1922) || auth?.roles?.includes(1922) ? (
               <li>
                 <Link to="/transactions">Admin</Link>
               </li>

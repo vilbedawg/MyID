@@ -18,15 +18,13 @@ export const LoginAndRegisterButton = ({path}) => {
           <button 
             onClick={clickHandler} 
             name="login"  
-            className={path !== '/login' ? 'logoutBtn' : 'logoutBtn  active'} 
-            style={{margin: '10px'}}>
+            className={path !== '/login' ? 'logoutBtn' : 'logoutBtn  active'}>
             Kirjaudu sisään
           </button>
           <button 
             onClick={clickHandler} 
             name="register" 
-            className={path !== '/register' ? 'logoutBtn' : 'logoutBtn active'}
-            style={{margin: '10px'}}>
+            className={path !== '/register' ? 'logoutBtn' : 'logoutBtn active'}>
             Rekisteröidy
           </button>
         </div>

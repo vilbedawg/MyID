@@ -14,45 +14,43 @@ export default class Hamburger extends React.Component {
   render () {
     const auth = this.props.data
     const from = window.location.pathname
-    console.log(this.props)
       
     // NOTE: You also need to provide styles, see https://github.com/negomi/react-burger-menu#styling
     return (
         <div className='hamburger'>
-        <Menu width="80%">
-              <Link to="/"><h1>My<span style={{color: '#327BF6'}}>ID</span></h1></Link>
-            {
-              auth?.accessToken ? (
-                <>
-                  {auth?.roles?.length <= 1 ? (
-                        <Link to="/">Etusivu</Link>
-                    )
-                    : null
-                  }
-                </>
-              ) : null
-            }
+          <Menu width="80%">
+                <Link to="/"><h1>My<span style={{color: '#327BF6'}}>ID</span></h1></Link>
+              {
+                auth?.accessToken ? (
+                  <>
+                    {auth?.roles?.length <= 1 ? (
+                          <Link to="/">Etusivu</Link>
+                      )
+                      : null
+                    }
+                  </>
+                ) : null
+              }
 
-            {/* passi */}
+              {
+                auth?.roles?.includes(5024) || auth?.roles?.includes(1922) || auth?.roles?.includes(3033)? (
+                  <Link to="/transactions">Admin</Link>
+                ) : null
+              }
+              {
+                auth?.roles?.length <= 1 ? (
+                    <Link to="/about">Sovelluksen käyttö</Link>
+                )
+                : null
+              }
+              
             {
-              auth?.roles?.includes(5024) || auth?.roles?.includes(1922) ? (
-                <Link to="/transactions">Admin</Link>
-              ) : null
-            }
-            {
-              auth?.roles?.length <= 1 ? (
-                  <Link to="/about">Sovelluksen käyttö</Link>
-              )
-              : null
-            }
-            
-          {
-          !auth?.accessToken 
-          ? <LoginAndRegisterButton path={from}/>
-          : <LogoutButton />
-        }
-        </Menu>
-      </div>
+            !auth?.accessToken 
+            ? <LoginAndRegisterButton path={from}/>
+            : <LogoutButton />
+          }
+          </Menu>
+        </div>
     );
   }
 }
