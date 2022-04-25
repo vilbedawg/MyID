@@ -62,6 +62,7 @@ body{
     "LeftDashboard RightDashboard RightDashboard RightDashboard"
     ". RightDashboard RightDashboard RightDashboard"
     ". . . ."
+    ". . . ."
     "Footer Footer Footer Footer"; 
   padding: 1em;
   animation: fadeIn;
@@ -115,10 +116,6 @@ body{
   -webkit-animation-delay: 0.5s;
   -moz-animation-delay: 0.5s;
   animation-delay: 0.5s;
-}
-
-@media only screen and (min-width: 768px){
-  
 }
 
 @-webkit-keyframes fadeInDown {
@@ -187,31 +184,50 @@ body{
   border-radius: 50px;
   grid-column: 3/5;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  grid-row: 2/5;
+  padding: 5%;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 
 .antiHero h1{
-  padding: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   font-size: 45px;
   text-align: left;
-  display: flex;
-  align-self: center;
 }
 .antiHero input[type=email],.antiHero input[type=password]{
   border-width: 0 0 1px 0;
   border-bottom: 1px solid rgb(87, 87, 87);
   height: 30px;
-  width: 75%;
+  width: 100%;
   font-size: 24px;
   margin-bottom:40px;
   outline: none;
   padding: 15px 0 15px 0;
 }
 .antiHeroInputs{
-  margin-top: 100px;
-  width: auto;
-  text-align: center;
+  width: 90%;
   justify-content: space-between;
-  padding-bottom: 100px;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+.antiHero Button{
+  border-radius: 27px;
+  width: 75%;
+  height: 50px;
+  font-size: 25px;
+  border: none;
+  cursor: pointer;
+  background-color: #327BF6;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.antiHero Button:hover{
+  opacity: .7;
 }
 #persist{
   margin-right: 10px;
@@ -303,21 +319,6 @@ body{
   word-break: break-word;
 }
 
-.antiHero Button{
-  border-radius: 27px;
-  width: 75%;
-  height: 50px;
-  font-size: 25px;
-  border: none;
-  cursor: pointer;
-  background-color: #327BF6;
-  color: white;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-}
-
-.antiHero Button:hover{
-  opacity: .7;
-}
 
 .stickyBtn {
   position: fixed;
@@ -395,14 +396,21 @@ body{
 
 .dashboardID p{
   background-color: rgb(245, 245, 245);
-  height: 30px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  border-bottom: 1px solid black;
 }
 .dashboardID img{
   max-width: 200px;
   user-select: none;
+  border: 1px solid black;
+  padding: 1px;
+}
+
+.IDItems{
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(245, 245, 245);
+  margin-bottom: 20px;
+  padding: 5px;
+  border-bottom: 1px solid black;
 }
 
 .IDlist{
@@ -854,7 +862,9 @@ p {
 }
 
 .newIDSent{
-  grid-column: 2/3;
+  display: flex;
+  flex-direction: column;
+  grid-column: 2/4;
   grid-row: 2/3;
   background-color: white;
   border-radius: 25px;
@@ -963,4 +973,147 @@ p {
 ::-webkit-scrollbar-thumb {
   background-color: #11171a;
   border-radius: 10px;
+}
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: absolute;
+  width: 36px;
+  height: 30px;
+  left: 85%;
+  top: 36px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: #373a47;
+}
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+  background: #a90000;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 50px;
+  width: 50px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #ffffff;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+  text-decoration: none;
+  color: Black;
+  font-size: 30px;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.hamburger{
+  display: none;
+}
+.mobileIDList{
+  display: none;
+}
+.mobileNavbar{
+  display: none;
+}
+
+@media only screen and (max-width: 1080px){
+  .navbar{
+    display: none;
+  }
+  .antiHero{
+    grid-column: 1/5;
+  }
+  .hamburger{
+    display: block;
+  }
+  .newIDSent img{
+    max-width: 125px;
+  }
+  .newIDSent h1{
+    font-size: 26px;
+  }
+  .dashboardRight{
+    grid-column: 1/5;
+    grid-row: 3/6;
+    padding: 15px;
+  }
+  .dashboardLeft{
+    display: none;
+  }
+  .mobileIDList{
+    display: block;
+    grid-column: 1/5;
+    grid-row: 2;
+  }
+  .mobileIDList select{
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 5px;
+  }
+  .containerGrid{
+    grid-template-rows: 10% auto 1fr 5% auto; 
+  }
+  .mobileNavbar{
+    grid-column: 1/5;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+  }
+  .mobileNavList a{
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+  }
+  .about{
+    grid-column: 1/5;
+  }
+  
+}
+
+@media only screen and (max-width: 768px){
 }

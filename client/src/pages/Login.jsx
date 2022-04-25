@@ -63,10 +63,11 @@ export const Login = () => {
         <>
           
           <div className="antiHero">
-            <h1>Kirjaudu</h1>
               <form onSubmit={onSubmit}>
+                
 
                 <div className="antiHeroInputs">
+            <h1>Kirjaudu</h1>
                   
                   <input
                     placeholder="Sähköposti"

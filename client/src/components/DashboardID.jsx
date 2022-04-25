@@ -8,18 +8,21 @@ export default function DashboardID(props) {
         Object.entries(data).map((item, index) => {
             const contains = displayFirst.includes(item[0]);
             if(contains) {
+                if(item[0] === "picture"){
+                    return null
+                }
                 return (
-                    <div key={index}>
+                    <div key={index} className="IDItems">
+                        <p>{item[0]}:</p>
                         <p>{item[1]}</p>
-                        <p>{item[0]}</p>
                     </div>
                 )
             }
             else {
                 return (
-                    <div key={index}>
+                    <div key={index} className="IDItems">
+                        <p>{item[0]}:</p>
                         <p>{item[1]}</p>
-                        <p>{item[0]}</p>
                     </div>
                 )
             } 
@@ -34,7 +37,6 @@ export default function DashboardID(props) {
             <div className="dashboardID">
                 <div className="container-items">
                     <img src={props.path}/>
-                    <p>{}</p>
                 </div>
                 <div className="container-items Below">
                     <DisplayedData data={props.data}/>

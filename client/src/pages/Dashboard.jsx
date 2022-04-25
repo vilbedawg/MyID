@@ -6,7 +6,9 @@ import useAuth from "../hooks/useAuth";
 import { useCookies } from 'react-cookie';
 import { useNavigate, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { DeclinedIcon } from "../components/icons/Declined-icon";
+import Placehodler from "../components/DashboardComponents/DashPlaceholder";
+import DataError from "../components/DashboardComponents/DataError";
+
 
 export default function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
@@ -16,6 +18,7 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const { auth } = useAuth();
   const navigate = useNavigate();
+  const [state, setState] = useState("Default");
 
   const getMyCard = async (type) => {
     setIsLoading(true);
@@ -37,6 +40,9 @@ export default function Dashboard() {
   const GoTo = () => {
     navigate('/addnew');
   }
+  const changeState = (newState) => {
+    setState(newState)
+}
 
   return (
     <>
@@ -58,15 +64,9 @@ export default function Dashboard() {
       (
         notValid  
         ?
-        <div className="dashboardRight" style={{flexDirection: 'column', justifyContent: 'flex-start'}}>
-          <DeclinedIcon inValid={true}/>
-          <h1>Käyttäjäsi tiedosto on virheellinen</h1>
-          <h2>Ota yhteys viranomaiselle</h2>
-        </div>
+          <DataError />
         :
-        <div className="dashboardRight">
-          <img className="placeholder" src="../images/placeholder.png" alt="dashboard_placeholder" style={{height: 'auto', width: '100%', maxWidth: '400px'}}></img>
-        </div>
+          <Placehodler />
       )
       }
       
@@ -89,6 +89,19 @@ export default function Dashboard() {
                 Kelakortti</button>
             </li>
           </ul>
+      </div>
+
+      <div className="mobileIDList">
+      <select onChange={  (event) => getMyCard(event.target.value)}>
+        <option hidden >Valitse tunnistautuminen</option>
+        <option value={process.env.REACT_APP_AJOKORTTI}>Ajokortti</option>
+        <option value={process.env.REACT_APP_PASSI}>Passi</option>
+        <option value={process.env.REACT_APP_KELAKORTTI}>Kelakortti</option>
+      </select>
+
+      {state === "Placeholder" && <Placehodler />}
+      {state === "Ajokortti" && <Placehodler />}
+      {}
       </div>
     </>
   )
