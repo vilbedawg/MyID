@@ -30,8 +30,8 @@ export const LoginAuth = () => {
           isLoading 
           ? <Spinner />
           : auth?.roles.length > 1
-            ? <Navigate replace to="/transactions" />
-            : <Navigate replace to="/" />
+            ? <Navigate replace={true} to="/transactions" />
+            : <Navigate replace={true} to="/" />
         }
     </>
   )

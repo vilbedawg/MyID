@@ -14,9 +14,9 @@ export default function AddKela() {
   const [name, setName] = useState('');
   const [hetu, setHetu] = useState('');
   const [bday, setBday] = useState(new Date());
-  const [country, setCountry] = useState();
-  const [postLocation, setPostLocation] = useState();
-  const [address, setAddress] = useState();
+  const [country, setCountry] = useState('');
+  const [postLocation, setPostLocation] = useState('');
+  const [address, setAddress] = useState('');
   const [files, setFiles] = useState([]);
  
 

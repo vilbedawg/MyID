@@ -6,12 +6,11 @@ import { Footer } from "./Footer";
 
 export const Layout = () => {
   return (
-    <main style={{height: '100%'}}>
+    <main style={{height: '100%'}} className="containerGrid">
       <Navbar />
-        <div className="containerGrid">
           <Outlet />
-        </div>
       <ToastContainer style={{position: 'absolute'}}/>
+      <Footer />
     </main>
   )
 }

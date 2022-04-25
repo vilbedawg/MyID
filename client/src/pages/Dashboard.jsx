@@ -6,6 +6,7 @@ import useAuth from "../hooks/useAuth";
 import { useCookies } from 'react-cookie';
 import { useNavigate, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { DeclinedIcon } from "../components/icons/Declined-icon";
 
 export default function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
@@ -48,11 +49,7 @@ export default function Dashboard() {
         {isLoading 
         ? <Loader /> 
         : <DashboardID
-            accepted={data ? data.accepted : null}
-            ID={data ? data.Tyyppi : null}
-            name={data ? data.data.Nimi : null}
-            country={data ? data.data.Maa : null}
-            bday={data ? data.data.Henkilötunnus : null}
+            data={data.data}
             path={`../uploads/${data ? data.data.picture : 'morbius-rawr.gif'}`}
           /> }
         </div>
@@ -61,13 +58,14 @@ export default function Dashboard() {
       (
         notValid  
         ?
-        <div className="dashboardRight">
-          <img src="./images/sponge.png" alt="sponge" style={{width: '50%', height: '50%'}}/>
-          <h1>Tietoja muutettu</h1>
+        <div className="dashboardRight" style={{flexDirection: 'column', justifyContent: 'flex-start'}}>
+          <DeclinedIcon inValid={true}/>
+          <h1>Käyttäjäsi tiedosto on virheellinen</h1>
+          <h2>Ota yhteys viranomaiselle</h2>
         </div>
         :
         <div className="dashboardRight">
-          <img className="placeholder" src="./images/placeholder.png" alt="dashboard_placeholder" style={{height: 'auto', width: '100%', maxWidth: '400px'}}></img>
+          <img className="placeholder" src="../images/placeholder.png" alt="dashboard_placeholder" style={{height: 'auto', width: '100%', maxWidth: '400px'}}></img>
         </div>
       )
       }
