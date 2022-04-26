@@ -24,12 +24,12 @@ export const Admin = () => {
     {heading: 'Status', value: 'accepted'},
     {heading: 'Tarkista', value: 'tarkista'}
   ]
-  
 
-  
+
+
 
   useEffect(() => {
-    
+
     let isMounted = true;
     const controller = new AbortController();
       const getTransactions = async () => {
@@ -37,11 +37,11 @@ export const Admin = () => {
           process.env.REACT_APP_TRANSACTIONS, {
           signal: controller.signal,
         });
-  
+
         if(response.data.length <= 0) {
           isMounted && setIsEmpty(true);
         }
-  
+
         isMounted && setTransactions(response.data);
     }
 
@@ -52,9 +52,14 @@ export const Admin = () => {
       controller.abort();
     };
   }, []);
-  
+
 
   const startMiner = async () => {
+    const confirm = window.confirm("Oletko varma?");
+    if(!confirm) return;
+
+    if(!transactions.length > 0) return;
+
     setToggleMiner(true);
     try {
       const response = await axiosPrivate.post(
@@ -82,12 +87,12 @@ export const Admin = () => {
               <>
                 <TableComponent data={transactions} column={columns} />
               </>
-           ) : isEmpty 
+           ) : isEmpty
               ? <h1>No data</h1>
               : <Loader />
            }
           </div>
-      <button onClick={startMiner} disabled={toggleMiner} className="logoutBtn danger">Lisää</button>
+      <button onClick={startMiner} disabled={toggleMiner || !transactions.length > 0} className="logoutBtn danger">Lisää</button>
     </>
   );
 };
