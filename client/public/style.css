@@ -144,7 +144,7 @@ body{
 }
 
 
-.navbar a{
+.navbar a, p{
   font-size: 20px;
   text-decoration: none;
   color: black;
@@ -350,7 +350,7 @@ body{
 }
 
 .logoutBtn.danger {
-  grid-row: 4;
+  grid-row: 5;
   grid-column: 2/4;
   justify-content: center;
   width: 200px;
@@ -378,6 +378,7 @@ body{
 
 .dashboardRight{
   grid-area: RightDashboard;
+  grid-row: 2/5;
   background-color: white;
   padding: 50px;
   border-radius: 10px;
@@ -463,7 +464,7 @@ body{
 
 .addNew{
   grid-column: 2/4;
-  grid-row: 2/4;
+  grid-row: 2/5;
   background-color: white;
   text-align: center;
   align-items: center;
@@ -505,6 +506,7 @@ body{
   display: flex;
   flex-direction: column;
   user-select: none;
+  min-height: 500px;
 }
 .newPassport form label{
   margin-bottom: 10px;
@@ -865,8 +867,8 @@ p {
   flex-direction: column;
   align-items: center;
   grid-column: 2/4;
+  grid-row: 2/5;
   max-width: unset;
-  height: 800px;
 }
 
 .buttonGroup {
@@ -1119,13 +1121,14 @@ Note: Beware of modifying this element as it can break the animations - you shou
   .mobileIDList select{
     text-align: center;
     font-size: 16px;
-    width: 100%;
     height: 100%;
+    width: 100%;
     cursor: pointer;
     border: none;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 5px;
   }
+
   .containerGrid{
     grid-template-rows: 10% auto 1fr 5% auto; 
   }
@@ -1140,6 +1143,10 @@ Note: Beware of modifying this element as it can break the animations - you shou
     text-decoration: none;
     color: black;
   }
+  .mobileNavList p{
+    font-size: 18px;
+  }
+
   .about{
     grid-column: 1/5;
   }

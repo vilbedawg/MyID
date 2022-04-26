@@ -11,7 +11,7 @@ export default function MobileNavbar(){
                 </li>
                 <li>
                     {auth?.email ?
-                    <a><span style={{fontWeight: 'bold'}}>Hei</span> {`${auth.email}`}</a>
+                    <p><span style={{fontWeight: 'bold'}}>Hei</span> {`${auth.email}`}</p>
                         : <br/>
                     }
                 </li>

@@ -36,7 +36,7 @@ export default function DashboardID(props) {
             {props.valid ? <AcceptedIcon /> : <DeclinedIcon />}
             <div className="dashboardID">
                 <div className="container-items">
-                    <img src={props.path}/>
+                    <img src={props.path} alt="status"/>
                 </div>
                 <div className="container-items Below">
                     <DisplayedData data={props.data}/>

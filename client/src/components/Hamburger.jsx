@@ -3,7 +3,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { LoginAndRegisterButton } from './loginBtns/LoginAndRegisterButton';
 import { LogoutButton } from './loginBtns/LogoutButton';
-import useAuth from '../hooks/useAuth';
 
 export default class Hamburger extends React.Component {
   showSettings (event) {

@@ -2,29 +2,11 @@ import { Link, useLocation } from "react-router-dom";
 import { LoginAndRegisterButton } from "./loginBtns/LoginAndRegisterButton";
 import { LogoutButton } from "./loginBtns/LogoutButton";
 import useAuth from "../hooks/useAuth";
-import { useEffect, useState } from "react";
 
 export const Navbar = () => {
   const { auth } = useAuth();
   const location = useLocation();
   const from = location.pathname;
-
-  const [windowSize, setWindowSize] = useState({
-    width: undefined,
-    height: undefined,
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    }
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
 
   return (
@@ -38,7 +20,7 @@ export const Navbar = () => {
               auth?.accessToken ? (
                 <>
                   <li>
-                    <a><span style={{fontWeight: 'bold'}}>Hei</span> {`${auth.email}`}</a>
+                    <p><span style={{fontWeight: 'bold'}}>Hei</span> {`${auth.email}`}</p>
                   </li>
                   {
                     auth?.roles?.length <= 1 ? (
