@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DashboardID from "../components/DashboardID";
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import { Loader } from "../components/Loader";
+import { Loader } from "../components/Loaders/Loader";
 import useAuth from "../hooks/useAuth";
 import { useCookies } from 'react-cookie';
 import { useNavigate, Navigate } from "react-router-dom";
@@ -30,6 +30,9 @@ export default function Dashboard() {
       setData(request.data.transaction);
       const isChanged = cookies.invalid_tx.some(item => item.toAddress === type && request.data.transaction.timestamp === item.timestamp);
       setNotValid(isChanged);
+      if(!request.data.transaction) {
+        toast.info('Sinulla ei ole tallenttuja tietoja');
+      }
     } catch (error) {
       toast.error(error.response.data?.message);
       toast.error(error.response.data);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Navigate } from "react-router";
-import Spinner from "../components/Spinner"
+import Spinner from "../components/Loaders/Spinner"
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useAuth from "../hooks/useAuth";
 

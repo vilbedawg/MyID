@@ -24,7 +24,6 @@ const TableRow = ({ item, column }) => (
     <tr>
       {column.map((columnItem, index) => {
         if(columnItem.value === "accepted"){
-            console.log(item[columnItem.value])
             return <td style={{color: item[columnItem.value] === true ? 'green' : 'red'}} key={index}>{JSON.stringify(item[columnItem.value])}</td>
         }
 

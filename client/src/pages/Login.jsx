@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Spinner from "../components/Spinner";
+import Spinner from "../components/Loaders/Spinner";
 import axios from "../api/axios";
 
 

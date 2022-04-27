@@ -32,7 +32,6 @@ export default function TransactionForm({data, type}) {
     const body = data.data;
      try {
       const response = await axiosPrivate.post(`${process.env.REACT_APP_HANDLE}/${params.id}/${valid}`, body);
-      console.log(response.data);
       toast.success(response.data)
     } catch (error) {
       toast.error(error.response.data?.message);

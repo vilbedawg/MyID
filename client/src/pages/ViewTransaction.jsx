@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router"
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { Loader } from "../components/Loader";
+import { Loader } from "../components/Loaders/Loader";
 import { Link } from "react-router-dom";
 import TransactionForm from "../components/TransactionForm";
 

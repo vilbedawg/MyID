@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useAuth from "../hooks/useAuth";
-import { Loader } from "../components/Loader";
+import { Loader } from "../components/Loaders/Loader";
 import TableComponent from "../components/TableComponent";
 import { toast } from "react-toastify";
 
