@@ -1,0 +1,39 @@
+{
+  "name": "myid",
+  "version": "1.0.0",
+  "description": "Simulated Blockchain application for storing your Identification cards on the blockchain",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon backend/server.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vilbedawg/MyID.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vilbedawg/MyID/issues"
+  },
+  "homepage": "https://github.com/vilbedawg/MyID#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^7.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.0",
+    "elliptic": "^6.5.4",
+    "email-validator": "^2.0.4",
+    "express": "^4.18.0",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.1",
+    "multer": "^1.4.4",
+    "nodemon": "^2.0.15"
+  }
+}
