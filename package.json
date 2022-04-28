@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/vilbedawg/MyID/issues"
   },
-  "homepage": "https://github.com/vilbedawg/MyID#readme",
+  "homepage": ".",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "concurrently": "^7.1.0",
