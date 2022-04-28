@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = 'http://localhost:3000' ||  'https://oma-id.herokuapp.com';
+const baseURL = process.env.REACT_APP_NODE_API === "production" ? 'https://oma-id.herokuapp.com' : 'http://localhost:3000';
 
 export default axios.create({
     baseURL: baseURL
