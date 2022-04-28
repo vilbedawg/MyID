@@ -28,11 +28,12 @@ app.use(credentials);
 app.use(cors(corsOptions))
 
 if(process.env.NODE_ENV === "production") {
-    app.use(express.static(__dirname)); //here is important thing - no static directory, because all static :)
+    app.use(express.static(path.join(__dirname, '../client/build')));
 
-    app.get("/*", function(req, res) {
-    res.sendFile(path.join(__dirname, "index.html"));
-    });
+    app.get('/*', (req, res) => 
+        res.sendFile(
+            path.resolve(__dirname, '../', 'client', 'build', 'index.html')
+        ))
 } else {
     app.use(express.static(path.join(__dirname + '/build')));
 }
