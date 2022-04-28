@@ -27,17 +27,6 @@ const __dirname = path.dirname(__filename);
 app.use(credentials);
 app.use(cors(corsOptions))
 
-if(process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, '../client/build')));
-
-    app.get('/*', (req, res) => 
-        res.sendFile(
-            path.resolve(__dirname, '../', 'client', 'build', 'index.html')
-        ))
-} else {
-    app.use(express.static(path.join(__dirname + '/build')));
-}
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -50,8 +39,19 @@ app.use(protect);
 app.use('/', userRouter);
 app.use('/', blocksRouter);
 app.use('/', transRouter);
-
 app.use(apiErrorHandler);
+
+if(process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, '../client/build')));
+
+    app.get('*', (req, res) => 
+        res.sendFile(
+            path.resolve(__dirname, '../', 'client', 'build', 'index.html')
+        ))
+} else {
+    app.use(express.static(path.join(__dirname + '/build')));
+}
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}.`);
 });
