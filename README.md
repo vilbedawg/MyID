@@ -20,7 +20,7 @@ MyID is a simulated Blockchain application for storing your Identification cards
 
 
 ### Brief on how the app works
-The app uses a REST API for requests and specific roles for certain endpoints. The roles include the default user role as well as specific admin roles for the Finnish Police, the Finnish Transport Safety Agency, and Kela. JWT-tokens are also used to enforce authentication and add an additional layer of security on top of the blockchain. The access tokens are stored as HTTP-only cookies that are validated on the server, and the refresh tokens are stored on the user's table in the database.
+The app uses a REST API for requests and roles for role based access control. The roles include the default user role as well as specific admin roles for the Finnish Police, the Finnish Transport Safety Agency, and Kela. JWT-tokens are also used to enforce authentication and add an additional layer of security on top of the blockchain. The access tokens are stored as HTTP-only cookies that are validated on the server, and the refresh tokens are stored on the user's table in the database.
 
 Users must first sign up for an account. After registering, they can apply for digital identification, which can be a passport, a driver's license, or a Kela card.
 Following the submission of an application, the submitted data is treated as a **_transaction_**, which is signed with the user's private key, which they received upon account registration. The transaction is then stored on the transactions table, which acts as a pending applications type of array. 
