@@ -28,7 +28,7 @@ const TableRow = ({ item, column }) => (
         }
 
         if(columnItem.value === "tarkista"){
-            return <td key={index}><Link to={`${process.env.REACT_APP_VIEWTX}/${item["fromAddress"]}`}>Katso</Link></td>
+            return <td key={index}><Link to={`transactions/${item["fromAddress"]}`}>Katso</Link></td>
         }
 
         if(columnItem.value.includes('.')) {
