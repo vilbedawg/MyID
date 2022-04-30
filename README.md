@@ -2,13 +2,22 @@ __[Full Demo](https://oma-id.herokuapp.com/login)__
 
 This project was built together with [@Saarenpaa](https://github.com/Saarenpaa), who worked on most of the frontend and UI/UX design, while I worked mainly on the server side stuff. You can view full demo of the app on [Heroku](https://oma-id.herokuapp.com/login).
 
-# MyID
-MyID is a simulated Blockchain application for storing your Identification cards on the blockchain. Please keep in mind that NodeJS is not the best language for implementing complex Blockchain implementations due to its Single Thread limitations. Because blockchain applications require many computational operations in addition to I/O, multi-threaded supported languages would perform better.
+If you wish to try the app, you can first sign up and submit an application. After that you can act as an administrator by logging in to one the following accounts:
+* **trafi@admin.com**
+* **kela@admin.com**
+* **poliisi@admin.com**
+* Password: **asd**
 
+Please keep in mind that depending on the type of application you submitted, you will need to login to the appropriate administrator account. Each administrator can only handle the transactions that are assigned to them.
+
+
+# MyID
+MyID is a simulated Blockchain application for storing your Identification cards on the blockchain.
 
 
 ### Technologies used
 **NodeJS - Express - MongoDB - React**
+
 
 ### Brief on how the app works
 The app uses a REST API for requests and specific roles for certain endpoints. The roles include the default user role as well as specific admin roles for the Finnish Police, the Finnish Transport Safety Agency, and Kela. JWT-tokens are also used to enforce authentication and add an additional layer of security on top of the blockchain. The access tokens are stored as HTTP-only cookies that are validated on the server, and the refresh tokens are stored on the user's table in the database.
@@ -28,4 +37,6 @@ When the block has been mined, the user will then be able to display their new d
 
 After each login request, the blockchain is validated. If the data has been altered in any way, the user will receive notification that the card is invalid and that they must submit a new application to demonstrate valid identification.
 
+## Note
+NodeJS is not the best language for implementing complex Blockchain implementations due to its Single Thread limitations. Because blockchain applications require many computational operations in addition to I/O, multi-threaded supported languages would perform better.
 
