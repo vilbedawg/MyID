@@ -30,7 +30,6 @@ app.use(cors(corsOptions))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '/build')));
 
 
 //public routes
@@ -42,6 +41,8 @@ app.use('/api/', userRouter);
 app.use('/api/', blocksRouter);
 app.use('/api/', transRouter);
 app.use(apiErrorHandler);
+
+app.use(express.static(path.join(__dirname, '/build')));
 
 if(process.env.NODE_ENV === "production") {
     
